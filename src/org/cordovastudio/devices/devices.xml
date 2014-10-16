@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2014 Christoffer T. Timm
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ 	http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<d:devices
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:d="http://schemas.cordovastudio.org/devices">
+    <d:device>
+        <d:manufacturer></d:manufacturer>
+        <d:name></d:name>
+        <d:displayname></d:displayname>
+        <d:artwork basepath="">
+            <d:portrait>
+                <d:filename></d:filename>
+            </d:portrait>
+            <d:landscape>
+                <d:filename></d:filename>
+            </d:landscape>
+            <d:icon>
+                <d:filename></d:filename>
+            </d:icon>
+        </d:artwork>
+        <d:dimensions>
+            <d:isround></d:isround>
+            <d:portrait>
+                <d:display>
+                    <d:height></d:height>
+                    <d:width></d:width>
+                </d:display>
+                <d:outer>
+                    <d:height></d:height>
+                    <d:width></d:width>
+                </d:outer>
+                <d:offset>
+                    <d:top></d:top>
+                    <d:left></d:left>
+                </d:offset>
+            </d:portrait>
+            <d:landscape>
+                <d:display>
+                    <d:height></d:height>
+                    <d:width></d:width>
+                </d:display>
+                <d:outer>
+                    <d:height></d:height>
+                    <d:width></d:width>
+                </d:outer>
+                <d:offset>
+                    <d:top></d:top>
+                    <d:left></d:left>
+                </d:offset>
+            </d:landscape>
+        </d:dimensions>
+        <d:states>
+            <d:state name="landscape">
+                <d:displayname>Landscape</d:displayname>
+                <d:description>Phone in landscape view with status bar visible</d:description>
+                <d:orientation>landscape</d:orientation>
+                <d:statusbar>
+                    <d:visible>true</d:visible>
+                    <d:height></d:height>
+                </d:statusbar>
+            </d:state>
+            <d:state name="portrait">
+                <d:displayname>Portrait</d:displayname>
+                <d:description>Phone in portrait view</d:description>
+                <d:orientation>portrait</d:orientation>
+            </d:state>
+        </d:states>
+    </d:device>
+</d:devices>
