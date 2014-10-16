@@ -19,6 +19,8 @@
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import cz.vutbr.web.css.CSSProperty;
+import cz.vutbr.web.css.TermLengthOrPercent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
