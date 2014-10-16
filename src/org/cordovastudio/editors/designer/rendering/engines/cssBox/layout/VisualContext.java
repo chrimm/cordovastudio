@@ -20,6 +20,7 @@
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import cz.vutbr.web.css.*;
 import cz.vutbr.web.css.CSSProperty.FontFamily;
 import cz.vutbr.web.css.CSSProperty.TextDecoration;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.CSSUnits;

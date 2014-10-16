@@ -19,7 +19,9 @@
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import cz.vutbr.web.css.CSSProperty;
 import cz.vutbr.web.css.CSSProperty.ListStyleType;
+import cz.vutbr.web.css.NodeData;
 import org.w3c.dom.Element;
 
 import java.awt.*;

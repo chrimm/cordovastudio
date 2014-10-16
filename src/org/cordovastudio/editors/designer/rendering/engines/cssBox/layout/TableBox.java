@@ -19,6 +19,7 @@
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import cz.vutbr.web.css.*;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.HTMLNorm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

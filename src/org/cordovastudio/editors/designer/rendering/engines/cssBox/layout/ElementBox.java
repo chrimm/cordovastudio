@@ -20,9 +20,7 @@
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
-import cz.vutbr.web.css.CSSProperty.BackgroundAttachment;
-import cz.vutbr.web.css.CSSProperty.BackgroundRepeat;
-import cz.vutbr.web.css.CSSProperty.ZIndex;
+import cz.vutbr.web.css.*;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.CSSUnits;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.misc.CSSStroke;
 import org.fit.net.DataURLHandler;
@@ -1311,7 +1309,7 @@ abstract public class ElementBox extends Box
         
         //z-index
         CSSProperty.ZIndex z = style.getProperty("z-index");
-        if (z != null && z != ZIndex.AUTO)
+        if (z != null && z != CSSProperty.ZIndex.AUTO)
         {
             zset = true;
             Term<?> zterm = style.getValue("z-index", true);
@@ -1359,9 +1357,9 @@ abstract public class ElementBox extends Box
                 CSSProperty.BackgroundPosition position = style.getProperty("background-position");
                 TermList positionValues = style.getValue(TermList.class, "background-position");
                 CSSProperty.BackgroundRepeat repeat = style.getProperty("background-repeat");
-                if (repeat == null) repeat = BackgroundRepeat.REPEAT;
+                if (repeat == null) repeat = CSSProperty.BackgroundRepeat.REPEAT;
                 CSSProperty.BackgroundAttachment attachment = style.getProperty("background-attachment");
-                if (attachment == null) attachment = BackgroundAttachment.SCROLL;
+                if (attachment == null) attachment = CSSProperty.BackgroundAttachment.SCROLL;
                 BackgroundImage bgimg = new BackgroundImage(this, url, position, positionValues, repeat, attachment);
                 bgimages.add(bgimg);
                 return bgimages;

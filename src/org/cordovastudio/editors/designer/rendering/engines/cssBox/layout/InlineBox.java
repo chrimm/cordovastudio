@@ -20,6 +20,8 @@
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import cz.vutbr.web.css.CSSProperty;
+import cz.vutbr.web.css.NodeData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
