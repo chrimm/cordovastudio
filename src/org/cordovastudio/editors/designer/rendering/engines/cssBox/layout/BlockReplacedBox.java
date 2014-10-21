@@ -16,19 +16,23 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 27.9.2006, 22:08:12 by radek
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
-import org.w3c.dom.Element;
+import com.intellij.psi.html.HtmlTag;
 
 import java.awt.*;
 
 /**
- * Replaced block box. 
+ * Replaced block box.
+ *
  * @author radek
  */
-public class BlockReplacedBox extends BlockBox implements ReplacedBox
-{
+public class BlockReplacedBox extends BlockBox implements ReplacedBox {
     protected int boxw; //image width attribute
     protected int boxh; //image height attribute
     protected ReplacedContent obj; //the contained object
@@ -36,16 +40,14 @@ public class BlockReplacedBox extends BlockBox implements ReplacedBox
     /**
      * Creates a new instance of BlockReplacedBox
      */
-    public BlockReplacedBox(Element el, Graphics2D g, VisualContext ctx)
-    {
+    public BlockReplacedBox(HtmlTag el, Graphics2D g, VisualContext ctx) {
         super(el, g, ctx);
     }
 
     /**
      * Creates a new instance of from an inline variant
      */
-    public BlockReplacedBox(InlineReplacedBox src)
-    {
+    public BlockReplacedBox(InlineReplacedBox src) {
         super(src);
         this.boxw = src.boxw;
         this.boxh = src.boxh;
@@ -53,62 +55,53 @@ public class BlockReplacedBox extends BlockBox implements ReplacedBox
     }
 
     /**
-	 * @return the content object
-	 */
-	public ReplacedContent getContentObj()
-	{
-		return obj;
-	}
+     * @return the content object
+     */
+    public ReplacedContent getContentObj() {
+        return obj;
+    }
 
-	/**
-	 * @param obj the obj to set
-	 */
-	public void setContentObj(ReplacedContent obj)
-	{
-		this.obj = obj;
-		isempty = (obj == null);
-		if (!isempty)
-		    obj.setOwner(this);
-	}
+    /**
+     * @param obj the obj to set
+     */
+    public void setContentObj(ReplacedContent obj) {
+        this.obj = obj;
+        isempty = (obj == null);
+        if (!isempty)
+            obj.setOwner(this);
+    }
 
     @Override
-    public int getMaximalWidth()
-    {
+    public int getMaximalWidth() {
         return boxw + declMargin.left + padding.left + border.left +
                 declMargin.right + padding.right + border.right;
     }
 
     @Override
-    public int getMinimalWidth()
-    {
+    public int getMinimalWidth() {
         return boxw + declMargin.left + padding.left + border.left +
                 declMargin.right + padding.right + border.right;
     }
 
     @Override
-    public Rectangle getMinimalAbsoluteBounds()
-    {
+    public Rectangle getMinimalAbsoluteBounds() {
         return new Rectangle(getAbsoluteContentX(), getAbsoluteContentY(), boxw, boxh);
     }
 
     @Override
-    public boolean isWhitespace()
-    {
+    public boolean isWhitespace() {
         return false;
     }
 
     @Override
-    public boolean isReplaced()
-    {
+    public boolean isReplaced() {
         return true;
     }
 
     @Override
-    public boolean doLayout(int availw, boolean force, boolean linestart)
-    {
+    public boolean doLayout(int availw, boolean force, boolean linestart) {
         //Skip if not displayed
-        if (!displayed)
-        {
+        if (!displayed) {
             content.setSize(0, 0);
             bounds.setSize(0, 0);
             return true;
@@ -123,8 +116,7 @@ public class BlockReplacedBox extends BlockBox implements ReplacedBox
     }
 
     @Override
-    protected void loadSizes(boolean update)
-    {
+    protected void loadSizes(boolean update) {
         super.loadSizes(update);
         Rectangle objsize = CSSDecoder.computeReplacedObjectSize(obj, this);
         content.width = boxw = objsize.width;
@@ -135,59 +127,47 @@ public class BlockReplacedBox extends BlockBox implements ReplacedBox
         hset = true;
     }
 
-	@Override
-	public boolean hasFixedHeight()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean hasFixedWidth()
-	{
-		return true;
-	}
-
     @Override
-    protected boolean separatedFromTop(ElementBox box)
-    {
+    public boolean hasFixedHeight() {
         return true;
     }
 
     @Override
-    protected boolean separatedFromBottom(ElementBox box)
-    {
+    public boolean hasFixedWidth() {
         return true;
     }
 
-    public void drawContent(Graphics2D g)
-    {
-        if (obj != null)
-        {
+    @Override
+    protected boolean separatedFromTop(ElementBox box) {
+        return true;
+    }
+
+    @Override
+    protected boolean separatedFromBottom(ElementBox box) {
+        return true;
+    }
+
+    public void drawContent(Graphics2D g) {
+        if (obj != null) {
             Shape oldclip = g.getClip();
             g.setClip(applyClip(oldclip, getClippedContentBounds()));
             obj.draw(g, boxw, boxh);
             g.setClip(oldclip);
         }
     }
-    
+
     @Override
-	public void draw(DrawStage turn)
-    {
-        if (isDisplayed() && isVisible())
-        {
-            if (!this.formsStackingContext())
-            {
-                switch (turn)
-                {
+    public void draw(DrawStage turn) {
+        if (isDisplayed() && isVisible()) {
+            if (!this.formsStackingContext()) {
+                switch (turn) {
                     case DRAW_NONINLINE:
-                        if (floating == FLOAT_NONE)
-                        {
+                        if (floating == FLOAT_NONE) {
                             getViewport().getRenderer().renderElementBackground(this);
                         }
                         break;
                     case DRAW_FLOAT:
-                        if (floating != FLOAT_NONE)
-                        {
+                        if (floating != FLOAT_NONE) {
                             getViewport().getRenderer().renderElementBackground(this);
                             getViewport().getRenderer().startElementContents(this);
                             getViewport().getRenderer().renderReplacedContent(this);
@@ -195,8 +175,7 @@ public class BlockReplacedBox extends BlockBox implements ReplacedBox
                         }
                         break;
                     case DRAW_INLINE:
-                        if (floating == FLOAT_NONE)
-                        {
+                        if (floating == FLOAT_NONE) {
                             getViewport().getRenderer().startElementContents(this);
                             getViewport().getRenderer().renderReplacedContent(this);
                             getViewport().getRenderer().finishElementContents(this);
@@ -207,10 +186,8 @@ public class BlockReplacedBox extends BlockBox implements ReplacedBox
     }
 
     @Override
-    public void drawStackingContext(boolean include)
-    {
-        if (isDisplayed() && isDeclaredVisible())
-        {
+    public void drawStackingContext(boolean include) {
+        if (isDisplayed() && isDeclaredVisible()) {
             //1.the background and borders of the element forming the stacking context.
             if (this.isBlock())
                 getViewport().getRenderer().renderElementBackground(this);

@@ -1,31 +1,24 @@
 /**
  * SimpleAnalyzer.java
+ * Copyright (C) 2012 Radek Burget
  *
  * Created on 6.6.2012, 13:57:00 by burgetr
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 package cz.vutbr.web.domassign;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import cz.vutbr.web.css.*;
+import cz.vutbr.web.css.Selector.PseudoDeclaration;
+import cz.vutbr.web.csskit.ElementUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import cz.vutbr.web.css.CSSFactory;
-import cz.vutbr.web.css.CombinedSelector;
-import cz.vutbr.web.css.Declaration;
-import cz.vutbr.web.css.MediaSpec;
-import cz.vutbr.web.css.NodeData;
-import cz.vutbr.web.css.RuleSet;
-import cz.vutbr.web.css.Selector;
-import cz.vutbr.web.css.StyleSheet;
-import cz.vutbr.web.css.Selector.PseudoDeclaration;
-import cz.vutbr.web.csskit.ElementUtil;
+import java.util.*;
 
 /**
  * A simple ananalyzer that computes a style for the individual DOM nodes with no mapping and caching.

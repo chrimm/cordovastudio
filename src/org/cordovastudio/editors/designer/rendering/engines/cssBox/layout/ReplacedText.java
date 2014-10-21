@@ -16,41 +16,47 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 28.11.2012, 13:00:49 by burgetr
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.xml.XmlDocument;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.CSSNorm;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import java.awt.*;
 import java.net.URL;
 
 /**
  * The replaced content represented by a text (HTML or XML) document.
- * 
+ *
  * @author burgetr
  */
-public class ReplacedText extends ReplacedContent
-{
+public class ReplacedText extends ReplacedContent {
     private static Logger log = LoggerFactory.getLogger(ReplacedText.class);
 
-    private Document doc;
+    private XmlDocument doc;
     private URL base;
     private String encoding;
     private DOMAnalyzer decoder;
     private Viewport viewport;
 
-    /** The last dimension used for layout or null when no layout has been created */
+    /**
+     * The last dimension used for layout or null when no layout has been created
+     */
     private Dimension currentDimension;
 
-    /** The final dimension used for layout or null when no layout has been created */
+    /**
+     * The final dimension used for layout or null when no layout has been created
+     */
     private Dimension layoutDimension;
 
-    public ReplacedText(ElementBox owner, Document doc, URL base, String encoding)
-    {
+    public ReplacedText(ElementBox owner, XmlDocument doc, URL base, String encoding) {
         super(owner);
         this.doc = doc;
         this.base = base;
@@ -62,56 +68,49 @@ public class ReplacedText extends ReplacedContent
 
     /**
      * Obtains the viewport of the contents.
+     *
      * @return the viewport
      */
-    public Viewport getContentViewport()
-    {
+    public Viewport getContentViewport() {
         return viewport;
     }
 
     @Override
-    public void draw(Graphics2D g, int width, int height)
-    {
+    public void draw(Graphics2D g, int width, int height) {
         viewport.draw(owner.getViewport().getRenderer());
     }
 
     @Override
-    public int getIntrinsicWidth()
-    {
+    public int getIntrinsicWidth() {
         checkLayout();
         return viewport.getWidth();
     }
 
     @Override
-    public int getIntrinsicHeight()
-    {
+    public int getIntrinsicHeight() {
         checkLayout();
         return viewport.getHeight();
     }
 
     @Override
-    public float getIntrinsicRatio()
-    {
+    public float getIntrinsicRatio() {
         return (float) getIntrinsicWidth() / (float) getIntrinsicHeight();
     }
 
     @Override
-    public void doLayout()
-    {
+    public void doLayout() {
         layoutDimension = new Dimension(owner.getContent()); //use owner content size for dimension
         checkLayout();
     }
 
     @Override
-    public void absolutePositions()
-    {
+    public void absolutePositions() {
         viewport.absolutePositions();
     }
 
     //==========================================================================
 
-    private void createDecoder()
-    {
+    private void createDecoder() {
         decoder = new DOMAnalyzer(doc, base);
         if (encoding == null)
             encoding = decoder.getCharacterEncoding();
@@ -124,18 +123,16 @@ public class ReplacedText extends ReplacedContent
 
     /**
      * Obtains the dimension that should be used for the layout.
+     *
      * @return the dimension
      */
-    private Dimension getLayoutDimension()
-    {
+    private Dimension getLayoutDimension() {
         Dimension dim;
-        if (layoutDimension != null)
-        {
+        if (layoutDimension != null) {
             dim = new Dimension(layoutDimension);
             if (dim.width <= 0) dim.width = 10; //use some minimum size when the size is not known
             if (dim.height <= 0) dim.height = 10;
-        }
-        else
+        } else
             dim = new Dimension(10, 10);
         return dim;
     }
@@ -143,8 +140,7 @@ public class ReplacedText extends ReplacedContent
     /**
      * Checks whether the layout is computed and recomputes it when necessary.
      */
-    private void checkLayout()
-    {
+    private void checkLayout() {
         Dimension dim = getLayoutDimension();
         if (currentDimension == null || !currentDimension.equals(dim)) //the dimension has changed
         {
@@ -160,10 +156,9 @@ public class ReplacedText extends ReplacedContent
         }
     }
 
-    private void createLayout(Dimension dim)
-    {
+    private void createLayout(Dimension dim) {
         VisualContext ctx = new VisualContext(null, getOwner().getViewport().getFactory());
-        
+
         log.trace("Creating boxes");
         BoxFactory factory = new BoxFactory(decoder, base);
         factory.setConfig(owner.getViewport().getConfig());
@@ -171,13 +166,13 @@ public class ReplacedText extends ReplacedContent
         viewport = factory.createViewportTree(decoder.getRoot(), owner.getGraphics(), ctx, dim.width, dim.height);
         log.trace("We have " + factory.next_order + " boxes");
         viewport.initSubtree();
-        
-        log.trace("Layout for "+dim.width+"px");
+
+        log.trace("Layout for " + dim.width + "px");
         viewport.doLayout(dim.width, true, true);
         log.trace("Resulting size: " + viewport.getWidth() + "x" + viewport.getHeight() + " (" + viewport + ")");
 
-        log.trace("Positioning for "+viewport.getWidth()+"x"+viewport.getHeight()+"px");
+        log.trace("Positioning for " + viewport.getWidth() + "x" + viewport.getHeight() + "px");
         viewport.absolutePositions();
     }
-    
+
 }

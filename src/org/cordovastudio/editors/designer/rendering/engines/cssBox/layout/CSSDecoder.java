@@ -16,6 +16,10 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 7. zari 2005, 15:39
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;

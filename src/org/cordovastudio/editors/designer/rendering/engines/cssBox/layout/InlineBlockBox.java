@@ -16,179 +16,164 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 16.10.2011, 22:51:58 by radek
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.html.HtmlTag;
 import cz.vutbr.web.css.CSSProperty;
 import cz.vutbr.web.css.NodeData;
 import cz.vutbr.web.css.TermLengthOrPercent;
-import org.w3c.dom.Element;
 
 import java.awt.*;
 
 /**
  * A box corresponding to an inline-block element.
- * 
+ *
  * @author radek
  */
-public class InlineBlockBox extends BlockBox implements InlineElement
-{
-    /** vertical box alignment specified by the style */
+public class InlineBlockBox extends BlockBox implements InlineElement {
+    /**
+     * vertical box alignment specified by the style
+     */
     private CSSProperty.VerticalAlign valign;
-    
-    /** parent LineBox assigned during layout */
+
+    /**
+     * parent LineBox assigned during layout
+     */
     private LineBox linebox;
-    
-    /** The baseline offset of the contents */
+
+    /**
+     * The baseline offset of the contents
+     */
     protected int baseline;
-    
+
     /* current layout parametres */
     private int availw;
     private boolean force;
-    
-    
-	public InlineBlockBox(Element n, Graphics2D g, VisualContext ctx)
-	{
-		super(n, g, ctx);
-		isblock = false;
-	}
 
-	public InlineBlockBox(InlineBox src)
-	{
-		super(src);
-		isblock = false;
-	}
+
+    public InlineBlockBox(HtmlTag tag, Graphics2D g, VisualContext ctx) {
+        super(tag, g, ctx);
+        isblock = false;
+    }
+
+    public InlineBlockBox(InlineBox src) {
+        super(src);
+        isblock = false;
+    }
 
     @Override
-    public void setStyle(NodeData s)
-    {
+    public void setStyle(NodeData s) {
         super.setStyle(s);
         loadInlineStyle();
     }
 
-    public CSSProperty.VerticalAlign getVerticalAlign()
-    {
+    public CSSProperty.VerticalAlign getVerticalAlign() {
         return valign;
     }
 
-    public void setLineBox(LineBox linebox)
-    {
+    public void setLineBox(LineBox linebox) {
         this.linebox = linebox;
     }
 
-    public LineBox getLineBox()
-    {
+    public LineBox getLineBox() {
         return linebox;
     }
 
-    public int getLineboxOffset()
-    {
+    public int getLineboxOffset() {
         return 0;
     }
 
     //========================================================================
 
-    public int getMaxLineHeight()
-    {
+    public int getMaxLineHeight() {
         return getHeight();
     }
 
-    public int getBaselineOffset()
-    {
+    public int getBaselineOffset() {
         return baseline;
     }
 
-    public int getBelowBaseline()
-    {
+    public int getBelowBaseline() {
         return getHeight() - baseline;
     }
 
-    public int getTotalLineHeight()
-    {
+    public int getTotalLineHeight() {
         return getHeight();
     }
 
-    public int getHalfLead()
-    {
+    public int getHalfLead() {
         return 0;
     }
 
-    public int getFirstLineLength()
-    {
+    public int getFirstLineLength() {
         return getMaximalContentWidth();
     }
 
-    public int getLastLineLength()
-    {
+    public int getLastLineLength() {
         return getMaximalContentWidth();
     }
 
-    public boolean containsLineBreak()
-    {
+    public boolean containsLineBreak() {
         return false;
     }
 
-    public boolean finishedByLineBreak()
-    {
+    public boolean finishedByLineBreak() {
         return false;
     }
 
-	//========================================================================
+    //========================================================================
 
     @Override
-    public boolean doLayout(int availw, boolean force, boolean linestart)
-    {
+    public boolean doLayout(int availw, boolean force, boolean linestart) {
         this.availw = availw;
         this.force = force;
         super.doLayout(availw, force, linestart);
-        if (force || fitsSpace())
-        {
+        if (force || fitsSpace()) {
             baseline = getLastInlineBoxBaseline(this);
             if (baseline == -1)
                 baseline = getHeight();
-            else
-            {
+            else {
                 baseline += getContentOffsetY();
                 if (baseline > getHeight()) baseline = getHeight();
             }
             return true;
-        }
-        else
+        } else
             return false;
     }
 
     @Override
-    protected void layoutInline()
-    {
+    protected void layoutInline() {
         if (force || fitsSpace()) //do not layout if we don't fit the available space
             super.layoutInline();
     }
 
     @Override
-    protected void layoutBlocks()
-    {
+    protected void layoutBlocks() {
         if (force || fitsSpace()) //do not layout if we don't fit the available space
             super.layoutBlocks();
     }
 
     /**
      * Checks wheter the block fits the available space
+     *
      * @return <code>true</code> when there is enough space to fit the block
      */
-    private boolean fitsSpace()
-    {
+    private boolean fitsSpace() {
         return availw >= totalWidth();
     }
 
     @Override
-    public boolean hasFixedWidth()
-    {
+    public boolean hasFixedWidth() {
         return wset; //the width should not be computed from the parent
     }
 
     @Override
-    public int getMinimalContentWidthLimit()
-    {
+    public int getMinimalContentWidthLimit() {
         int ret;
         if (wset)
             ret = content.width;
@@ -201,8 +186,7 @@ public class InlineBlockBox extends BlockBox implements InlineElement
     }
 
     @Override
-    protected void computeWidthsInFlow(TermLengthOrPercent width, boolean auto, boolean exact, int contw, boolean update)
-    {
+    protected void computeWidthsInFlow(TermLengthOrPercent width, boolean auto, boolean exact, int contw, boolean update) {
         //The same as for absolutely positioned boxes (shrink-to-fit or explicitely set)
         CSSDecoder dec = new CSSDecoder(ctx);
 
@@ -216,17 +200,13 @@ public class InlineBlockBox extends BlockBox implements InlineElement
 
         if (!widthComputed) update = false;
 
-        if (auto)
-        {
+        if (auto) {
             if (exact) wset = false;
             if (!update)
                 content.width = dec.getLength(width, auto, 0, 0, contw);
             preferredWidth = -1; //we don't prefer anything (auto width)
-        }
-        else
-        {
-            if (exact)
-            {
+        } else {
+            if (exact) {
                 wset = true;
                 wrelative = width.isPercentage();
             }
@@ -240,31 +220,24 @@ public class InlineBlockBox extends BlockBox implements InlineElement
     }
 
     @Override
-    public void absolutePositions()
-    {
+    public void absolutePositions() {
         updateStackingContexts();
-        if (isDisplayed())
-        {
+        if (isDisplayed()) {
             //x coordinate is taken from the content edge
             absbounds.x = getParent().getAbsoluteContentX() + bounds.x;
             //y coordinate -- depends on the vertical alignment
-            if (valign == CSSProperty.VerticalAlign.TOP)
-            {
+            if (valign == CSSProperty.VerticalAlign.TOP) {
                 //absbounds.y = linebox.getAbsoluteY() + (linebox.getLead() / 2) - getContentOffsetY();
                 absbounds.y = linebox.getAbsoluteY() - getContentOffsetY();
-            }
-            else if (valign == CSSProperty.VerticalAlign.BOTTOM)
-            {
+            } else if (valign == CSSProperty.VerticalAlign.BOTTOM) {
                 absbounds.y = linebox.getAbsoluteY() + linebox.getTotalLineHeight() - getContentHeight() - getContentOffsetY();
-            }
-            else //other positions -- set during the layout. Relative to the parent content edge.
+            } else //other positions -- set during the layout. Relative to the parent content edge.
             {
                 absbounds.y = getParent().getAbsoluteContentY() + bounds.y;
             }
 
             //consider the relative position
-            if (position == POS_RELATIVE)
-            {
+            if (position == POS_RELATIVE) {
                 absbounds.x += leftset ? coords.left : (-coords.right);
                 absbounds.y += topset ? coords.top : (-coords.bottom);
             }
@@ -282,21 +255,16 @@ public class InlineBlockBox extends BlockBox implements InlineElement
     /**
      * Loads the basic style properties related to the inline elements.
      */
-    protected void loadInlineStyle()
-    {
+    protected void loadInlineStyle() {
         valign = style.getProperty("vertical-align");
         if (valign == null) valign = CSSProperty.VerticalAlign.BASELINE;
     }
 
     @Override
-    public void draw(DrawStage turn)
-    {
-        if (displayed)
-        {
-            if (!this.formsStackingContext())
-            {
-                switch (turn)
-                {
+    public void draw(DrawStage turn) {
+        if (displayed) {
+            if (!this.formsStackingContext()) {
+                switch (turn) {
                     case DRAW_NONINLINE:
                     case DRAW_FLOAT:
                         //everything is drawn in the DRAW_INLINE phase as a new stacking context
@@ -311,40 +279,34 @@ public class InlineBlockBox extends BlockBox implements InlineElement
 
     //========================================================================
 
-	/**
-	 * Recursively finds the baseline of the last in-flow box.
-	 * @param root the element to start search in
-	 * @return The baseline offset in the element content or -1 if there are no in-flow boxes.
-	 */
-    private int getLastInlineBoxBaseline(ElementBox root)
-	{
-	    //find last in-flow box
-	    Box box = null;
-        for (int i = root.getSubBoxNumber() - 1; i >= 0; i--)
-        {
+    /**
+     * Recursively finds the baseline of the last in-flow box.
+     *
+     * @param root the element to start search in
+     * @return The baseline offset in the element content or -1 if there are no in-flow boxes.
+     */
+    private int getLastInlineBoxBaseline(ElementBox root) {
+        //find last in-flow box
+        Box box = null;
+        for (int i = root.getSubBoxNumber() - 1; i >= 0; i--) {
             box = root.getSubBox(i);
             if (box.isInFlow())
                 break;
             else
                 box = null;
         }
-        
-        if (box != null)
-        {
-	        if (box instanceof Inline)
-	        {
+
+        if (box != null) {
+            if (box instanceof Inline) {
                 //System.out.println(box + ":I: " + (box.getContentY() + ((Inline) box).getBaselineOffset()));
                 return box.getContentY() + ((Inline) box).getBaselineOffset();
-	        }
-            else
-            {
+            } else {
                 //System.out.println(box + ":B: " + (box.getContentY() + getLastInlineBoxBaseline((ElementBox) box)));
-	            return box.getContentY() + getLastInlineBoxBaseline((ElementBox) box);
+                return box.getContentY() + getLastInlineBoxBaseline((ElementBox) box);
             }
-	    }
-	    else
-	        return -1; //no inline box found
-	}
-	
+        } else
+            return -1; //no inline box found
+    }
+
 
 }
