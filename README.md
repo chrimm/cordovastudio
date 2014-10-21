@@ -1,5 +1,6 @@
 Cordova Studio
 ==============
+[![Build Status](https://magnum.travis-ci.com/chrimm/cordovastudio.svg?token=4TcQHUxEYQZYsEJippuW&branch=master)](https://magnum.travis-ci.com/chrimm/cordovastudio)
 
 This project is currently in development and not available publicly. 
 For further information see http://www.cordovastudio.org or follow @cordovastudio on Twitter (https://twitter.com/cordovastudio).
