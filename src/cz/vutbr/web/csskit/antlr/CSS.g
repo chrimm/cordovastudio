@@ -1,7 +1,7 @@
 /*
  * CSS.g 
  * Copyright (c) 2008 Karel Piwko
- * Copyright (c) 2008-2009 Radek Burget
+ * Copyright (c) 2008-2014 Radek Burget
  *
  * jStyleParser is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -48,8 +48,7 @@ tokens {
 	DECLARATION;	
 	VALUE;
 	IMPORTANT;
-	
-	IMPORT_END;
+	MEDIA_QUERY;
 	
 	INVALID_STRING;
 	INVALID_SELECTOR;
@@ -140,9 +139,12 @@ import cz.vutbr.web.css.SupportedCSS;
          * <li>FUNCTION - within the function arguments: parentheses must be balanced 
          * <li>RULE - within the CSS rule: all but curly braces
          * <li>DECL - within declaration: all, keep curly braces at desired state
-         * </ul> 
+         * </ul>
+         * @param mode the desired recovery node
+         * @param state the required lexer state (used for DECL mode)
+         * @param t the token that is being processed (used for DECL mode)
          */ 
-        public boolean isBalanced(RecoveryMode mode, LexerState state)
+        public boolean isBalanced(RecoveryMode mode, LexerState state, CSSToken t)
         {
             if (mode == RecoveryMode.BALANCED)
                 return aposOpen==false && quotOpen==false && curlyNest==0 && parenNest==0;
@@ -151,7 +153,12 @@ import cz.vutbr.web.css.SupportedCSS;
             else if (mode == RecoveryMode.RULE)
                 return aposOpen==false && quotOpen==false && parenNest==0;
             else if (mode == RecoveryMode.DECL)
-                return aposOpen==false && quotOpen==false && parenNest==0 && curlyNest==state.curlyNest;
+            {
+                if (t.getType() == RCURLY) //if '}' is processed the curlyNest has been already decreased 
+                    return aposOpen==false && quotOpen==false && parenNest==0 && curlyNest==state.curlyNest-1;
+                else
+                    return aposOpen==false && quotOpen==false && parenNest==0 && curlyNest==state.curlyNest;
+            }
             else
                 return false;
         }
@@ -223,24 +230,18 @@ import cz.vutbr.web.css.SupportedCSS;
     // current lexer state
     private LexerState ls;
     
-    // this is for orthogonality
-    @SuppressWarnings("unused")
-    private StyleSheet stylesheet;
-    
     // token recovery
     private Stack<Integer> expectedToken;
     
     /**
      * This function must be called to initialize lexer's state.
      * Because we can't change directly generated constructors.
-     * @param stylesheet CSS StyleSheet instance  
      */
-    public CSSLexer init(StyleSheet stylesheet) {
+    public CSSLexer init() {
 	    this.imports = new Stack<LexerStream>();
 	    this.expectedToken = new Stack<Integer>();
-		this.ls = new LexerState();
-		this.stylesheet = stylesheet;
-		return this;
+	    this.ls = new LexerState();
+	    return this;
     }
     
     @Override
@@ -263,29 +264,10 @@ import cz.vutbr.web.css.SupportedCSS;
        }
 
        // recover from unexpected EOF
-       if(token==Token.EOF_TOKEN && !ls.isBalanced()) {
+       if(token.getType()==Token.EOF && !ls.isBalanced()) {
            CSSToken t = ls.generateEOFRecover(); 
            return (Token) t;
        }
-
-       // push back import stream
-       // We've got EOF and have non empty stack
-       if(token==Token.EOF_TOKEN && !imports.empty()){
-
-       	 // prepare end token 	
-       	 CSSToken t = new CSSToken(IMPORT_END, ls);
-       	 t.setText("IMPORT_END");
-       
-         // We've got EOF and have non empty stack.
-         LexerStream stream = imports.pop();
-         setCharStream(stream.input);
-         input.rewind(stream.mark);
-         this.ls = stream.ls;
-         
-         // send created token
-         return (Token) t;
-         //token = nextTokenRecover();
-       }       
 
        // Skip first token after switching on another input.
        if(((CommonToken)token).getStartIndex() < 0)
@@ -378,7 +360,7 @@ import cz.vutbr.web.css.SupportedCSS;
 			state.tokenStartLine = input.getLine();
 			state.text = null;
 			if ( input.LA(1)==CharStream.EOF ) {
-				return CSSToken.EOF_TOKEN;
+				return getEOFToken();
 			}
 			try {
 				mTokens();
@@ -560,17 +542,13 @@ import cz.vutbr.web.csskit.antlr.CSSLexer.LexerState;
     
     private static SupportedCSS css = CSSFactory.getSupportedCSS();
     
-    private StyleSheet stylesheet;
-    
     private int functLevel = 0;
     
     /**
      * This function must be called to initialize parser's state.
      * Because we can't change directly generated constructors.
-     * @param stylesheet CSS StyleSheet instance  
      */
-    public CSSParser init(StyleSheet stylesheet) {
-    	this.stylesheet = stylesheet;
+    public CSSParser init() {
     	return this;
     }
     
@@ -677,7 +655,7 @@ import cz.vutbr.web.csskit.antlr.CSSLexer.LexerState;
       log.trace("Skipped greedy: {}", t);
       // consume token even if it will match
       input.consume();
-    }while(!(t.getLexerState().isBalanced(mode, ls) && follow.member(t.getType())));
+    }while(!(t.getLexerState().isBalanced(mode, ls, t) && follow.member(t.getType())));
   }
   
   /**
@@ -715,7 +693,7 @@ import cz.vutbr.web.csskit.antlr.CSSLexer.LexerState;
       else
           break; /* not a CSSToken, probably EOF */
       // consume token if does not match
-      finish = (t.getLexerState().isBalanced(mode, ls) && follow.member(t.getType()));
+      finish = (t.getLexerState().isBalanced(mode, ls, t) && follow.member(t.getType()));
       if (!finish)
       { 
           log.trace("Skipped: {}", t);
@@ -767,9 +745,8 @@ statement
 
 atstatement
 	: CHARSET
-	| IMPORT
-	| INVALID_IMPORT
-	| IMPORT_END
+	| IMPORT S* import_uri S* media? SEMICOLON
+	  -> ^(IMPORT media? import_uri)  
 	| page
   | VIEWPORT S*
     LCURLY S* declarations
@@ -778,14 +755,18 @@ atstatement
 	  LCURLY S* declarations
 	  RCURLY -> ^(FONTFACE declarations)
 	| MEDIA S* media? 
-		LCURLY S* (ruleset S*)* RCURLY -> ^(MEDIA media? ruleset*)	
-	| ATKEYWORD S* LCURLY any* RCURLY -> INVALID_STATEMENT
+		LCURLY S* (media_rule S*)* RCURLY -> ^(MEDIA media? media_rule*)	
+	| unknown_atrule -> INVALID_STATEMENT
 	;
 	catch [RecognitionException re] {
       	final BitSet follow = BitSet.of(CSSLexer.RCURLY, CSSLexer.SEMICOLON);								
-	    retval.tree = invalidFallbackGreedy(CSSLexer.INVALID_STATEMENT, 
+	      retval.tree = invalidFallbackGreedy(CSSLexer.INVALID_STATEMENT, 
 	  		"INVALID_STATEMENT", follow, re);							
 	}
+
+import_uri
+  : (STRING | URI)
+  ;
 
 page
 	: PAGE S* (( IDENT | IDENT page_pseudo | page_pseudo) S*) ?
@@ -814,9 +795,49 @@ inlineset
 	;
 	
 media
-	: IDENT S* (COMMA S* IDENT S*)* 
-		-> IDENT+
-	;		
+ : media_query (COMMA S* media_query)*
+    -> ^(MEDIA_QUERY media_query)+
+ ;
+ catch [RecognitionException re] {
+     final BitSet follow = BitSet.of(CSSLexer.COMMA, CSSLexer.LCURLY, CSSLexer.SEMICOLON);               
+     retval.tree = invalidFallback(CSSLexer.INVALID_STATEMENT, "INVALID_STATEMENT", follow, LexerState.RecoveryMode.BALANCED, null, re);
+ }
+
+media_query
+ : (media_term S!*)+
+ ;
+
+media_term
+ : (IDENT | media_expression)
+ | nomediaquery -> INVALID_STATEMENT
+ ;
+ catch [RecognitionException re] {
+     final BitSet follow = BitSet.of(CSSLexer.COMMA, CSSLexer.LCURLY, CSSLexer.SEMICOLON);               
+     retval.tree = invalidFallback(CSSLexer.INVALID_STATEMENT, "INVALID_STATEMENT", follow, LexerState.RecoveryMode.RULE, null, re);
+ }
+
+media_expression
+ : LPAREN S* IDENT S* (COLON S* terms)? RPAREN
+    -> ^(DECLARATION IDENT terms)
+ ;
+ catch [RecognitionException re] {
+		 final BitSet follow = BitSet.of(CSSLexer.RPAREN, CSSLexer.SEMICOLON);               
+		 retval.tree = invalidFallbackGreedy(CSSLexer.INVALID_STATEMENT, 
+		   "INVALID_STATEMENT", follow, re);
+ }
+
+media_rule
+ : ruleset
+ | atstatement -> INVALID_STATEMENT
+ ;
+	
+unknown_atrule
+ : ATKEYWORD S* any* LCURLY S* any* RCURLY
+ ;
+ catch [RecognitionException re] {
+     final BitSet follow = BitSet.of(CSSLexer.RCURLY);               
+     retval.tree = invalidFallbackGreedy(CSSLexer.INVALID_STATEMENT, "INVALID_STATEMENT", follow, LexerState.RecoveryMode.BALANCED, null, re);
+ }
 	
 ruleset
 	: combined_selector (COMMA S* combined_selector)* 
@@ -829,7 +850,7 @@ ruleset
 	catch [RecognitionException re] {
       final BitSet follow = BitSet.of(CSSLexer.RCURLY);
       //we don't require {} to be balanced here because of possible parent 'media' sections that may remain open => RecoveryMode.RULE
-	    retval.tree = invalidFallbackGreedy(CSSLexer.INVALID_STATEMENT,	"INVALID_STATEMENT", follow, LexerState.RecoveryMode.RULE, null, re);							
+	    retval.tree = invalidFallbackGreedy(CSSLexer.INVALID_STATEMENT,	"INVALID_STATEMENT", follow, LexerState.RecoveryMode.RULE, null, re);
 	}
 
 declarations
@@ -846,8 +867,8 @@ declaration
 	| noprop any* -> INVALID_DECLARATION /* if first character in the declaration is invalid (various dirty hacks) */
 	;
 	catch [RecognitionException re] {
-	  //retval.tree = invalidFallback(CSSLexer.INVALID_DECLARATION, "INVALID_DECLARATION", re);									
-      final BitSet follow = BitSet.of(CSSLexer.SEMICOLON);               
+      final BitSet follow = BitSet.of(CSSLexer.SEMICOLON, CSSLexer.RCURLY); //recover on the declaration end or rule end
+      //not greedy - the final ; or } must remain for properly finishing the declaration/rule
       retval.tree = invalidFallback(CSSLexer.INVALID_DECLARATION, "INVALID_DECLARATION", follow, LexerState.RecoveryMode.DECL, begin, re);             
 	}
 
@@ -903,9 +924,9 @@ funct
 valuepart
     : ( MINUS? IDENT -> MINUS? IDENT
       | CLASSKEYWORD -> CLASSKEYWORD
-      | MINUS? NUMBER -> MINUS? NUMBER
-      | MINUS? PERCENTAGE -> MINUS? PERCENTAGE
-      | MINUS? DIMENSION -> MINUS? DIMENSION
+      | (PLUS | MINUS)? NUMBER -> MINUS? NUMBER
+      | (PLUS | MINUS)? PERCENTAGE -> MINUS? PERCENTAGE
+      | (PLUS | MINUS)? DIMENSION -> MINUS? DIMENSION
       | string -> string
       | URI    -> URI
       | HASH -> HASH
@@ -919,9 +940,8 @@ valuepart
       | PERCENT -> PERCENT
       | EQUALS -> EQUALS
       | SLASH -> SLASH
-	    | PLUS -> PLUS
 	    | ASTERISK -> ASTERISK		 
-      | MINUS? funct -> MINUS? funct 
+      | (PLUS | MINUS)? funct -> MINUS? funct 
       | DASHMATCH -> DASHMATCH
       | LPAREN valuepart* RPAREN -> ^(PARENBLOCK valuepart*)
       | LBRACE valuepart* RBRACE -> ^(BRACEBLOCK valuepart*)
@@ -1018,8 +1038,10 @@ any
 
 /** What cannot be contained directly in the stylesheet (ignored) */
 nostatement
-  : ( RCURLY -> RCURLY |
-      SEMICOLON -> SEMICOLON
+  : ( RCURLY -> RCURLY
+      | SEMICOLON -> SEMICOLON
+      | QUOT -> QUOT
+      | APOS -> APOS
     );
 
 /** invalid start of a property */
@@ -1040,6 +1062,7 @@ noprop
 	   | INCLUDES -> INCLUDES
 	   | COLON -> COLON
 	   | STRING_CHAR -> STRING_CHAR
+     | CTRL -> CTRL
 	   | INVALID_TOKEN -> INVALID_TOKEN
     ) !S*;
 
@@ -1064,8 +1087,39 @@ norule
 	    | PLUS -> PLUS
       | DASHMATCH -> DASHMATCH
       | RPAREN -> RPAREN
+      | CTRL -> CTRL
       | '#' //that is not HASH (not an identifier)
       | '^'
+      | '&'
+    );
+
+/** invalid start of a media query */    
+nomediaquery
+  : ( NUMBER -> NUMBER
+      | PERCENTAGE ->PERCENTAGE
+      | DIMENSION -> DIMENSION
+      | string -> string
+      | URI    -> URI
+      | UNIRANGE -> UNIRANGE
+      | INCLUDES -> INCLUDES
+      | GREATER -> GREATER
+      | LESS -> LESS
+      | QUESTION -> QUESTION
+      | PERCENT -> PERCENT
+      | EQUALS -> EQUALS
+      | SLASH -> SLASH
+      | EXCLAMATION -> EXCLAMATION
+      | MINUS -> MINUS
+      | PLUS -> PLUS
+      | DASHMATCH -> DASHMATCH
+      | RPAREN -> RPAREN
+      | CTRL -> CTRL
+      | COLON -> COLON
+      | ASTERISK -> ASTERISK
+      | FUNCTION -> FUNCTION
+      | '#' //that is not HASH (not an identifier)
+      | '^'
+      | '&'
     );
     
 /////////////////////////////////////////////////////////////////////////////////
@@ -1111,94 +1165,7 @@ CHARSET
 	;
 
 IMPORT
-@init {
-	expectedToken.push(new Integer(IMPORT));
-	StringBuilder media = new StringBuilder();
-	String mText = null;
-}
-@after {
-	expectedToken.pop();
-}
-	: '@import' S* 
-	  (s=STRING_MACR { $s.setType(STRING);} 
-	  	| s=URI {$s.setType(URI);}) S*
-	    (m=IDENT_MACR { 
-	        mText = $m.getText();
-	    	if(css.isSupportedMedia(mText)) 
-	    		media.append(mText); 
-	    	else
-	    	    log.debug("Invalid import media \"{}\"", mText);
-	     } 
-	     S* 
-	       (',' S* m=IDENT_MACR { 
-	         mText = $m.getText();
-	       	 if(css.isSupportedMedia(mText)) 
-	       	 		media.append(",").append(mText);
-	       	 else
-	    	    log.debug("Invalid import media \"{}\"", mText);		
-	       	} 
-	       S* )*
-	    )?
-	  SEMICOLON 
-	  {
-		    // do some funny work with file name to be imported
-        String fileName = s.getText();
-        log.debug("FILE: " + fileName);
-            	  	
-        if(s.getType()==STRING) 
-        	fileName = CSSToken.extractSTRING(fileName);
-        else
-        	fileName = CSSToken.extractURI(fileName);
-            	  	
-        log.info("Will import file \"{}\" with media: {}", 
-          		fileName, media.toString());           	  	
-            	  	
-        // import file
-        URL url = null;
-        try {
-        		    // construct URL
-        		    log.debug("BASE: " + ((CSSInputStream) input).getBase());
-        		    URL base = ((CSSInputStream) input).getBase();
-        		    if (base != null)
-              	    url = DataURLHandler.createURL(base, fileName);
-              	else
-              	{
-              	    log.warn("Base URL is unknown");
-                    url = DataURLHandler.createURL(base, fileName);
-              	}
-              	               			
-              	log.debug("Actually, will try to import file \"{}\"", url.toString());	
-              			
-                // save current lexer's stream
-                LexerStream stream = new LexerStream(input, ls);
-                imports.push(stream);
-                    	
-                CSSToken t = new CSSToken(IMPORT, ls);
-                t.setText(media.toString());
-                    	
-                // switch on new stream
-                String enc = ((CSSInputStream) input).getEncoding();
-                setCharStream(CSSInputStream.urlStream(url, enc));
-                reset();
-                    	
-                log.info("File \"{}\" was imported.", url.toString());
-                emit(t);
-         }
-         catch(MalformedURLException mue) {
-         		log.warn("Unable to construct URL for fileName", fileName); 
-              	// set type to invalid import
-                _type = INVALID_IMPORT;
-                setText("INVALID_IMPORT");
-         }              		 
-         catch(IOException fnf) {
-         		log.warn("Cannot read \"{}\" to import: {}", fileName, fnf.getMessage());
-                // restore state
-                imports.pop();
-                // set type to invalid import
-                _type = INVALID_IMPORT;
-                setText("INVALID_IMPORT");
-          }
-	}
+	: '@import' 
 	;
 
 MEDIA
@@ -1238,7 +1205,7 @@ FONTFACE
 
 /** Keyword beginning with '@' */
 ATKEYWORD
-	: '@' MINUS? IDENT_MACR
+	: '@' MINUS? IDENT_MACR?
 	;
 
 CLASSKEYWORD
@@ -1443,6 +1410,10 @@ CONTAINS
   : '*='
   ;
 
+CTRL
+  : CTRL_CHAR+
+  ;
+
 INVALID_TOKEN
 	: .
 	;
@@ -1473,16 +1444,10 @@ NON_ASCII
 
 fragment 
 ESCAPE_CHAR
- 	: ('\\') 
+ 	: ('\\')
  	  (
- 	    (('0'..'9' | 'a'..'f' | 'A'..'F')
- 	     ('0'..'9' | 'a'..'f' | 'A'..'F')
- 	     ('0'..'9' | 'a'..'f' | 'A'..'F')
- 	     ('0'..'9' | 'a'..'f' | 'A'..'F')
- 	     (('0'..'9' | 'a'..'f' | 'A'..'F') ('0'..'9' | 'a'..'f' | 'A'..'F'))?
- 	    )
- 	     
- 	   |('\u0020'..'\u007E' | '\u0080'..'\uD7FF' | '\uE000'..'\uFFFD')
+ 	    (('0'..'9' | 'a'..'f' | 'A'..'F')+)
+ 	    |('\u0020'..'\u002F' | '\u003A'..'\u0040' | '\u0047'..'\u0060' | '\u0067'..'\u007E' | '\u0080'..'\uD7FF' | '\uE000'..'\uFFFD')
  	  )
   	;
 
@@ -1535,5 +1500,10 @@ W_MACR
 
 fragment 
 W_CHAR
-  	: '\u0009' | '\u000A' | '\u000C' | '\u000D' | '\u0020'
+  	: '\u0009' | '\u000A' | '\u000B' | '\u000C' | '\u000D' | '\u0020'
   	;
+
+fragment
+CTRL_CHAR
+    : '\u0000'..'\u0008' | '\u000E'..'\u001F'
+    ;
