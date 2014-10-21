@@ -17,6 +17,7 @@
 package org.cordovastudio.editors.designer.rendering.engines;
 
 import com.intellij.lang.annotation.HighlightSeverity;
+import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 import org.cordovastudio.editors.designer.model.ViewInfo;
@@ -24,16 +25,9 @@ import org.cordovastudio.editors.designer.rendering.*;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.CSSNorm;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.layout.BrowserCanvas;
-import org.cordovastudio.utils.XmlUtils;
 
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import javax.imageio.ImageIO;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -72,70 +66,65 @@ public class CssBoxRenderer extends RenderingEngine {
         //ILayoutPullParser parser = params.getParser();
         //XmlFile file = (parser instanceof LayoutPsiPullParser) ? ((LayoutPsiPullParser)parser).getXmlFile() : null;
 
-        URL baseUrl                 = null;
-        Document document           = null;
-        DOMAnalyzer domAnalyzer     = null;
+        URL baseUrl;
+        XmlDocument document;
+        DOMAnalyzer domAnalyzer;
 
-        if(!(params.getParser() instanceof LayoutPsiPullParser)) {
-            if(myLogger != null) {
+        if (!(params.getParser() instanceof LayoutPsiPullParser)) {
+            if (myLogger != null) {
                 myLogger.addMessage(RenderProblem.createPlain(HighlightSeverity.ERROR, "LayoutParser needs to be of type LayoutPsiPullParser!"));
             }
             return null;
         }
 
-        XmlFile file                = ((LayoutPsiPullParser)params.getParser()).getXmlFile();
+        XmlFile file = ((LayoutPsiPullParser) params.getParser()).getXmlFile();
 
-        if(file == null) {
-            if(myLogger != null) {
+        if (file == null) {
+            if (myLogger != null) {
                 myLogger.addMessage(RenderProblem.createPlain(HighlightSeverity.ERROR, "LayoutParser carries invalid XML file!"));
             }
             return null;
         }
 
         try {
-            baseUrl     = new URL(file.getVirtualFile().getUrl());
-            //docSource   = new DefaultDocumentSource(baseUrl);
-            //parser      = new DefaultDOMSource(docSource);
-            //document    = parser.parse();
-            document    = XmlUtils.parseDocument(file.getText(), false);
-
+            baseUrl = new URL(file.getVirtualFile().getUrl());
+            //document    = XmlUtils.parseDocument(file.getText(), false);
+            document = file.getDocument();
             domAnalyzer = new DOMAnalyzer(document, baseUrl);
         } catch (MalformedURLException e) {
             throw new RenderingException("Could not create RenderSession, due to malformed URL of input file.", e);
         } catch (IOException e) {
             throw new RenderingException("Could not create RenderSession, due to being unable to read input file.", e);
-        } catch (SAXException e) {
-            throw new RenderingException("Could not create RenderSession, due to being unable to parse input file.", e);
-        } catch (ParserConfigurationException e) {
-            throw new RenderingException("Could not create RenderSession, due to ill configured XML parser.", e);
         }
 
-        if(domAnalyzer != null) {
-            domAnalyzer.attributesToStyles(); //convert the HTML presentation attributes to inline styles
-            domAnalyzer.addStyleSheet(null, CSSNorm.stdStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the standard style sheet
-            domAnalyzer.addStyleSheet(null, CSSNorm.userStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the additional style sheet
-            domAnalyzer.addStyleSheet(null, CSSNorm.formsStyleSheet(), DOMAnalyzer.Origin.AGENT); //render form fields using css
+        /*
+            Do not delete or uncommend the adding of these default style sheets, as this will end up with the
+            <html> tag being interpreted as an inline element which in turn will crash the hole rendering.
+         */
 
-            //TODO: getting styles takes quite a long time, can we omit this?
-            domAnalyzer.getStyleSheets();
+        domAnalyzer.attributesToStyles(); //convert the HTML presentation attributes to inline styles
+        domAnalyzer.addStyleSheet(null, CSSNorm.stdStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the standard style sheet
+        domAnalyzer.addStyleSheet(null, CSSNorm.userStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the additional style sheet
+        domAnalyzer.addStyleSheet(null, CSSNorm.formsStyleSheet(), DOMAnalyzer.Origin.AGENT); //render form fields using css
 
-            BrowserCanvas canvas = new BrowserCanvas(domAnalyzer.getRoot(), domAnalyzer, baseUrl);
+        //TODO: getting styles takes quite a long time, can we omit this?
+        domAnalyzer.getStyleSheets();
 
-            canvas.getConfig().setLoadImages(true);
-            canvas.getConfig().setLoadBackgroundImages(true);
-            canvas.createLayout(new Dimension(720, 1280));
+        BrowserCanvas canvas = new BrowserCanvas(domAnalyzer.getRoot(), domAnalyzer, baseUrl);
 
-            BufferedImage image = canvas.getImage();
+        canvas.getConfig().setLoadImages(true);
+        canvas.getConfig().setLoadBackgroundImages(true);
+        canvas.createLayout(new Dimension(720, 1280));
 
-            //XmlTag bodyTag = document.getElementsByTagName("body").item(0);
+        BufferedImage image = canvas.getImage();
 
-            XmlTag rootTag = file.getRootTag().findFirstSubTag("body");
+        //XmlTag bodyTag = document.getElementsByTagName("body").item(0);
 
-            ViewInfo rootViewInfo = new ViewInfo("body", rootTag, 0, 0, 720, 1280);
+        XmlTag rootTag = file.getRootTag().findFirstSubTag("body");
 
-            return new StaticRenderSession(SUCCESS.createResult(), rootViewInfo, image);
-        } else {
-            throw new RenderingException("Parser must be of type LayoutPsiPullParser");
-        }
+        ViewInfo rootViewInfo = new ViewInfo("body", rootTag, 0, 0, 720, 1280);
+
+        return new StaticRenderSession(SUCCESS.createResult(), rootViewInfo, image);
+
     }
 }

@@ -1,68 +1,80 @@
+/*
+ * Copyright (C) 2008 Jan Svercl, VUT Brno
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
+ */
+
 package cz.vutbr.web.css;
 
+import com.intellij.psi.html.HtmlTag;
 import org.w3c.dom.Element;
 
 /**
  * Acts as collection of parsed parts of Selector (Parts)
  * with extended functionality.
- * 
+ * <p>
  * Items are defined within this interface.
- * 
- * 
+ *
  * @author kapy
  * @author Jan Svercl, VUT Brno, 2008
  */
 public interface Selector extends Rule<Selector.SelectorPart> {
 
-	/**
-	 * Combinator for simple selectors 
-	 * @author kapy
-	 *
-	 */
-    public enum Combinator {
-    	DESCENDANT(" "),
-        ADJACENT("+"),
-    	PRECEDING("~"),
-    	CHILD(">");
-    
-    	private String value;
-    	
-    	private Combinator(String value) {
-    		this.value = value;
-    	}
-    	
-    	public String value() {return value;}
-    }
-    
     /**
-     * Operator for SelectorPart attributes 
-     * @author kapy
+     * Combinator for simple selectors
      *
+     * @author kapy
      */
-    public enum Operator {
-    	EQUALS("="),
-    	INCLUDES("~="),
-    	DASHMATCH("|="),
-    	CONTAINS("*="),
-    	STARTSWITH("^="),
-    	ENDSWITH("$="),
-    	NO_OPERATOR("");
-    	
-    	private String value;
-    	
-    	private Operator(String value) {
-    		this.value = value;
-    	}
-    	
-    	public String value() {return value;}
+    public enum Combinator {
+        DESCENDANT(" "),
+        ADJACENT("+"),
+        PRECEDING("~"),
+        CHILD(">");
+
+        private String value;
+
+        private Combinator(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
     }
 
     /**
-     * A pseudo class or element specification 
+     * Operator for SelectorPart attributes
+     *
+     * @author kapy
+     */
+    public enum Operator {
+        EQUALS("="),
+        INCLUDES("~="),
+        DASHMATCH("|="),
+        CONTAINS("*="),
+        STARTSWITH("^="),
+        ENDSWITH("$="),
+        NO_OPERATOR("");
+
+        private String value;
+
+        private Operator(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+
+    /**
+     * A pseudo class or element specification
+     *
      * @author burgetr
      */
-    public enum PseudoDeclaration
-    {
+    public enum PseudoDeclaration {
         ACTIVE("active", false),
         FOCUS("focus", false),
         HOVER("hover", false),
@@ -85,162 +97,186 @@ public interface Selector extends Rule<Selector.SelectorPart> {
         DISABLED("disabled", false),
         CHECKED("checked", false),
         TARGET("target", false),
-        
+
         FIRST_LINE("first-line", true),
         FIRST_LETTER("first-letter", true),
         BEFORE("before", true),
         AFTER("after", true);
-        
+
         private String value;
         private boolean element;
-        
+
         private PseudoDeclaration(String value, boolean isElement) {
             this.value = value;
             this.element = isElement;
         }
-        
-        public String value() {return value;}
-        
-        public boolean isPseudoElement() {return element;}
-        
+
+        public String value() {
+            return value;
+        }
+
+        public boolean isPseudoElement() {
+            return element;
+        }
+
     }
-    
+
     /**
      * Returns combinator of this and other simple selector
+     *
      * @return Combinator
      */
     public Combinator getCombinator();
-    
+
     /**
-     * Sets combinator 
+     * Sets combinator
+     *
      * @param combinator Combinator between this and other selector
      * @return Modified instance
      */
-    public Selector setCombinator(Combinator combinator);  
-    
+    public Selector setCombinator(Combinator combinator);
+
     /**
-     * Name of CSS class which is affected by this selector  
+     * Name of CSS class which is affected by this selector
+     *
      * @return Name of CSS class
      */
     public String getClassName();
-    
+
     /**
      * ID of CSS item which is affected by this selector
+     *
      * @return ID of CSS item
      */
     public String getIDName();
-    
+
     /**
      * Name of HTML element which is affected by this selector
+     *
      * @return Name of HTML element
      */
     public String getElementName();
-    
+
     /**
-     * Reads the pseudoelement of the selector 
+     * Reads the pseudoelement of the selector
+     *
      * @return the used pseudo-element or <code>null</code> if no pseudo-element is specified
      */
     public PseudoDeclaration getPseudoElement();
-    
+
     /**
      * Modifies specificity according to CSS standard
+     *
      * @param spec Specificity to be modified
      */
     public void computeSpecificity(CombinedSelector.Specificity spec);
-    
+
     /**
      * Matches simple selector against DOM element
-     * @param e Element
+     *
+     * @param tag Element
      * @return <code>true</true> in case of match
      */
-    public boolean matches(Element e);
-    
+    public boolean matches(HtmlTag tag);
+
     /**
      * Matches simple selector against DOM element with an additional condition
-     * @param e Element
+     *
+     * @param tag  Element
      * @param cond An additional condition to be applied
      * @return <code>true</true> in case of match
      */
-    public boolean matches(Element e, MatchCondition cond);
-    
+    public boolean matches(HtmlTag tag, MatchCondition cond);
+
     /**
      * Interface for handling items
-     * @author kapy
      *
+     * @author kapy
      */
-    public interface SelectorPart { 	
-    	public boolean matches(Element e, MatchCondition cond);
-    	public void computeSpecificity(CombinedSelector.Specificity spec);
+    public interface SelectorPart {
+        public boolean matches(HtmlTag tag, MatchCondition cond);
+
+        public void computeSpecificity(CombinedSelector.Specificity spec);
     }
-    
+
     /**
      * Element name
-     * @author kapy
      *
+     * @author kapy
      */
     public interface ElementName extends SelectorPart {
-    	public static final String WILDCARD = "*";    	
-    	public String getName();
-    	public ElementName setName(String name);
+        public static final String WILDCARD = "*";
+
+        public String getName();
+
+        public ElementName setName(String name);
     }
-    
+
     /**
      * Element attribute
-     * @author kapy
      *
+     * @author kapy
      */
     public interface ElementAttribute extends SelectorPart {
-    	
-    	public String getAttribute();
-    	public ElementAttribute setAttribute(String attribute);
-    	
-    	public String getValue();
-    	public ElementAttribute setValue(String value);
-    	
-    	public Operator getOperator();
-    	public void setOperator(Operator operator);
+
+        public String getAttribute();
+
+        public ElementAttribute setAttribute(String attribute);
+
+        public String getValue();
+
+        public ElementAttribute setValue(String value);
+
+        public Operator getOperator();
+
+        public void setOperator(Operator operator);
     }
-    
+
     /**
      * Element class
-     * @author kapy
      *
+     * @author kapy
      */
     public interface ElementClass extends SelectorPart {
-    	public String getClassName();
-    	public ElementClass setClassName(String name);
+        public String getClassName();
+
+        public ElementClass setClassName(String name);
     }
-    
+
     /**
      * Element id
-     * @author kapy
      *
+     * @author kapy
      */
     public interface ElementID extends SelectorPart {
-    	public String getID();
-    	public ElementID setID(String id);
+        public String getID();
+
+        public ElementID setID(String id);
     }
-    
+
     public interface ElementDOM extends SelectorPart {
-    	public Element getElement();
-    	public ElementDOM setElement(Element e);
+        public Element getElement();
+
+        public ElementDOM setElement(Element e);
     }
-    
+
     /**
      * Pseudo page
-     * @author kapy
      *
+     * @author kapy
      */
     public interface PseudoPage extends SelectorPart {
-    	public String getFunctionName();
-    	public PseudoPage setFunctionName(String functionName);
-    	
-    	public String getValue();
-    	public PseudoPage setValue(String value);
-    	
+        public String getFunctionName();
+
+        public PseudoPage setFunctionName(String functionName);
+
+        public String getValue();
+
+        public PseudoPage setValue(String value);
+
         public PseudoDeclaration getDeclaration();
-        
+
     }
-       
-   
+
+
 }

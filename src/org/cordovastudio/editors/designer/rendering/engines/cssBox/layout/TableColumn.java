@@ -16,48 +16,65 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 3.10.2006, 10:10:58 by burgetr
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.html.HtmlTag;
+import com.intellij.psi.impl.source.html.HtmlTagImpl;
 import cz.vutbr.web.css.CSSProperty;
 import cz.vutbr.web.css.TermLengthOrPercent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import java.awt.*;
 
 /**
  * This class represents a table column. It is not visible and its only purpose is to
  * describe the table column properties. These properties are used while the table is
- * laid out. 
- * 
+ * laid out.
+ *
  * @author burgetr
  */
-public class TableColumn extends BlockBox
-{
+public class TableColumn extends BlockBox {
     private static Logger log = LoggerFactory.getLogger(TableColumn.class);
 
-    /** Column span taken from the 'span' attribute (default 1) */
+    /**
+     * Column span taken from the 'span' attribute (default 1)
+     */
     protected int span;
 
-    /** The width of the column or individual columns */
+    /**
+     * The width of the column or individual columns
+     */
     protected String colwidth;
 
-    /** The minimal column width */
+    /**
+     * The minimal column width
+     */
     protected int mincwidth;
 
-    /** The maximal column width */
+    /**
+     * The maximal column width
+     */
     protected int maxcwidth;
 
-    /** true if the width is relative [%] */
+    /**
+     * true if the width is relative [%]
+     */
     protected boolean wrelative;
 
-    /** relative width [%] when used */
+    /**
+     * relative width [%] when used
+     */
     protected int percent;
 
-    /** the absolute width when specified */
+    /**
+     * the absolute width when specified
+     */
     protected int abswidth;
 
     //====================================================================================
@@ -65,9 +82,8 @@ public class TableColumn extends BlockBox
     /**
      * Creates a new table column
      */
-    public TableColumn(Element n, Graphics2D g, VisualContext ctx)
-    {
-        super(n, g, ctx);
+    public TableColumn(HtmlTag tag, Graphics2D g, VisualContext ctx) {
+        super(tag, g, ctx);
         isblock = true;
         loadAttributes();
     }
@@ -75,15 +91,13 @@ public class TableColumn extends BlockBox
     /**
      * Creates a new table cell from an inline box
      */
-    public TableColumn(InlineBox src)
-    {
+    public TableColumn(InlineBox src) {
         super(src);
         isblock = true;
         loadAttributes();
     }
 
-    public void copyValues(TableColumn src)
-    {
+    public void copyValues(TableColumn src) {
         super.copyValues(src);
         span = src.span;
         colwidth = (src.colwidth == null) ? null : new String(src.colwidth);
@@ -97,9 +111,8 @@ public class TableColumn extends BlockBox
     /**
      * Creates a copy of the column
      */
-    public TableColumn copyBox()
-    {
-        TableColumn ret = new TableColumn(el, g, ctx);
+    public TableColumn copyBox() {
+        TableColumn ret = new TableColumn((HtmlTag) tag, g, ctx);
         ret.copyValues(this);
         return ret;
     }
@@ -107,26 +120,25 @@ public class TableColumn extends BlockBox
     /**
      * @return the column span
      */
-    public int getSpan()
-    {
+    public int getSpan() {
         return span;
     }
 
     /**
      * If the box width has been specified explicitly, this function obtains the specifiaction string.
+     *
      * @return the width specification of the column(s)
      */
-    public String getSpecifiedWidth()
-    {
+    public String getSpecifiedWidth() {
         return colwidth;
     }
 
     /**
      * Set the width of the column form an attribute or CSS
+     *
      * @param width the new width
      */
-    public void setSpecifiedWidth(String width)
-    {
+    public void setSpecifiedWidth(String width) {
         colwidth = width;
         try {
             content = new Dimension(0, 0);
@@ -142,10 +154,10 @@ public class TableColumn extends BlockBox
 
     /**
      * Set the width of the column
+     *
      * @param width the new width
      */
-    public void setColumnWidth(int width)
-    {
+    public void setColumnWidth(int width) {
         content = new Dimension(0, 0);
         content.width = width;
         bounds.width = content.width;
@@ -154,85 +166,75 @@ public class TableColumn extends BlockBox
     /**
      * @return the maximal width of the cell contents
      */
-    public int getMaximalWidth()
-    {
+    public int getMaximalWidth() {
         return maxcwidth;
     }
 
     /**
      * Set the maximal width of the cell contents.
+     *
      * @param maxwidth the maxwidth to set
      */
-    public void setMaximalWidth(int maxwidth)
-    {
+    public void setMaximalWidth(int maxwidth) {
         this.maxcwidth = maxwidth;
     }
 
     /**
      * @return the minimal width of the cell contents
      */
-    public int getMinimalWidth()
-    {
+    public int getMinimalWidth() {
         return mincwidth;
     }
 
     /**
      * @param minwidth the minimal width to set
      */
-    public void setMinimalWidth(int minwidth)
-    {
+    public void setMinimalWidth(int minwidth) {
         this.mincwidth = minwidth;
     }
 
     /**
      * @return the percentage if the box has a relative width, 0 otherwise
      */
-    public int getPercent()
-    {
+    public int getPercent() {
         return percent;
     }
 
     /**
      * @param percent the percentage to set
      */
-    public void setPercent(int percent)
-    {
+    public void setPercent(int percent) {
         this.percent = percent;
     }
 
     /**
      * @return true if the width is specified relatively
      */
-    public boolean isWrelative()
-    {
+    public boolean isWrelative() {
         return wrelative;
     }
 
     /**
      * @param wrelative true if the width is specified relatively
      */
-    public void setRelative(boolean wrelative)
-    {
+    public void setRelative(boolean wrelative) {
         this.wrelative = wrelative;
     }
 
     //====================================================================================
 
     @Override
-    public boolean affectsDisplay()
-    {
+    public boolean affectsDisplay() {
         return false;
     }
 
     @Override
-    public boolean doLayout(int widthlimit, boolean force, boolean linestart)
-    {
+    public boolean doLayout(int widthlimit, boolean force, boolean linestart) {
         return true;
     }
 
     @Override
-    protected void loadSizes(boolean update)
-    {
+    protected void loadSizes(boolean update) {
         bounds = new Rectangle(0, 0, 0, 0);
         min_size = new Dimension();
         max_size = new Dimension();
@@ -250,51 +252,49 @@ public class TableColumn extends BlockBox
             int contw = cblock.getContentWidth();
             CSSDecoder dec = new CSSDecoder(ctx);
             CSSProperty.Width wprop = style.getProperty("width");
-            if (wprop != null && wprop != CSSProperty.Width.AUTO)
-            {
+            if (wprop != null && wprop != CSSProperty.Width.AUTO) {
                 TermLengthOrPercent width = getLengthValue("width");
                 abswidth = dec.getLength(width, false, 0, 0, contw);
                 content.width = abswidth;
                 wset = true;
-	            if (width.isPercentage())
-	            {
-	            	wrelative = true;
+                if (width.isPercentage()) {
+                    wrelative = true;
                     percent = (int) Math.round(width.getValue());
                     if (percent == 0)
                         wrelative = false; //consider 0% as absolute 0
-	            }
+                }
             }
         }
-        
+
         bounds.width = content.width;
     }
-    
+
     //====================================================================================
-    
-    protected void loadAttributes()
-    {
+
+    protected void loadAttributes() {
+        String spanStr = ((HtmlTag) tag).getAttributeValue("span");
         try {
-            if (!el.getAttribute("span").equals(""))
-                span = Integer.parseInt(el.getAttribute("span"));
+            if (!"".equals(spanStr))
+                span = Integer.parseInt(spanStr);
             else
                 span = 1;
         } catch (NumberFormatException e) {
-            log.warn("Invalid span value: " + el.getAttribute("span"));
+            log.warn("Invalid span value: " + spanStr);
         }
-        setSpecifiedWidth(el.getAttribute("width"));
+        setSpecifiedWidth(((HtmlTag) tag).getAttributeValue("width"));
     }
 
     /**
      * Creates a new <col> element that represents an anonymous column
-     * @param doc the document
+     *
      * @return the new element
      */
-    public static Element createAnonymousColumn(Document doc)
-    {
-        Element div = doc.createElement("col");
-        div.setAttribute("class", "Xanonymous");
-        div.setAttribute("style", "display:table-column;");
-        return div;
+    public static HtmlTag createAnonymousColumn() {
+        HtmlTag col = new HtmlTagImpl();
+        col.setName("col");
+        col.setAttribute("class", "Xanonymous");
+        col.setAttribute("style", "display:table-column;");
+        return col;
     }
-    
+
 }

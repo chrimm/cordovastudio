@@ -16,10 +16,14 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 3.10.2006, 10:51:03 by burgetr
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
-import org.w3c.dom.Element;
+import com.intellij.psi.html.HtmlTag;
 
 import java.awt.*;
 import java.util.Vector;
@@ -27,57 +31,47 @@ import java.util.Vector;
 
 /**
  * @author burgetr
- *
  */
-public class TableColumnGroup extends TableColumn
-{
+public class TableColumnGroup extends TableColumn {
     private Vector<TableColumn> columns;
-    
+
     //===============================================================================
-    
+
     /**
      * Create a new table column
      */
-    public TableColumnGroup(Element n, Graphics2D g, VisualContext ctx)
-    {
-        super(n, g, ctx);
+    public TableColumnGroup(HtmlTag tag, Graphics2D g, VisualContext ctx) {
+        super(tag, g, ctx);
     }
-    
+
     /**
      * Create a new table cell from an inline box
      */
-    public TableColumnGroup(InlineBox src)
-    {
+    public TableColumnGroup(InlineBox src) {
         super(src);
     }
-    
-    public int getSpan()
-    {
+
+    public int getSpan() {
         if (columns == null) organizeColumns();
         return columns.size();
     }
-    
-    public TableColumn getColumn(int index)
-    {
+
+    public TableColumn getColumn(int index) {
         if (columns == null) organizeColumns();
         return columns.elementAt(index);
     }
 
     //====================================================================================
-    
-    private void organizeColumns()
-    {
+
+    private void organizeColumns() {
         columns = new Vector<TableColumn>();
-        for (int bi = 0; bi < nested.size(); bi++)
-        {
+        for (int bi = 0; bi < nested.size(); bi++) {
             Box box = nested.elementAt(bi);
-            if (box instanceof TableColumn)
-            {
+            if (box instanceof TableColumn) {
                 TableColumn col = (TableColumn) box;
                 if (col.getSpecifiedWidth().equals(""))
                     col.setSpecifiedWidth(colwidth); //when column width is not set, use the group width
-                for (int i = 0; i < col.getSpan(); i++)
-                {
+                for (int i = 0; i < col.getSpan(); i++) {
                     if (i == 0)
                         columns.add(col);
                     else
@@ -86,9 +80,8 @@ public class TableColumnGroup extends TableColumn
             }
         }
         //when there are no <col> elements, use the span attribute
-        if (columns.isEmpty())
-        {
-            TableColumn col = new TableColumn(TableColumn.createAnonymousColumn(getParent().getElement().getOwnerDocument()), g, ctx);
+        if (columns.isEmpty()) {
+            TableColumn col = new TableColumn(TableColumn.createAnonymousColumn(), g, ctx);
             col.setSpecifiedWidth(colwidth);
             for (int i = 0; i < span; i++)
                 columns.add(col.copyBox());

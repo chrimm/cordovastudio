@@ -16,14 +16,18 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 8.10.2009, 16:33:31 by burgetr
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.html.HtmlTag;
 import cz.vutbr.web.css.CSSFactory;
 import cz.vutbr.web.css.CSSProperty;
 import cz.vutbr.web.css.TermLength;
 import cz.vutbr.web.css.TermLengthOrPercent;
-import org.w3c.dom.Element;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -38,9 +42,9 @@ public class BlockTableBox extends BlockBox
     private TableCaptionBox caption;
     private boolean captionbottom; //set to true, when caption should be in the bottom. Otherwise, caption is at the top.
 
-    public BlockTableBox(Element n, Graphics2D g, VisualContext ctx)
+    public BlockTableBox(HtmlTag tag, Graphics2D g, VisualContext ctx)
     {
-        super(n, g, ctx);
+        super(tag, g, ctx);
         isblock = true;
     }
 
@@ -236,7 +240,7 @@ public class BlockTableBox extends BlockBox
      */
     private void organizeContent()
     {
-        table = new TableBox(el, g, ctx);
+        table = new TableBox((HtmlTag)tag, g, ctx);
         table.adoptParent(this);
         table.setStyle(style);
         

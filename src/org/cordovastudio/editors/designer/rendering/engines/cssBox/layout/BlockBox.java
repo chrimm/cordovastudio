@@ -16,15 +16,19 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 5. �nor 2006, 13:40
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.html.HtmlTag;
 import cz.vutbr.web.css.*;
 import cz.vutbr.web.css.CSSProperty.Clip;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -168,9 +172,9 @@ public class BlockBox extends ElementBox
     //=====================================================================
 
     /** Creates a new instance of BlockBox */
-    public BlockBox(Element n, Graphics2D g, VisualContext ctx)
+    public BlockBox(HtmlTag tag, Graphics2D g, VisualContext ctx)
     {
-        super(n, g, ctx);
+        super(tag, g, ctx);
 
         isblock = true;
         contblock = false;
@@ -201,7 +205,7 @@ public class BlockBox extends ElementBox
     /** Convert an inline box to a block box */
     public BlockBox(InlineBox src)
     {
-        super(src.el, src.g, src.ctx);
+        super(src.tag, src.g, src.ctx);
 
         viewport = src.viewport;
         cblock = src.cblock;
@@ -262,7 +266,7 @@ public class BlockBox extends ElementBox
     @Override
     public BlockBox copyBox()
     {
-        BlockBox ret = new BlockBox(el, g, ctx);
+        BlockBox ret = new BlockBox((HtmlTag)tag, g, ctx);
         ret.copyValues(this);
         return ret;
     }
@@ -295,8 +299,8 @@ public class BlockBox extends ElementBox
     @Override
     public String toString()
     {
-        return "<" + el.getTagName() + " id=\"" + el.getAttribute("id") +
-               "\" class=\""  + el.getAttribute("class") + "\">";
+        return "<" + ((HtmlTag)tag).getName() + " id=\"" + ((HtmlTag)tag).getAttribute("id") +
+               "\" class=\""  + ((HtmlTag)tag).getAttribute("class") + "\">";
     }
 
     //========================================================================
@@ -1015,7 +1019,15 @@ public class BlockBox extends ElementBox
         for (int i = 0; i < getSubBoxNumber(); i++)
         {
             int nexty = stat.y; //y coordinate after positioning the subbox
-            BlockBox subbox = (BlockBox) getSubBox(i);
+
+            Box tmpBox = getSubBox(i);
+
+            if(!(tmpBox instanceof BlockBox)) {
+                log.error("Box should be of type BlockBox but is of type " + tmpBox.getClass().getName() + " : " + tmpBox.toString(), tmpBox);
+                continue;
+            }
+
+            BlockBox subbox = (BlockBox) tmpBox;
 
             if (subbox.isDisplayed())
             {

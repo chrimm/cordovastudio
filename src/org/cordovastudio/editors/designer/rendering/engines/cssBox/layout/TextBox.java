@@ -16,13 +16,17 @@
  * along with CSSBox. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 5. �nor 2006, 13:42
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
  */
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.xml.XmlText;
 import cz.vutbr.web.css.CSSProperty;
 import cz.vutbr.web.css.CSSProperty.TextTransform;
-import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.awt.font.TextAttribute;
@@ -31,71 +35,102 @@ import java.text.AttributedString;
 /**
  * A box that corresponds to a text node.
  *
- * @author  radek
+ * @author radek
  */
-public class TextBox extends Box implements Inline
-{
-    /** Assigned text node */
-    protected Text textNode;
-    
-    /** Text string after whitespace processing */
+public class TextBox extends Box implements Inline {
+    /**
+     * Assigned text node
+     */
+    protected XmlText textNode;
+
+    /**
+     * Text string after whitespace processing
+     */
     protected String text;
-    
-    /** The start index of the text substring to be displayed */
+
+    /**
+     * The start index of the text substring to be displayed
+     */
     protected int textStart;
 
-    /** The end index of the text substring to be displayed (excl) */
+    /**
+     * The end index of the text substring to be displayed (excl)
+     */
     protected int textEnd;
 
-    /** Maximal total width */
+    /**
+     * Maximal total width
+     */
     protected int maxwidth;
-    
-    /** Minimal total width */
+
+    /**
+     * Minimal total width
+     */
     protected int minwidth;
-    
-    /** Indicates whether to ignore initial whitespaces */
+
+    /**
+     * Indicates whether to ignore initial whitespaces
+     */
     protected boolean ignoreinitialws;
-    
-    /** Indicates whether to collapse whitespaces at all */
+
+    /**
+     * Indicates whether to collapse whitespaces at all
+     */
     protected boolean collapsews;
-    
-    /** Indicates whether it is allowed to split on whitespace */
+
+    /**
+     * Indicates whether it is allowed to split on whitespace
+     */
     protected boolean splitws;
-    
-    /** Indicatew whether it line feeds should be treated as whitespace */
+
+    /**
+     * Indicatew whether it line feeds should be treated as whitespace
+     */
     protected boolean linews;
-    
-    /** When line feeds are preserved, this contains the maximal length of the first line of the text. */
+
+    /**
+     * When line feeds are preserved, this contains the maximal length of the first line of the text.
+     */
     protected int firstLineLength;
-    
-    /** When line feeds are preserved, this contains the maximal length of the last line of the text. */
+
+    /**
+     * When line feeds are preserved, this contains the maximal length of the last line of the text.
+     */
     protected int lastLineLength;
-    
-    /** Contains the maximal length of the longest line of the text. */
+
+    /**
+     * Contains the maximal length of the longest line of the text.
+     */
     protected int longestLineLength;
-    
-    /** Contains a preserved line break? */
+
+    /**
+     * Contains a preserved line break?
+     */
     protected boolean containsLineBreak;
-    
-    /** Layout finished with a line break? */
+
+    /**
+     * Layout finished with a line break?
+     */
     protected boolean lineBreakStop;
-    
-    /** Used text transformation */
+
+    /**
+     * Used text transformation
+     */
     protected CSSProperty.TextTransform transform;
-    
-    
+
+
     //===================================================================
-    
+
     /**
      * Creates a new TextBox formed by a DOM text node.
-     * @param n the corresponding DOM text node
-     * @param g the graphics context used for rendering
-     * @param ctx current visual context
+     *
+     * @param textElement the corresponding DOM text node
+     * @param g           the graphics context used for rendering
+     * @param ctx         current visual context
      */
-    public TextBox(Text n, Graphics2D g, VisualContext ctx)
-    {
-        super(n, g, ctx);
-        textNode = n;
+    public TextBox(XmlText textElement, Graphics2D g, VisualContext ctx) {
+        super(textElement, g, ctx);
+        textNode = textElement;
         transform = TextTransform.NONE;
         setWhiteSpace(ElementBox.WHITESPACE_NORMAL); //resets the text content and indices
 
@@ -109,10 +144,10 @@ public class TextBox extends Box implements Inline
 
     /**
      * Copy all the values from another text box.
+     *
      * @param src the source text box
      */
-    public void copyValues(TextBox src)
-    {
+    public void copyValues(TextBox src) {
         super.copyValues(src);
         text = new String(src.text);
         ignoreinitialws = false; //only the first box should ignore
@@ -128,31 +163,27 @@ public class TextBox extends Box implements Inline
 
     /**
      * Create a new box from the same DOM node in the same context
+     *
      * @return the new TextBox
      */
-    public TextBox copyTextBox()
-    {
+    public TextBox copyTextBox() {
         TextBox ret = new TextBox(textNode, g, ctx);
         ret.copyValues(this);
         return ret;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "Text: " + text + "<" + textStart + "," + textEnd + ">";
     }
 
     @Override
-    public void initBox()
-    {
+    public void initBox() {
     }
 
     @Override
-    public void setParent(ElementBox parent)
-    {
+    public void setParent(ElementBox parent) {
         super.setParent(parent);
-        if (getParent() != null)
-        {
+        if (getParent() != null) {
             //load the relevant style values
             transform = getParent().getStyle().getProperty("text-transform");
             if (transform == null)
@@ -168,8 +199,7 @@ public class TextBox extends Box implements Inline
      * @return the text contained in this box
      */
     @Override
-    public String getText()
-    {
+    public String getText() {
         if (text != null)
             return text.substring(textStart, textEnd);
         else
@@ -177,14 +207,12 @@ public class TextBox extends Box implements Inline
     }
 
     @Override
-    public boolean isDeclaredVisible()
-    {
+    public boolean isDeclaredVisible() {
         return true;
     }
 
     @Override
-    public boolean isDisplayed()
-    {
+    public boolean isDisplayed() {
         if (getParent() == null)
             return true;
         else
@@ -192,8 +220,7 @@ public class TextBox extends Box implements Inline
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         if (getParent() == null)
             return true;
         else
@@ -206,9 +233,8 @@ public class TextBox extends Box implements Inline
      * Sets the whitespace processing for this box. The text content is then treated accordingly. The text start and text end
      * indices are reset to their initial values.
      */
-    public void setWhiteSpace(CSSProperty.WhiteSpace value)
-    {
-        splitws = (value == ElementBox.WHITESPACE_NORMAL || value == ElementBox.WHITESPACE_PRE_WRAP || value== ElementBox.WHITESPACE_PRE_LINE);
+    public void setWhiteSpace(CSSProperty.WhiteSpace value) {
+        splitws = (value == ElementBox.WHITESPACE_NORMAL || value == ElementBox.WHITESPACE_PRE_WRAP || value == ElementBox.WHITESPACE_PRE_LINE);
         collapsews = (value == ElementBox.WHITESPACE_NORMAL || value == ElementBox.WHITESPACE_NOWRAP || value == ElementBox.WHITESPACE_PRE_LINE);
         linews = (value == ElementBox.WHITESPACE_NORMAL || value == ElementBox.WHITESPACE_NOWRAP);
         //When this is the original box, apply the whitespace. For the copied boxes, the whitespace has been already applied (they contain
@@ -220,48 +246,40 @@ public class TextBox extends Box implements Inline
         minwidth = computeMinimalWidth();
         maxwidth = computeMaximalWidth();
     }
-    
+
     /**
      * Applies the whitespace processing represented by the {@link #collapsews} property to the text content. The text start and text end
      * indices are reset to their initial values.
      */
-    private void applyWhiteSpace()
-    {
-        text = applyTransformations(collapseWhitespaces(node.getNodeValue()));
+    private void applyWhiteSpace() {
+        text = applyTransformations(collapseWhitespaces(node.getText()));
         textStart = 0;
         textEnd = text.length();
         isempty = (textEnd == 0);
     }
-    
+
     /**
      * Applies the whitespace removal rules used in HTML.
+     *
      * @param src source string
      * @return a new string with additional whitespaces removed
      */
-    private String collapseWhitespaces(String src)
-    {
+    private String collapseWhitespaces(String src) {
         StringBuffer ret = new StringBuffer();
         boolean inws = false;
-        for (int i = 0; i < src.length(); i++)
-        {
+        for (int i = 0; i < src.length(); i++) {
             char ch = src.charAt(i);
-            if (collapsews && isWhitespace(ch))
-            {
-                if (!inws)
-                {
+            if (collapsews && isWhitespace(ch)) {
+                if (!inws) {
                     ret.append(' ');
                     inws = true;
                 }
-            }
-            else if (isLineBreak(ch))
-            {
-            	ret.append('\r'); //represent all line breaks as LF
-            	//reduce eventual CR+LF to CR only
-            	if (ch == '\r' && i+1 < src.length() && src.charAt(i+1) == '\n')
-            		i++;
-            }
-            else
-            {
+            } else if (isLineBreak(ch)) {
+                ret.append('\r'); //represent all line breaks as LF
+                //reduce eventual CR+LF to CR only
+                if (ch == '\r' && i + 1 < src.length() && src.charAt(i + 1) == '\n')
+                    i++;
+            } else {
                 inws = false;
                 ret.append(ch);
             }
@@ -271,13 +289,12 @@ public class TextBox extends Box implements Inline
 
     /**
      * Applies the text transformations to a string according to the current style.
+     *
      * @param src The source string
-     * @return the string after transformations 
+     * @return the string after transformations
      */
-    private String applyTransformations(String src)
-    {
-        switch (transform)
-        {
+    private String applyTransformations(String src) {
+        switch (transform) {
             case LOWERCASE:
                 return src.toLowerCase();
             case UPPERCASE:
@@ -285,13 +302,11 @@ public class TextBox extends Box implements Inline
             case CAPITALIZE:
                 StringBuilder ret = new StringBuilder(src.length());
                 boolean ws = true;
-                for (int i = 0; i < src.length(); i++)
-                {
+                for (int i = 0; i < src.length(); i++) {
                     char ch = src.charAt(i);
                     if (Character.isWhitespace(ch))
                         ws = true;
-                    else
-                    {
+                    else {
                         if (ws)
                             ch = Character.toUpperCase(ch);
                         ws = false;
@@ -303,280 +318,241 @@ public class TextBox extends Box implements Inline
                 return src;
         }
     }
-    
+
     /**
-     * Removes the trailing whitespaces from the cotnained text string. This must be done before the layout (it resets the text start and end pointers). 
+     * Removes the trailing whitespaces from the cotnained text string. This must be done before the layout (it resets the text start and end pointers).
      */
-    public void removeTrailingWhitespaces()
-    {
+    public void removeTrailingWhitespaces() {
         int last = -1;
-        for (int i = text.length() - 1; i >= 0; i--)
-        {
+        for (int i = text.length() - 1; i >= 0; i--) {
             if (isWhitespace(text.charAt(i)))
                 last = i;
             else
                 break;
         }
-        if (last != -1)
-        {
+        if (last != -1) {
             text = text.substring(0, last);
             textStart = 0;
             textEnd = last;
         }
     }
-    
+
     /**
      * @return the start offset in the text string
-     */ 
-    protected int getTextStart()
-    {
+     */
+    protected int getTextStart() {
         return textStart;
     }
-    
+
     /**
      * @param index the start offset in the text string
-     */ 
-    protected void setTextStart(int index)
-    {
+     */
+    protected void setTextStart(int index) {
         textStart = index;
     }
-    
+
     /**
      * @return the end offset in the text string (not included)
-     */ 
-    protected int getTextEnd()
-    {
+     */
+    protected int getTextEnd() {
         return textEnd;
     }
-    
+
     /**
      * @param index the end offset in the text string (not included)
-     */ 
-    protected void setTextEnd(int index)
-    {
+     */
+    protected void setTextEnd(int index) {
         textEnd = index;
     }
-    
-	@Override
-    public boolean affectsDisplay()
-    {
+
+    @Override
+    public boolean affectsDisplay() {
         return !isEmpty();
     }
-    
-	@Override
-    public boolean isWhitespace()
-    {
-		//after wihtespace processing, all whitespaces should be represented by ' '
-		String s = getText();
-		for (int i = 0; i < s.length(); i++)
-			if (s.charAt(i) != ' ')
-				return false;
-		return true;
-    }
-    
+
     @Override
-    public boolean collapsesSpaces()
-    {
+    public boolean isWhitespace() {
+        //after wihtespace processing, all whitespaces should be represented by ' '
+        String s = getText();
+        for (int i = 0; i < s.length(); i++)
+            if (s.charAt(i) != ' ')
+                return false;
+        return true;
+    }
+
+    @Override
+    public boolean collapsesSpaces() {
         return collapsews;
     }
-    
+
     @Override
-    public boolean preservesLineBreaks()
-    {
+    public boolean preservesLineBreaks() {
         return !linews;
     }
 
     @Override
-    public boolean allowsWrapping()
-    {
+    public boolean allowsWrapping() {
         return splitws;
     }
 
     @Override
-    public int getContentX() 
-    {
+    public int getContentX() {
         return bounds.x;
     }
-    
-	@Override
-    public int getAbsoluteContentX() 
-    {
+
+    @Override
+    public int getAbsoluteContentX() {
         return absbounds.x;
     }
-    
-	@Override
-    public int getContentY() 
-    {
+
+    @Override
+    public int getContentY() {
         return bounds.y;
     }
 
-	@Override
-    public int getAbsoluteContentY() 
-    {
+    @Override
+    public int getAbsoluteContentY() {
         return absbounds.y;
     }
 
-	@Override
-    public int getContentWidth() 
-    {
+    @Override
+    public int getContentWidth() {
         return bounds.width;
     }
-    
-	@Override
-    public int getContentHeight() 
-    {
+
+    @Override
+    public int getContentHeight() {
         return bounds.height;
     }
 
-	@Override
-    public int getAvailableContentWidth() 
-    {
+    @Override
+    public int getAvailableContentWidth() {
         return availwidth;
     }
-    
-    public int getLineHeight()
-    {
+
+    public int getLineHeight() {
         return parent.getLineHeight();
     }
-    
-    public int getMaxLineHeight()
-    {
+
+    public int getMaxLineHeight() {
         return parent.getLineHeight();
     }
-    
-    public int getTotalLineHeight()
-    {
+
+    public int getTotalLineHeight() {
         return ctx.getFontHeight();
     }
 
-    public int getBaselineOffset()
-    {
+    public int getBaselineOffset() {
         return ctx.getBaselineOffset();
     }
-    
-    public int getBelowBaseline()
-    {
+
+    public int getBelowBaseline() {
         return ctx.getFontHeight() - ctx.getBaselineOffset();
     }
-    
-    public int getHalfLead()
-    {
+
+    public int getHalfLead() {
         return 0;
     }
-    
+
     @Override
-    public int totalHeight() 
-    {
+    public int totalHeight() {
         return bounds.width;
     }
-    
-	@Override
-    public int totalWidth() 
-    {
+
+    @Override
+    public int totalWidth() {
         return bounds.height;
     }
-    
-	@Override
-    public Rectangle getMinimalAbsoluteBounds()
-    {
-    	return absbounds;
-    }
-    
-	@Override
-    public boolean isInFlow()
-	{
-		return true;
-	}
-	
-	@Override
-	public boolean containsFlow()
-	{
-		return false;
-	}
-	
+
     @Override
-    public boolean canSplitInside()
-    {
+    public Rectangle getMinimalAbsoluteBounds() {
+        return absbounds;
+    }
+
+    @Override
+    public boolean isInFlow() {
+        return true;
+    }
+
+    @Override
+    public boolean containsFlow() {
+        return false;
+    }
+
+    @Override
+    public boolean canSplitInside() {
         return (getText().indexOf(' ') != -1);
     }
-    
+
     @Override
-    public boolean canSplitBefore()
-    {
+    public boolean canSplitBefore() {
         if (textEnd > textStart)
-        	return (text.charAt(textStart) == ' ' ||
-        			(textStart > 0 && text.charAt(textStart-1) == ' '));
+            return (text.charAt(textStart) == ' ' ||
+                    (textStart > 0 && text.charAt(textStart - 1) == ' '));
         else
-        	return false;
+            return false;
     }
-    
+
     @Override
-    public boolean canSplitAfter()
-    {
+    public boolean canSplitAfter() {
         if (textEnd > textStart)
-	        return (text.charAt(textEnd-1) == ' ' ||
-	                (textEnd < text.length() && text.charAt(textEnd) == ' '));
+            return (text.charAt(textEnd - 1) == ' ' ||
+                    (textEnd < text.length() && text.charAt(textEnd) == ' '));
         else
-        	return false;
+            return false;
     }
-    
+
     @Override
-    public boolean startsWithWhitespace()
-    {
+    public boolean startsWithWhitespace() {
         if (textEnd > textStart)
             return (Character.isWhitespace(text.charAt(textStart)));
         else
             return false;
     }
-    
+
     @Override
-    public boolean endsWithWhitespace()
-    {
+    public boolean endsWithWhitespace() {
         if (textEnd > textStart)
-            return (Character.isWhitespace(text.charAt(textEnd-1)));
+            return (Character.isWhitespace(text.charAt(textEnd - 1)));
         else
             return false;
     }
-    
+
     @Override
-    public void setIgnoreInitialWhitespace(boolean b)
-    {
+    public void setIgnoreInitialWhitespace(boolean b) {
         this.ignoreinitialws = b;
     }
-    
-	@Override
-	public boolean hasFixedWidth()
-	{
-		return false; //the width depends on the content
-	}
 
-	@Override
-	public boolean hasFixedHeight()
-	{
-		return false;
-	}
+    @Override
+    public boolean hasFixedWidth() {
+        return false; //the width depends on the content
+    }
+
+    @Override
+    public boolean hasFixedHeight() {
+        return false;
+    }
 
     //=======================================================================
-    
-	/** 
-	 * Compute the width and height of this element. Layout the sub-elements.
+
+    /**
+     * Compute the width and height of this element. Layout the sub-elements.
+     *
      * @param widthlimit Maximal width available for the element
-     * @param force Use the area even if the used width is greater than maxwidth
-     * @param linestart Indicates whether the element is placed at the line start
+     * @param force      Use the area even if the used width is greater than maxwidth
+     * @param linestart  Indicates whether the element is placed at the line start
      * @return <code>true</code> if the box has been succesfully placed
      */
-	@Override
-    public boolean doLayout(int widthlimit, boolean force, boolean linestart)
-    {
+    @Override
+    public boolean doLayout(int widthlimit, boolean force, boolean linestart) {
         //Skip if not displayed
-        if (!displayed)
-        {
+        if (!displayed) {
             bounds.setSize(0, 0);
             return true;
         }
-        
+
         setAvailableWidth(widthlimit);
-        
+
         boolean split = false; //should we split to more boxes?
         boolean allow = false; //allow succesfull result even if nothing has been placed (line break only)
         boolean fail = false; //failed totally (nothing fit)
@@ -584,16 +560,16 @@ public class TextBox extends Box implements Inline
         boolean empty = isempty;
         FontMetrics fm = g.getFontMetrics();
         int w = 0, h = 0;
-        
+
         int end = textEnd;
         int lineend = text.indexOf('\r', textStart);
         if (lineend != -1 && lineend < end) //preserved end-of-line encountered
         {
-        	end = lineend; //split at line end (or earlier)
-        	split = true;
-        	allow = true;
+            end = lineend; //split at line end (or earlier)
+            split = true;
+            allow = true;
         }
-        
+
         if (!empty || !linestart) //ignore empty text elements at the begining of a line
         {
             //ignore spaces at the begining of a line
@@ -601,34 +577,33 @@ public class TextBox extends Box implements Inline
                 while (textStart < end && isWhitespace(text.charAt(textStart)))
                     textStart++;
             //try to place the text
-            do
-            {
+            do {
                 w = fm.stringWidth(text.substring(textStart, end));
                 h = fm.getHeight();
                 if (w > wlimit) //exceeded - try to split if allowed
                 {
                     if (empty) //empty or just spaces - don't place at all
                     {
-                        w = 0; h = 0; split = false; break;
+                        w = 0;
+                        h = 0;
+                        split = false;
+                        break;
                     }
                     int wordend = text.substring(0, end).lastIndexOf(' '); //find previous word
-                    while (wordend > 0 && text.charAt(wordend-1) == ' ') wordend--; //skip trailing spaces
+                    while (wordend > 0 && text.charAt(wordend - 1) == ' ') wordend--; //skip trailing spaces
                     if (wordend <= textStart || !splitws) //no previous word, cannot split or splitting not allowed
                     {
                         if (!force) //everything failed
                         {
-                        	//System.out.println("Here for " + this);
+                            //System.out.println("Here for " + this);
                             end = textEnd; //we will try with the whole rest next time
-                            split = false; 
+                            split = false;
                             allow = false; //split before the linebreak
                             fail = true;
-                        }
-                        else
+                        } else
                             split = true;
                         break;
-                    }
-                    else
-                    {
+                    } else {
                         end = wordend;
                         split = true;
                     }
@@ -637,162 +612,135 @@ public class TextBox extends Box implements Inline
         }
         textEnd = end;
         bounds.setSize(w, h);
-        
+
         //if not the whole element was placed, create the rest
-        if (split)
-        {
+        if (split) {
             //skip the eventual line break
             int start = textEnd;
-            if (start < text.length() && isLineBreak(text.charAt(start)))
-            {
+            if (start < text.length() && isLineBreak(text.charAt(start))) {
                 start++;
                 lineBreakStop = true;
             }
             //find the start of the next word
-            if (collapsews)
-            {
+            if (collapsews) {
                 while (start < text.length() && isWhitespace(text.charAt(start)))
                     start++;
             }
             //create the rest if something has left
-            if (start < text.length())
-            {
+            if (start < text.length()) {
                 TextBox rtext = copyTextBox();
                 rtext.splitted = true;
                 rtext.splitid = splitid + 1;
                 rtext.setTextStart(start);
                 rtext.setTextEnd(text.length());
                 rest = rtext;
-            }
-            else
+            } else
                 rest = null;
-        }
-        else
+        } else
             rest = null;
-        
+
         return !fail && ((textEnd > textStart) || empty || allow);
     }
-    
-	@Override
-    public void absolutePositions()
-    {
-	    updateStackingContexts();
-        if (displayed)
-        {
+
+    @Override
+    public void absolutePositions() {
+        updateStackingContexts();
+        if (displayed) {
             //my top left corner
             absbounds.x = getParent().getAbsoluteContentX() + bounds.x;
             absbounds.y = getParent().getAbsoluteContentY() + bounds.y;
-	        absbounds.width = bounds.width;
-	        absbounds.height = bounds.height;
+            absbounds.width = bounds.width;
+            absbounds.height = bounds.height;
         }
     }
-    
-	@Override
-    public int getMinimalWidth()
-    {
-		return minwidth;
+
+    @Override
+    public int getMinimalWidth() {
+        return minwidth;
     }
-	
-    private int computeMinimalWidth()
-    {
+
+    private int computeMinimalWidth() {
         int ret = 0;
         String t = getText();
-        if (t.length() > 0)
-        {
-            if (splitws)
-            {
+        if (t.length() > 0) {
+            if (splitws) {
                 //wrapping allowed - returns the length of the longest word
                 ret = getLongestWord();
-            }
-            else
-            {
-            	//cannot wrap - return the width of the whole string
+            } else {
+                //cannot wrap - return the width of the whole string
                 ret = longestLineLength;
             }
         }
         return ret;
     }
-    
-	@Override
-    public int getMaximalWidth()
-    {
-		return maxwidth;
+
+    @Override
+    public int getMaximalWidth() {
+        return maxwidth;
     }
-	
-    private int computeMaximalWidth()
-    {
-        if (linews)
-        {
+
+    private int computeMaximalWidth() {
+        if (linews) {
             //no preserved line breaks -- returns the lenth of the whole string
             int len = g.getFontMetrics().stringWidth(getText());
             firstLineLength = len;
             lastLineLength = len;
             longestLineLength = len;
             return len;
-        }
-        else
-        {
+        } else {
             return longestLineLength;
         }
     }
-    
-    private int getLongestWord()
-    {
+
+    private int getLongestWord() {
         int ret = 0;
         String t = getText();
         FontMetrics fm = g.getFontMetrics();
-        
+
         int s1 = 0;
         int s2 = t.indexOf(' ');
-        do
-        {
+        do {
             if (s2 == -1) s2 = t.length();
             int w = fm.stringWidth(t.substring(s1, s2));
             if (w > ret) ret = w;
             s1 = s2 + 1;
             s2 = t.indexOf(' ', s1);
         } while (s1 < t.length() && s2 < t.length());
-        
+
         return ret;
     }
 
-    public int getFirstLineLength()
-    {
+    public int getFirstLineLength() {
         return firstLineLength;
     }
 
-    public int getLastLineLength()
-    {
+    public int getLastLineLength() {
         return lastLineLength;
     }
 
-    public boolean containsLineBreak()
-    {
+    public boolean containsLineBreak() {
         return containsLineBreak;
     }
-    
-    public boolean finishedByLineBreak()
-    {
+
+    public boolean finishedByLineBreak() {
         return lineBreakStop;
     }
 
     /**
      * Computes the lengths of the first, last and longest lines.
      */
-    protected void computeLineLengths()
-    {
+    protected void computeLineLengths() {
         firstLineLength = -1;
         lastLineLength = 0;
         longestLineLength = 0;
-        
+
         String t = getText();
         FontMetrics fm = g.getFontMetrics();
-        
+
         int s1 = 0;
         int s2 = t.indexOf('\r');
         int w = 0;
-        do
-        {
+        do {
             if (s2 == -1)
                 s2 = t.length();
             else
@@ -806,27 +754,25 @@ public class TextBox extends Box implements Inline
         lastLineLength = w;
     }
 
-    /** 
+    /**
      * Draw the text content of this box (no subboxes)
+     *
      * @param g the graphics context to draw on
      */
-    public void drawContent(Graphics2D g)
-    {
+    public void drawContent(Graphics2D g) {
         //top left corner
         int x = absbounds.x;
         int y = absbounds.y;
 
         //Draw the string
-        if (textEnd > textStart)
-        {
+        if (textEnd > textStart) {
             String t = text.substring(textStart, textEnd);
             Shape oldclip = g.getClip();
             if (clipblock != null)
                 g.setClip(applyClip(oldclip, clipblock.getClippedContentBounds()));
             ctx.updateGraphics(g);
-            
-            if (!ctx.getTextDecoration().isEmpty()) 
-            {
+
+            if (!ctx.getTextDecoration().isEmpty()) {
                 AttributedString as = new AttributedString(t);
                 as.addAttribute(TextAttribute.FONT, ctx.getFont());
                 if (ctx.getTextDecoration().contains(CSSProperty.TextDecoration.UNDERLINE))
@@ -834,29 +780,24 @@ public class TextBox extends Box implements Inline
                 if (ctx.getTextDecoration().contains(CSSProperty.TextDecoration.LINE_THROUGH))
                     as.addAttribute(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
                 g.drawString(as.getIterator(), x, y + getBaselineOffset());
-            } 
-            else
+            } else
                 g.drawString(t, x, y + getBaselineOffset());
-            
+
             g.setClip(oldclip);
         }
     }
-    
-	@Override
-    public void draw(DrawStage turn)
-    {
-        if (displayed && isVisible())
-        {
-            if (turn == DrawStage.DRAW_INLINE)
-            {
+
+    @Override
+    public void draw(DrawStage turn) {
+        if (displayed && isVisible()) {
+            if (turn == DrawStage.DRAW_INLINE) {
                 getViewport().getRenderer().renderTextContent(this);
             }
         }
     }
-    
-	@Override
-    public void drawExtent(Graphics2D g)
-    {
+
+    @Override
+    public void drawExtent(Graphics2D g) {
         //draw the full box
         g.setColor(Color.ORANGE);
         g.drawRect(absbounds.x, absbounds.y, bounds.width, bounds.height);
@@ -872,47 +813,47 @@ public class TextBox extends Box implements Inline
                 System.out.print("*");
         }
         System.out.println();*/
-        
+
         g.setColor(Color.MAGENTA);
         int y = getAbsoluteContentY();
         int h = getTotalLineHeight();
-            
+
         g.drawRect(getAbsoluteContentX(), y, getContentWidth(), h);
-        
+
         g.setColor(Color.BLUE);
         y = getAbsoluteContentY() + getBaselineOffset();
         g.drawRect(getAbsoluteContentX(), y, getContentWidth(), 1);
-        
-        
+
+
     }
-	
-	//===============================================================================
-	
-	/**
-	 * Checks if a character can be interpreted as whitespace according to current settings.
-	 * @param ch the character
-	 * @return <code>true</code> when <code>ch</code> is a whitespace character
-	 */
-    private boolean isWhitespace(char ch)
-    {
-        if (linews) 
+
+    //===============================================================================
+
+    /**
+     * Checks if a character can be interpreted as whitespace according to current settings.
+     *
+     * @param ch the character
+     * @return <code>true</code> when <code>ch</code> is a whitespace character
+     */
+    private boolean isWhitespace(char ch) {
+        if (linews)
             return Character.isWhitespace(ch);
         else
             return ch != '\n' && ch != '\r' && Character.isWhitespace(ch);
     }
-    
+
     /**
      * Checks if a character can be interpreted as a line break according to current settings.
+     *
      * @param ch the character
      * @return <code>true</code> when <code>ch</code> is the line break
      */
-    private boolean isLineBreak(char ch)
-    {
+    private boolean isLineBreak(char ch) {
         if (linews)
             return false;
         else
             return (ch == '\r' || ch == '\n');
     }
-    
+
 
 }

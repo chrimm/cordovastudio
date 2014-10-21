@@ -1,704 +1,660 @@
+/*
+ * Copyright (c) 2008-2014 Radek Burget
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
+ */
+
 package cz.vutbr.web.domassign;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.intellij.psi.html.HtmlTag;
+import com.intellij.psi.xml.XmlDocument;
+import cz.vutbr.web.css.*;
+import cz.vutbr.web.css.Selector.PseudoDeclaration;
+import cz.vutbr.web.csskit.TagUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.traversal.NodeFilter;
-import org.w3c.dom.traversal.TreeWalker;
 
-import cz.vutbr.web.css.CSSFactory;
-import cz.vutbr.web.css.CombinedSelector;
-import cz.vutbr.web.css.Declaration;
-import cz.vutbr.web.css.MediaQuery;
-import cz.vutbr.web.css.MediaSpec;
-import cz.vutbr.web.css.NodeData;
-import cz.vutbr.web.css.Rule;
-import cz.vutbr.web.css.RuleMedia;
-import cz.vutbr.web.css.RuleSet;
-import cz.vutbr.web.css.Selector;
-import cz.vutbr.web.css.StyleSheet;
-import cz.vutbr.web.css.Selector.PseudoDeclaration;
-import cz.vutbr.web.csskit.ElementUtil;
+import java.util.*;
 
 /**
  * Analyzer allows to apply the given style to any document.
  * During the initialization, it divides rules of stylesheet into maps accoring to
  * medias and their type. Afterwards, it is able to return CSS declaration for any
  * DOM tree and media. It allows to use or not to use inheritance.
- * 
+ *
  * @author Karel Piwko 2008
  * @author Radek Burget 2008-2014
- * 
  */
 public class Analyzer {
 
-	private static final Logger log = LoggerFactory.getLogger(Analyzer.class);
+    private static final Logger log = LoggerFactory.getLogger(Analyzer.class);
 
-	/** The style sheets to be processed. */
-	protected List<StyleSheet> sheets;
-	
-	/**
-	 * Holds maps of declared rules classified into groups of
-	 * HolderItem (ID, CLASS, ELEMENT, OTHER).
-	 */
-	protected Holder rules;
+    /**
+     * The style sheets to be processed.
+     */
+    protected List<StyleSheet> sheets;
 
-	/**
-	 * Creates the analyzer for a single style sheet.
-	 * @param sheet The stylesheet that will be used as the source of rules.
-	 */
-	public Analyzer(StyleSheet sheet) {
-	    sheets = new ArrayList<StyleSheet>(1);
-	    sheets.add(sheet);
-	}
+    /**
+     * Holds maps of declared rules classified into groups of
+     * HolderItem (ID, CLASS, ELEMENT, OTHER).
+     */
+    protected Holder rules;
 
-	/**
-	 * Creates the analyzer for multiple style sheets.
-	 * @param sheets A list of stylesheets that will be used as the source of rules.
-	 */
-	public Analyzer(List<StyleSheet> sheets) {
-	    this.sheets = sheets;
-	}
-	
-	/**
-	 * Evaluates CSS properties of DOM tree
-	 * 
-	 * @param doc
-	 *            Document tree
-	 * @param media
-	 *            Media
-	 * @param inherit
-	 *            Use inheritance
-	 * @return Map where each element contains its CSS properties
-	 */
-	public StyleMap evaluateDOM(Document doc, MediaSpec media, final boolean inherit) {
+    /**
+     * Creates the analyzer for a single style sheet.
+     *
+     * @param sheet The stylesheet that will be used as the source of rules.
+     */
+    public Analyzer(StyleSheet sheet) {
+        sheets = new ArrayList<StyleSheet>(1);
+        sheets.add(sheet);
+    }
 
-		DeclarationMap declarations = assingDeclarationsToDOM(doc, media, inherit);
+    /**
+     * Creates the analyzer for multiple style sheets.
+     *
+     * @param sheets A list of stylesheets that will be used as the source of rules.
+     */
+    public Analyzer(List<StyleSheet> sheets) {
+        this.sheets = sheets;
+    }
 
-		StyleMap nodes = new StyleMap(declarations.size());
+    /**
+     * Evaluates CSS properties of DOM tree
+     *
+     * @param doc     Document tree
+     * @param media   Media
+     * @param inherit Use inheritance
+     * @return Map where each element contains its CSS properties
+     */
+    public StyleMap evaluateDOM(XmlDocument doc, MediaSpec media, final boolean inherit) {
 
-		Traversal<StyleMap> traversal = new Traversal<StyleMap>(
-				doc, (Object) declarations, NodeFilter.SHOW_ELEMENT) {
-			
-			@Override
-			protected void processNode(StyleMap result, Node current, Object source) {
+        DeclarationMap declarations = assingDeclarationsToDOM(doc, media, inherit);
 
-			    NodeData main = CSSFactory.createNodeData();
-			    
-				// for all declarations available in the main list (pseudo=null)
-				List<Declaration> declarations = ((DeclarationMap) source).get((Element) current, null);
-				if (declarations != null) 
-				{
-					for (Declaration d : declarations) {
-						main.push(d);
-					}
-					if (inherit)
-						main.inheritFrom(result.get((Element) walker.parentNode(), null));
-				}
-				// concretize values and store them
-				result.put((Element) current, null, main.concretize());
-				
-				//repeat for the pseudo classes (if any)
-				for (PseudoDeclaration pseudo : ((DeclarationMap) source).pseudoSet((Element) current))
-				{
-				    NodeData pdata = CSSFactory.createNodeData();
-	                declarations = ((DeclarationMap) source).get((Element) current, pseudo);
-	                if (declarations != null) 
-	                {
-	                    for (Declaration d : declarations) {
-	                        pdata.push(d);
-	                    }
+        StyleMap nodes = new StyleMap(declarations.size());
+
+        Traversal<StyleMap> traversal = new Traversal<StyleMap>(doc, (Object) declarations) {
+
+            @Override
+            protected void processTag(StyleMap result, HtmlTag current, Object source) {
+
+                NodeData main = CSSFactory.createNodeData();
+
+                // for all declarations available in the main list (pseudo=null)
+                List<Declaration> declarations = ((DeclarationMap) source).get(current, null);
+                if (declarations != null) {
+                    for (Declaration d : declarations) {
+                        main.push(d);
+                    }
+                    if (inherit)
+                        main.inheritFrom(result.get(walker.parentTag(), null));
+                }
+                // concretize values and store them
+                result.put(current, null, main.concretize());
+
+                //repeat for the pseudo classes (if any)
+                for (PseudoDeclaration pseudo : ((DeclarationMap) source).pseudoSet(current)) {
+                    NodeData pdata = CSSFactory.createNodeData();
+                    declarations = ((DeclarationMap) source).get(current, pseudo);
+                    if (declarations != null) {
+                        for (Declaration d : declarations) {
+                            pdata.push(d);
+                        }
                         pdata.inheritFrom(main); //always inherit from the main element style
-	                }
-	                // concretize values and store them
-	                result.put((Element) current, pseudo, pdata.concretize());
-				}
-				
-			}
-		};
+                    }
+                    // concretize values and store them
+                    result.put(current, pseudo, pdata.concretize());
+                }
 
-		traversal.levelTraversal(nodes);
+            }
+        };
 
-		return nodes;
-	}
+        traversal.levelTraversal(nodes);
 
-   public StyleMap evaluateDOM(Document doc, String media, final boolean inherit) {
-       return evaluateDOM(doc, new MediaSpec(media), inherit);
-   }
+        return nodes;
+    }
 
-	/**
-	 * Creates map of declarations assigned to each element of a DOM tree
-	 * 
-	 * @param doc
-	 *            DOM document
-	 * @param media
-	 *            Media type to be used for declarations
-	 * @param inherit
-	 *            Inheritance (cascade propagation of values)
-	 * @return Map of elements as keys and their declarations
-	 */
-	protected DeclarationMap assingDeclarationsToDOM(Document doc, MediaSpec media, final boolean inherit) {
+    public StyleMap evaluateDOM(XmlDocument doc, String media, final boolean inherit) {
+        return evaluateDOM(doc, new MediaSpec(media), inherit);
+    }
 
-		// classify the rules
-	    classifyAllSheets(media);
-		
-		// resulting map
-		DeclarationMap declarations = new DeclarationMap();
-		
+    /**
+     * Creates map of declarations assigned to each element of a DOM tree
+     *
+     * @param doc     DOM document
+     * @param media   Media type to be used for declarations
+     * @param inherit Inheritance (cascade propagation of values)
+     * @return Map of elements as keys and their declarations
+     */
+    protected DeclarationMap assingDeclarationsToDOM(XmlDocument doc, MediaSpec media, final boolean inherit) {
+
+        // classify the rules
+        classifyAllSheets(media);
+
+        // resulting map
+        DeclarationMap declarations = new DeclarationMap();
+
         // if the holder is empty skip evaluation
-        if(rules!=null && !rules.isEmpty()) {
-            
-    		Traversal<DeclarationMap> traversal = new Traversal<DeclarationMap>(
-    				doc, (Object) rules, NodeFilter.SHOW_ELEMENT) {
-    			protected void processNode(DeclarationMap result,
-    					Node current, Object source) {
-    				assignDeclarationsToElement(result, walker, (Element) current,
-    						(Holder) source);
-    			}
-    		};
-    
-    		// list traversal will be enough
-    		if (!inherit)
-    			traversal.listTraversal(declarations);
-    		// we will do level traversal to economize blind returning
-    		// in tree
-    		else
-    			traversal.levelTraversal(declarations);
+        if (rules != null && !rules.isEmpty()) {
+
+            Traversal<DeclarationMap> traversal = new Traversal<DeclarationMap>(doc, (Object) rules) {
+                protected void processTag(DeclarationMap result, HtmlTag current, Object source) {
+                    assignDeclarationsToElement(result, walker, current, (Holder) source);
+                }
+            };
+
+            // list traversal will be enough
+            if (!inherit)
+                traversal.listTraversal(declarations);
+                // we will do level traversal to economize blind returning
+                // in tree
+            else
+                traversal.levelTraversal(declarations);
         }
 
-		return declarations;
-	}
+        return declarations;
+    }
 
-	/**
-	 * Assigns declarations to one element.
-	 * 
-	 * @param declarations
-	 *            Declarations of all processed elements
-	 * @param walker
-	 *            Tree walker
-	 * @param e
-	 *            DOM Element
-	 * @param holder
-	 *            Wrap
-	 */
-	protected void assignDeclarationsToElement(
-			DeclarationMap declarations, TreeWalker walker,
-			Element e, Holder holder) {
+    /**
+     * Assigns declarations to one element.
+     *
+     * @param declarations Declarations of all processed elements
+     * @param walker       Tree walker
+     * @param tag          DOM Element
+     * @param holder       Wrap
+     */
+    protected void assignDeclarationsToElement(DeclarationMap declarations, HtmlTreeWalker walker, HtmlTag tag, Holder holder) {
 
-		if(log.isDebugEnabled()) {
-			log.debug("Traversal of {} {}.", e.getNodeName(), e.getNodeValue());
-		}
-		
-		// create set of possible candidates applicable to given element
-		// set is automatically filtered to not contain duplicates
-		Set<RuleSet> candidates = new HashSet<RuleSet>();
+        if (log.isDebugEnabled()) {
+            log.debug("Traversal of {} {}.", tag.getName(), tag.getValue());
+        }
 
-		// match element classes
-		for (String cname : ElementUtil.elementClasses(e)) {
-			// holder contains rule with given class
-			List<RuleSet> rules = holder.get(HolderItem.CLASS, cname.toLowerCase());
-			if (rules != null)
-				candidates.addAll(rules);
-		}
-		log.trace("After CLASSes {} total candidates.", candidates.size());
+        // create set of possible candidates applicable to given element
+        // set is automatically filtered to not contain duplicates
+        Set<RuleSet> candidates = new HashSet<RuleSet>();
 
-		// match IDs
-		String id = ElementUtil.elementID(e);
-		if (id != null && id.length() != 0) {
-			List<RuleSet> rules = holder.get(HolderItem.ID, id.toLowerCase());
-			if (rules != null)
-				candidates.addAll(rules);
-		}
-		log.trace("After IDs {} total candidates.", candidates.size());
-		
-		// match elements
-		String name = ElementUtil.elementName(e);
-		if (name != null) {
-			List<RuleSet> rules = holder.get(HolderItem.ELEMENT, name.toLowerCase());
-			if (rules != null)
-				candidates.addAll(rules);
-		}
-		log.trace("After ELEMENTs {} total candidates.", candidates.size());
+        // match element classes
+        for (String cname : TagUtil.elementClasses(tag)) {
+            // holder contains rule with given class
+            List<RuleSet> rules = holder.get(HolderItem.CLASS, cname.toLowerCase());
+            if (rules != null)
+                candidates.addAll(rules);
+        }
+        log.trace("After CLASSes {} total candidates.", candidates.size());
 
-		// others
-		candidates.addAll(holder.get(HolderItem.OTHER, null));
+        // match IDs
+        String id = TagUtil.elementID(tag);
+        if (id != null && id.length() != 0) {
+            List<RuleSet> rules = holder.get(HolderItem.ID, id.toLowerCase());
+            if (rules != null)
+                candidates.addAll(rules);
+        }
+        log.trace("After IDs {} total candidates.", candidates.size());
 
-		// transform to list to speed up traversal
-		// and sort rules in order as they were found in CSS definition
-		List<RuleSet> clist = new ArrayList<RuleSet>(candidates);
-		Collections.sort(clist);
+        // match elements
+        String name = TagUtil.elementName(tag);
+        if (name != null) {
+            List<RuleSet> rules = holder.get(HolderItem.ELEMENT, name.toLowerCase());
+            if (rules != null)
+                candidates.addAll(rules);
+        }
+        log.trace("After ELEMENTs {} total candidates.", candidates.size());
 
-		log.debug("Totally {} candidates.", candidates.size());
-		log.trace("With values: {}", clist);
+        // others
+        candidates.addAll(holder.get(HolderItem.OTHER, null));
 
-		// resulting list of declaration for this element with no pseudo-selectors (main list)(local cache)
-		List<Declaration> eldecl = new ArrayList<Declaration>();
-		
-		// existing pseudo selectors found
-		Set<PseudoDeclaration> pseudos = new HashSet<PseudoDeclaration>();
+        // transform to list to speed up traversal
+        // and sort rules in order as they were found in CSS definition
+        List<RuleSet> clist = new ArrayList<RuleSet>(candidates);
+        Collections.sort(clist);
 
-		// for all candidates
-		for (RuleSet rule : clist) {
-			
-			StyleSheet sheet = rule.getStyleSheet();
-			if (sheet == null)
-			    log.warn("No source style sheet set for rule: {}", rule.toString());
-			StyleSheet.Origin origin = (sheet == null) ? StyleSheet.Origin.AGENT : sheet.getOrigin();
-			
-			// for all selectors inside
-			for (CombinedSelector s : rule.getSelectors()) {
-				// this method does automatic rewind of walker
-				if (!matchSelector(s, e, walker)) {
-					log.trace("CombinedSelector \"{}\" NOT matched!", s);
-					continue;
-				}
+        log.debug("Totally {} candidates.", candidates.size());
+        log.trace("With values: {}", clist);
 
-				log.trace("CombinedSelector \"{}\" matched", s);
-				
-				PseudoDeclaration pseudo = s.getPseudoElement();
+        // resulting list of declaration for this element with no pseudo-selectors (main list)(local cache)
+        List<Declaration> eldecl = new ArrayList<Declaration>();
+
+        // existing pseudo selectors found
+        Set<PseudoDeclaration> pseudos = new HashSet<PseudoDeclaration>();
+
+        // for all candidates
+        for (RuleSet rule : clist) {
+
+            StyleSheet sheet = rule.getStyleSheet();
+            if (sheet == null)
+                log.warn("No source style sheet set for rule: {}", rule.toString());
+            StyleSheet.Origin origin = (sheet == null) ? StyleSheet.Origin.AGENT : sheet.getOrigin();
+
+            // for all selectors inside
+            for (CombinedSelector s : rule.getSelectors()) {
+                // this method does automatic rewind of walker
+                if (!matchSelector(s, tag, walker)) {
+                    log.trace("CombinedSelector \"{}\" NOT matched!", s);
+                    continue;
+                }
+
+                log.trace("CombinedSelector \"{}\" matched", s);
+
+                PseudoDeclaration pseudo = s.getPseudoElement();
                 CombinedSelector.Specificity spec = s.computeSpecificity();
-				if (pseudo == null)
-				{
-    				// add to main list
-    				for (Declaration d : rule)
-    					eldecl.add(new AssignedDeclaration(d, spec, origin));
-				}
-				else
-				{
-				    // remember the pseudo element
-				    pseudos.add(pseudo);
-				    // add to pseudo lists
+                if (pseudo == null) {
+                    // add to main list
                     for (Declaration d : rule)
-                        declarations.addDeclaration(e, pseudo, new AssignedDeclaration(d, spec, origin));
-				}
+                        eldecl.add(new AssignedDeclaration(d, spec, origin));
+                } else {
+                    // remember the pseudo element
+                    pseudos.add(pseudo);
+                    // add to pseudo lists
+                    for (Declaration d : rule)
+                        declarations.addDeclaration(tag, pseudo, new AssignedDeclaration(d, spec, origin));
+                }
 
-			}
-		}
+            }
+        }
 
-		// sort declarations
-		Collections.sort(eldecl); //sort the main list
-		log.debug("Sorted {} declarations.", eldecl.size());
-		log.trace("With values: {}", eldecl);
-		for (PseudoDeclaration p : pseudos)
-		    declarations.sortDeclarations(e, p); //sort pseudos
-		
-		// set the main list
-		declarations.put(e, null, eldecl);
-	}
+        // sort declarations
+        Collections.sort(eldecl); //sort the main list
+        log.debug("Sorted {} declarations.", eldecl.size());
+        log.trace("With values: {}", eldecl);
+        for (PseudoDeclaration p : pseudos)
+            declarations.sortDeclarations(tag, p); //sort pseudos
 
-	protected boolean matchSelector(CombinedSelector sel, Element e, TreeWalker w) {
+        // set the main list
+        declarations.put(tag, null, eldecl);
+    }
 
-		// store current walker position
-		Node current = w.getCurrentNode();
+    protected boolean matchSelector(CombinedSelector sel, HtmlTag tag, HtmlTreeWalker w) {
 
-		boolean retval = false;
-		Selector.Combinator combinator = null;
-		// traverse simple selector backwards
-		for (int i = sel.size() - 1; i >= 0; i--) {
-			// last simple selector
-			Selector s = sel.get(i);
-			//log.trace("Iterating loop with selector {}, combinator {}",	s, combinator);
+        // store current walker position
+        HtmlTag current = w.getCurrentTag();
 
-			// decide according to combinator anti-pattern
-			if (combinator == null) {
-				retval = s.matches(e);
-			} else if (combinator == Selector.Combinator.ADJACENT) {
-				Element adjacent = (Element) w.previousSibling();
-				retval = false;
-				if (adjacent != null)
-					retval = s.matches(adjacent);
-            } else if (combinator == Selector.Combinator.PRECEDING) {
-                Element preceding;
+        boolean retval = false;
+        Selector.Combinator combinator = null;
+        // traverse simple selector backwards
+        for (int i = sel.size() - 1; i >= 0; i--) {
+            // last simple selector
+            Selector s = sel.get(i);
+            //log.trace("Iterating loop with selector {}, combinator {}",	s, combinator);
+
+            // decide according to combinator anti-pattern
+            if (combinator == null) {
+                retval = s.matches(tag);
+            } else if (combinator == Selector.Combinator.ADJACENT) {
+                HtmlTag adjacent = w.previousSibling();
                 retval = false;
-                while (!retval && (preceding = (Element) w.previousSibling()) != null) {
+                if (adjacent != null)
+                    retval = s.matches(adjacent);
+            } else if (combinator == Selector.Combinator.PRECEDING) {
+                HtmlTag preceding;
+                retval = false;
+                while (!retval && (preceding = w.previousSibling()) != null) {
                     retval = s.matches(preceding);
                 }
-			} else if (combinator == Selector.Combinator.DESCENDANT) {
-                Element ancestor;
+            } else if (combinator == Selector.Combinator.DESCENDANT) {
+                HtmlTag ancestor;
                 retval = false;
-                while (!retval && (ancestor = (Element) w.parentNode()) != null) {
+                while (!retval && (ancestor = w.parentTag()) != null) {
                     retval = s.matches(ancestor);
                 }
-			} else if (combinator == Selector.Combinator.CHILD) {
-                Element parent = (Element) w.parentNode();
+            } else if (combinator == Selector.Combinator.CHILD) {
+                HtmlTag parent = w.parentTag();
                 retval = false;
                 if (parent != null)
                     retval = s.matches(parent);
-			}
+            }
 
-			// set combinator for next loop
-			combinator = s.getCombinator();
+            // set combinator for next loop
+            combinator = s.getCombinator();
 
-			// leave loop if not matched
-			if (retval == false)
-				break;
-		}
+            // leave loop if not matched
+            if (!retval)
+                break;
+        }
 
-		// restore walker position
-		w.setCurrentNode(current);
-		return retval;
-	}
+        // restore walker position
+        w.setCurrentTag(current);
+        return retval;
+    }
 
-	/**
-	 * Classifies the rules in all the style sheets.
-	 * @param mediaspec The specification of the media for evaluating the media queries.
-	 */
-	protected void classifyAllSheets(MediaSpec mediaspec)
-	{
-	    rules = new Holder();
-	    for (StyleSheet sheet : sheets)
-	        classifyRules(sheet, mediaspec);
-	}
-	
-	/**
-	 * Divides rules in sheet into different categories to be easily and more
-	 * quickly parsed afterward
-	 * 
-	 * @param sheet The style sheet to be classified
+    /**
+     * Classifies the rules in all the style sheets.
+     *
      * @param mediaspec The specification of the media for evaluating the media queries.
-	 */
-	protected void classifyRules(StyleSheet sheet, MediaSpec mediaspec) {
+     */
+    protected void classifyAllSheets(MediaSpec mediaspec) {
+        rules = new Holder();
+        for (StyleSheet sheet : sheets)
+            classifyRules(sheet, mediaspec);
+    }
 
-		// create a new holder if it does not exist
-		if (rules == null) {
-			rules = new Holder();
-		}
+    /**
+     * Divides rules in sheet into different categories to be easily and more
+     * quickly parsed afterward
+     *
+     * @param sheet     The style sheet to be classified
+     * @param mediaspec The specification of the media for evaluating the media queries.
+     */
+    protected void classifyRules(StyleSheet sheet, MediaSpec mediaspec) {
 
-		for (Rule<?> rule : sheet) {
-			// this rule conforms to all media
-			if (rule instanceof RuleSet) {
-				RuleSet ruleset = (RuleSet) rule;
-				for (CombinedSelector s : ruleset.getSelectors()) {
-					insertClassified(rules, classifySelector(s), ruleset);
-				}
-			}
-			// this rule conforms to different media
-			else if (rule instanceof RuleMedia) {
-				RuleMedia rulemedia = (RuleMedia) rule;
+        // create a new holder if it does not exist
+        if (rules == null) {
+            rules = new Holder();
+        }
 
-				boolean mediaValid = false;
-                if(rulemedia.getMediaQueries()==null || rulemedia.getMediaQueries().isEmpty()) {
+        for (Rule<?> rule : sheet) {
+            // this rule conforms to all media
+            if (rule instanceof RuleSet) {
+                RuleSet ruleset = (RuleSet) rule;
+                for (CombinedSelector s : ruleset.getSelectors()) {
+                    insertClassified(rules, classifySelector(s), ruleset);
+                }
+            }
+            // this rule conforms to different media
+            else if (rule instanceof RuleMedia) {
+                RuleMedia rulemedia = (RuleMedia) rule;
+
+                boolean mediaValid = false;
+                if (rulemedia.getMediaQueries() == null || rulemedia.getMediaQueries().isEmpty()) {
                     //no media queries actually
                     mediaValid = mediaspec.matchesEmpty();
                 } else {
                     //find a matching query
-    				for (MediaQuery media : rulemedia.getMediaQueries()) {
+                    for (MediaQuery media : rulemedia.getMediaQueries()) {
                         if (mediaspec.matches(media)) {
                             mediaValid = true;
                             break;
                         }
-    				}
+                    }
                 }
-				
-                if (mediaValid)
-                {
-    				// for all rules in media set
-    				for (RuleSet ruleset : rulemedia) {
-    					// for all selectors in there
-    					for (CombinedSelector s : ruleset.getSelectors()) {
-   							insertClassified(rules, classifySelector(s), ruleset);
-    					}
-    				}
+
+                if (mediaValid) {
+                    // for all rules in media set
+                    for (RuleSet ruleset : rulemedia) {
+                        // for all selectors in there
+                        for (CombinedSelector s : ruleset.getSelectors()) {
+                            insertClassified(rules, classifySelector(s), ruleset);
+                        }
+                    }
                 }
-			}
-		}
+            }
+        }
 
-		// logging
-		if (log.isDebugEnabled()) {
-			log.debug("For media \"{}\" we have {} rules", mediaspec, rules.contentCount());
-			if(log.isTraceEnabled()) {
-				log.trace("Detailed view: \n{}", rules);
-			}
-		}
+        // logging
+        if (log.isDebugEnabled()) {
+            log.debug("For media \"{}\" we have {} rules", mediaspec, rules.contentCount());
+            if (log.isTraceEnabled()) {
+                log.trace("Detailed view: \n{}", rules);
+            }
+        }
 
-	}
+    }
 
-	/**
-	 * Classify CSS rule according its selector for to be of specified item(s)
-	 * 
-	 * @param selector
-	 *            CombinedSelector of rules
-	 * @return List of HolderSelectors to which selectors conforms
-	 */
-	private List<HolderSelector> classifySelector(CombinedSelector selector) {
+    /**
+     * Classify CSS rule according its selector for to be of specified item(s)
+     *
+     * @param selector CombinedSelector of rules
+     * @return List of HolderSelectors to which selectors conforms
+     */
+    private List<HolderSelector> classifySelector(CombinedSelector selector) {
 
-		List<HolderSelector> hs = new ArrayList<HolderSelector>();
+        List<HolderSelector> hs = new ArrayList<HolderSelector>();
 
-		try {
-			// last simple selector decided about all selector
-			Selector last = selector.getLastSelector();
+        try {
+            // last simple selector decided about all selector
+            Selector last = selector.getLastSelector();
 
-			// is element or other (wildcard)
-			String element = last.getElementName();
-			if (element != null) {
-				// wildcard
-				if (Selector.ElementName.WILDCARD.equals(element))
-					hs.add(new HolderSelector(HolderItem.OTHER, null));
-				// element
-				else
-					hs.add(new HolderSelector(HolderItem.ELEMENT, element
-							.toLowerCase()));
-			}
+            // is element or other (wildcard)
+            String element = last.getElementName();
+            if (element != null) {
+                // wildcard
+                if (Selector.ElementName.WILDCARD.equals(element))
+                    hs.add(new HolderSelector(HolderItem.OTHER, null));
+                    // element
+                else
+                    hs.add(new HolderSelector(HolderItem.ELEMENT, element
+                            .toLowerCase()));
+            }
 
-			// is class name
-			String className = last.getClassName();
-			if (className != null)
-				hs.add(new HolderSelector(HolderItem.CLASS, className
-						.toLowerCase()));
+            // is class name
+            String className = last.getClassName();
+            if (className != null)
+                hs.add(new HolderSelector(HolderItem.CLASS, className
+                        .toLowerCase()));
 
-			// is id
-			String id = last.getIDName();
-			if (id != null)
-				hs.add(new HolderSelector(HolderItem.ID, id.toLowerCase()));
+            // is id
+            String id = last.getIDName();
+            if (id != null)
+                hs.add(new HolderSelector(HolderItem.ID, id.toLowerCase()));
 
-			// is in others
-			if (hs.size() == 0)
-				hs.add(new HolderSelector(HolderItem.OTHER, null));
+            // is in others
+            if (hs.size() == 0)
+                hs.add(new HolderSelector(HolderItem.OTHER, null));
 
-			return hs;
+            return hs;
 
-		} catch (UnsupportedOperationException e) {
-			log
-					.error("CombinedSelector does not include any selector, this should not happen!");
-			return Collections.emptyList();
-		}
-	}
+        } catch (UnsupportedOperationException e) {
+            log
+                    .error("CombinedSelector does not include any selector, this should not happen!");
+            return Collections.emptyList();
+        }
+    }
 
-	/**
-	 * Inserts rules into holder
-	 * 
-	 * @param holder
-	 *            Wrap to be inserted
-	 * @param hs
-	 *            Wrap's selector and key
-	 * @param value
-	 *            Value to be inserted
-	 */
-	private void insertClassified(Holder holder, List<HolderSelector> hs,
-			RuleSet value) {
-		for (HolderSelector h : hs)
-			holder.insert(h.item, h.key, value);
-	}
+    /**
+     * Inserts rules into holder
+     *
+     * @param holder Wrap to be inserted
+     * @param hs     Wrap's selector and key
+     * @param value  Value to be inserted
+     */
+    private void insertClassified(Holder holder, List<HolderSelector> hs,
+                                  RuleSet value) {
+        for (HolderSelector h : hs)
+            holder.insert(h.item, h.key, value);
+    }
 
-	/**
-	 * Decides about holder item
-	 * 
-	 * @author kapy
-	 */
-	protected enum HolderItem {
-		ELEMENT(0), ID(1), CLASS(2), OTHER(3);
+    /**
+     * Decides about holder item
+     *
+     * @author kapy
+     */
+    protected enum HolderItem {
+        ELEMENT(0), ID(1), CLASS(2), OTHER(3);
 
-		private int type;
+        private int type;
 
-		private HolderItem(int type) {
-			this.type = type;
-		}
+        private HolderItem(int type) {
+            this.type = type;
+        }
 
-		public int type() {
-			return type;
-		}
-	}
+        public int type() {
+            return type;
+        }
+    }
 
-	/**
-	 * Holds holder item type and key value, that is two elements that are about
-	 * to be used for storing in holder
-	 * 
-	 * @author kapy
-	 * 
-	 */
-	protected class HolderSelector {
-		public HolderItem item;
-		public String key;
+    /**
+     * Holds holder item type and key value, that is two elements that are about
+     * to be used for storing in holder
+     *
+     * @author kapy
+     */
+    protected class HolderSelector {
+        public HolderItem item;
+        public String key;
 
-		public HolderSelector(HolderItem item, String key) {
-			this.item = item;
-			this.key = key;
-		}
-	}
+        public HolderSelector(HolderItem item, String key) {
+            this.item = item;
+            this.key = key;
+        }
+    }
 
-	/**
-	 * Holds list of maps of list. This is used to classify rulesets into
-	 * structure which is easily accessible by analyzator
-	 * 
-	 * @author kapy
-	 * 
-	 */
-	protected static class Holder {
+    /**
+     * Holds list of maps of list. This is used to classify rulesets into
+     * structure which is easily accessible by analyzator
+     *
+     * @author kapy
+     */
+    protected static class Holder {
 
-		/** HolderItem.* except OTHER are stored there */
-		private List<Map<String, List<RuleSet>>> items;
+        /**
+         * HolderItem.* except OTHER are stored there
+         */
+        private List<Map<String, List<RuleSet>>> items;
 
-		/** OTHER rules are stored there */
-		private List<RuleSet> others;
+        /**
+         * OTHER rules are stored there
+         */
+        private List<RuleSet> others;
 
-		public Holder() {
-			// create list of items
-			this.items = new ArrayList<Map<String, List<RuleSet>>>(HolderItem
-					.values().length - 1);
+        public Holder() {
+            // create list of items
+            this.items = new ArrayList<Map<String, List<RuleSet>>>(HolderItem
+                    .values().length - 1);
 
-			// fill maps in list
-			for (HolderItem hi : HolderItem.values()) {
-				// this is special case, it is not map
-				if (hi == HolderItem.OTHER)
-					others = new ArrayList<RuleSet>();
-				else
-					items.add(new HashMap<String, List<RuleSet>>());
-			}
-		}
+            // fill maps in list
+            for (HolderItem hi : HolderItem.values()) {
+                // this is special case, it is not map
+                if (hi == HolderItem.OTHER)
+                    others = new ArrayList<RuleSet>();
+                else
+                    items.add(new HashMap<String, List<RuleSet>>());
+            }
+        }
 
-		public boolean isEmpty() {
-			for(HolderItem hi: HolderItem.values()) {
-				if(hi == HolderItem.OTHER) { 
-					if(!others.isEmpty()) return false;
-				}
-				else if(!items.get(hi.type).isEmpty())
-					return false;
-			}			
-			return true;
-		}
-		
-		
-		public static Holder union(Holder one, Holder two) {
-			
-			Holder union = new Holder();
-			if(one==null) one = new Holder();
-			if(two==null) two = new Holder();
-			
-			for(HolderItem hi: HolderItem.values()) {
-				if(hi == HolderItem.OTHER) {
-					union.others.addAll(one.others);
-					union.others.addAll(two.others);
-				}
-				else {
-					
-					Map<String, List<RuleSet>> oneMap, twoMap, unionMap;
-					oneMap = one.items.get(hi.type);
-					twoMap = two.items.get(hi.type);
-					unionMap = union.items.get(hi.type);
-					
-					unionMap.putAll(oneMap);
-					for(String key: twoMap.keySet()) {
-						// map already contains this as key, append to list
-						if(unionMap.containsKey(key)) {
-							unionMap.get(key).addAll(twoMap.get(key));
-						}
-						// we could directly add elements
-						else {
-							unionMap.put(key, twoMap.get(key));
-						}
-					}
-				}
-				
-			}
-			return union;
-		}
-		
-		/**
-		 * Inserts Ruleset into group identified by HolderType, and optionally
-		 * by key value
-		 * 
-		 * @param item
-		 *            Identifier of holder's group
-		 * @param key
-		 *            Key, used in case other than OTHER
-		 * @param value
-		 *            Value to be store inside
-		 */
-		public void insert(HolderItem item, String key, RuleSet value) {
+        public boolean isEmpty() {
+            for (HolderItem hi : HolderItem.values()) {
+                if (hi == HolderItem.OTHER) {
+                    if (!others.isEmpty()) return false;
+                } else if (!items.get(hi.type).isEmpty())
+                    return false;
+            }
+            return true;
+        }
 
-			// check others and if so, insert item
-			if (item == HolderItem.OTHER) {
-				others.add(value);
-				return;
-			}
 
-			// create list if empty
-			Map<String, List<RuleSet>> map = items.get(item.type);
-			List<RuleSet> list = map.get(key);
-			if (list == null) {
-				list = new ArrayList<RuleSet>();
-				map.put(key, list);
-			}
+        public static Holder union(Holder one, Holder two) {
 
-			list.add(value);
+            Holder union = new Holder();
+            if (one == null) one = new Holder();
+            if (two == null) two = new Holder();
 
-		}
+            for (HolderItem hi : HolderItem.values()) {
+                if (hi == HolderItem.OTHER) {
+                    union.others.addAll(one.others);
+                    union.others.addAll(two.others);
+                } else {
 
-		/**
-		 * Returns list of rules (ruleset) for given holder and key
-		 * 
-		 * @param item
-		 *            Type of item to be returned
-		 * @param key
-		 *            Key or <code>null</code> in case of HolderItem.OTHER
-		 * @return List of rules or <code>null</code> if not found under given
-		 *         combination of key and item
-		 */
-		public List<RuleSet> get(HolderItem item, String key) {
+                    Map<String, List<RuleSet>> oneMap, twoMap, unionMap;
+                    oneMap = one.items.get(hi.type);
+                    twoMap = two.items.get(hi.type);
+                    unionMap = union.items.get(hi.type);
 
-			// check others
-			if (item == HolderItem.OTHER)
-				return others;
+                    unionMap.putAll(oneMap);
+                    for (String key : twoMap.keySet()) {
+                        // map already contains this as key, append to list
+                        if (unionMap.containsKey(key)) {
+                            unionMap.get(key).addAll(twoMap.get(key));
+                        }
+                        // we could directly add elements
+                        else {
+                            unionMap.put(key, twoMap.get(key));
+                        }
+                    }
+                }
 
-			return items.get(item.type()).get(key);
-		}
-		
-		
-		public String contentCount(){
-			StringBuilder sb = new StringBuilder();
-			
-			for(HolderItem hi: HolderItem.values()) {
-				if(hi == HolderItem.OTHER) {
-					sb.append(hi.name())
-					  .append(": ")
-					  .append(others.size())
-					  .append(" ");
-				}
-				else {
-					sb.append(hi.name())
-					  .append(":")
-					  .append(items.get(hi.type).size())
-					  .append(" ");
-				}
-				
-			}
-			
-			return sb.toString();
-		}
-		
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			
-			for(HolderItem hi: HolderItem.values()) {
-				if(hi == HolderItem.OTHER) {
-					sb.append(hi.name())
-					  .append(" (")
-					  .append(others.size())
-					  .append("): ")
-					  .append(others).append("\n");	
-				}
-				else {
-					sb.append(hi.name())
-					  .append(" (")
-					  .append(items.get(hi.type).size())
-					  .append("): ")
-					  .append(items.get(hi.type)).append("\n");
-				}
-				
-			}
-			
-			return sb.toString();
-		}
-	}
+            }
+            return union;
+        }
+
+        /**
+         * Inserts Ruleset into group identified by HolderType, and optionally
+         * by key value
+         *
+         * @param item  Identifier of holder's group
+         * @param key   Key, used in case other than OTHER
+         * @param value Value to be store inside
+         */
+        public void insert(HolderItem item, String key, RuleSet value) {
+
+            // check others and if so, insert item
+            if (item == HolderItem.OTHER) {
+                others.add(value);
+                return;
+            }
+
+            // create list if empty
+            Map<String, List<RuleSet>> map = items.get(item.type);
+            List<RuleSet> list = map.get(key);
+            if (list == null) {
+                list = new ArrayList<RuleSet>();
+                map.put(key, list);
+            }
+
+            list.add(value);
+
+        }
+
+        /**
+         * Returns list of rules (ruleset) for given holder and key
+         *
+         * @param item Type of item to be returned
+         * @param key  Key or <code>null</code> in case of HolderItem.OTHER
+         * @return List of rules or <code>null</code> if not found under given
+         * combination of key and item
+         */
+        public List<RuleSet> get(HolderItem item, String key) {
+
+            // check others
+            if (item == HolderItem.OTHER)
+                return others;
+
+            return items.get(item.type()).get(key);
+        }
+
+
+        public String contentCount() {
+            StringBuilder sb = new StringBuilder();
+
+            for (HolderItem hi : HolderItem.values()) {
+                if (hi == HolderItem.OTHER) {
+                    sb.append(hi.name())
+                            .append(": ")
+                            .append(others.size())
+                            .append(" ");
+                } else {
+                    sb.append(hi.name())
+                            .append(":")
+                            .append(items.get(hi.type).size())
+                            .append(" ");
+                }
+
+            }
+
+            return sb.toString();
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+
+            for (HolderItem hi : HolderItem.values()) {
+                if (hi == HolderItem.OTHER) {
+                    sb.append(hi.name())
+                            .append(" (")
+                            .append(others.size())
+                            .append("): ")
+                            .append(others).append("\n");
+                } else {
+                    sb.append(hi.name())
+                            .append(" (")
+                            .append(items.get(hi.type).size())
+                            .append("): ")
+                            .append(items.get(hi.type)).append("\n");
+                }
+
+            }
+
+            return sb.toString();
+        }
+    }
 }
