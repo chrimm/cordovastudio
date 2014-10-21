@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/cordovastudio.iml" filepath="$PROJECT_DIR$/cordovastudio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CordovaStudio.iml" filepath="$PROJECT_DIR$/CordovaStudio.iml" />
     </modules>
   </component>
 </project>
