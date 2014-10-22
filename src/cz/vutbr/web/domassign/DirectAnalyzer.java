@@ -10,13 +10,13 @@
  */
 package cz.vutbr.web.domassign;
 
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.html.HtmlTag;
 import cz.vutbr.web.css.*;
 import cz.vutbr.web.css.Selector.PseudoDeclaration;
-import cz.vutbr.web.csskit.ElementUtil;
+import cz.vutbr.web.csskit.TagUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import java.util.*;
 
@@ -24,71 +24,69 @@ import java.util.*;
  * A simple ananalyzer that computes a style for the individual DOM nodes with no mapping and caching.
  * This analyzer is suitable for obtaining the style of individual elements without computing the style
  * for the whole DOM tree. However, in larger scale, the performance of the individual computation
- * is significantly worse.  
- * 
+ * is significantly worse.
+ *
  * @author burgetr
  */
-public class DirectAnalyzer extends Analyzer
-{
+public class DirectAnalyzer extends Analyzer {
     private static final Logger log = LoggerFactory.getLogger(DirectAnalyzer.class);
 
     /**
      * Creates the analyzer for a single style sheet.
+     *
      * @param sheet The stylesheet that will be used as the source of rules.
      */
-    public DirectAnalyzer(StyleSheet sheet)
-    {
+    public DirectAnalyzer(StyleSheet sheet) {
         super(sheet);
     }
 
     /**
      * Creates the analyzer for multiple style sheets.
+     *
      * @param sheets A list of stylesheets that will be used as the source of rules.
      */
-    public DirectAnalyzer(List<StyleSheet> sheets)
-    {
+    public DirectAnalyzer(List<StyleSheet> sheets) {
         super(sheets);
     }
 
     /**
      * Computes the style of an element with an eventual pseudo element for the given media.
-     * @param el The DOM element.
+     *
+     * @param tag    The DOM element.
      * @param pseudo A pseudo element that should be used for style computation or <code>null</code> if no pseudo element should be used (e.g. :after).
-     * @param media Used media specification.
+     * @param media  Used media specification.
      * @return The relevant declarations from the registered style sheets.
      */
-    public NodeData getElementStyle(Element el, PseudoDeclaration pseudo, MediaSpec media)
-    {
+    public NodeData getElementStyle(HtmlTag tag, PseudoDeclaration pseudo, MediaSpec media) {
         if (rules == null)
             classifyAllSheets(media);
-        
-        List<Declaration> decls = getDeclarationsForElement(el, pseudo, rules);
-        
+
+        List<Declaration> decls = getDeclarationsForElement(tag, pseudo, rules);
+
         NodeData main = CSSFactory.createNodeData();
         for (Declaration d : decls)
             main.push(d);
-        
+
         return main;
     }
-    
+
     /**
      * Computes the style of an element with an eventual pseudo element for the given media.
-     * @param el The DOM element.
+     *
+     * @param tag    The DOM element.
      * @param pseudo A pseudo element that should be used for style computation or <code>null</code> if no pseudo element should be used (e.g. :after).
-     * @param media Used media name (e.g. "screen" or "all")
+     * @param media  Used media name (e.g. "screen" or "all")
      * @return The relevant declarations from the registered style sheets.
      */
-    public NodeData getElementStyle(Element el, PseudoDeclaration pseudo, String media)
-    {
-        return getElementStyle(el, pseudo, new MediaSpec(media));
+    public NodeData getElementStyle(HtmlTag tag, PseudoDeclaration pseudo, String media) {
+        return getElementStyle(tag, pseudo, new MediaSpec(media));
     }
-    
+
     //==========================================================================================
-    
-    protected List<Declaration> getDeclarationsForElement(Element e, PseudoDeclaration pseudo, Holder holder) 
-    {
-        if(log.isDebugEnabled()) {
-            log.debug("Traversal of {} {}.", e.getNodeName(), e.getNodeValue());
+
+    protected List<Declaration> getDeclarationsForElement(HtmlTag tag, PseudoDeclaration pseudo, Holder holder) {
+        if (log.isDebugEnabled()) {
+            log.debug("Traversal of {} {}.", tag.getName(), tag.getValue());
         }
 
         // create set of possible candidates applicable to given element
@@ -96,7 +94,7 @@ public class DirectAnalyzer extends Analyzer
         Set<RuleSet> candidates = new HashSet<RuleSet>();
 
         // match element classes
-        for (String cname : ElementUtil.elementClasses(e)) {
+        for (String cname : TagUtil.elementClasses(tag)) {
             // holder contains rule with given class
             List<RuleSet> rules = holder.get(HolderItem.CLASS, cname.toLowerCase());
             if (rules != null)
@@ -105,16 +103,16 @@ public class DirectAnalyzer extends Analyzer
         log.trace("After CLASSes {} total candidates.", candidates.size());
 
         // match IDs
-        String id = ElementUtil.elementID(e);
+        String id = TagUtil.elementID(tag);
         if (id != null && id.length() != 0) {
             List<RuleSet> rules = holder.get(HolderItem.ID, id.toLowerCase());
             if (rules != null)
                 candidates.addAll(rules);
         }
         log.trace("After IDs {} total candidates.", candidates.size());
-        
+
         // match elements
-        String name = ElementUtil.elementName(e);
+        String name = TagUtil.elementName(tag);
         if (name != null) {
             List<RuleSet> rules = holder.get(HolderItem.ELEMENT, name.toLowerCase());
             if (rules != null)
@@ -135,27 +133,26 @@ public class DirectAnalyzer extends Analyzer
 
         // resulting list of declaration for this element with no pseudo-selectors (main list)(local cache)
         List<Declaration> eldecl = new ArrayList<Declaration>();
-        
+
         // for all candidates
         for (RuleSet rule : clist) {
-            
+
             StyleSheet sheet = rule.getStyleSheet();
             StyleSheet.Origin origin = (sheet == null) ? StyleSheet.Origin.AGENT : sheet.getOrigin();
-            
+
             // for all selectors inside
             for (CombinedSelector s : rule.getSelectors()) {
-                
-                if (!matchSelector(s, e)) {
+
+                if (!matchSelector(s, tag)) {
                     log.trace("CombinedSelector \"{}\" NOT matched!", s);
                     continue;
                 }
 
                 log.trace("CombinedSelector \"{}\" matched", s);
-                
+
                 PseudoDeclaration psel = s.getPseudoElement();
                 CombinedSelector.Specificity spec = s.computeSpecificity();
-                if (psel == pseudo)
-                {
+                if (psel == pseudo) {
                     // add to the resulting list
                     for (Declaration d : rule)
                         eldecl.add(new AssignedDeclaration(d, spec, origin));
@@ -167,13 +164,12 @@ public class DirectAnalyzer extends Analyzer
         Collections.sort(eldecl); //sort the main list
         log.debug("Sorted {} declarations.", eldecl.size());
         log.trace("With values: {}", eldecl);
-        
+
         return eldecl;
     }
 
-    
-    protected boolean matchSelector(CombinedSelector sel, Element e)
-    {
+
+    protected boolean matchSelector(CombinedSelector sel, HtmlTag tag) {
         boolean retval = false;
         Selector.Combinator combinator = null;
         // traverse simple selector backwards
@@ -185,43 +181,39 @@ public class DirectAnalyzer extends Analyzer
 
             // decide according to combinator anti-pattern
             if (combinator == null) {
-                retval = s.matches(e);
+                retval = s.matches(tag);
             } else if (combinator == Selector.Combinator.ADJACENT) {
-                Node adjacent = e.getPreviousSibling();
+                PsiElement adjacent = tag.getPrevSibling();
                 retval = false;
-                if (adjacent != null && adjacent.getNodeType() == Node.ELEMENT_NODE)
-                    retval = s.matches((Element) adjacent);
+                if (adjacent != null && adjacent instanceof HtmlTag)
+                    retval = s.matches((HtmlTag) adjacent);
             } else if (combinator == Selector.Combinator.PRECEDING) {
-                Node preceding = e.getPreviousSibling();
+                PsiElement preceding = tag.getPrevSibling();
                 retval = false;
-                do
-                {
-                    if (preceding != null)
-                    {
-                        if (preceding.getNodeType() == Node.ELEMENT_NODE && s.matches((Element) preceding))
+                do {
+                    if (preceding != null) {
+                        if (preceding instanceof HtmlTag && s.matches((HtmlTag) preceding))
                             retval = true;
                         else
-                            preceding = preceding.getPreviousSibling();
+                            preceding = preceding.getPrevSibling();
                     }
                 } while (!retval && preceding != null);
             } else if (combinator == Selector.Combinator.DESCENDANT) {
-                Node ancestor = e.getParentNode();
+                PsiElement ancestor = tag.getParent();
                 retval = false;
-                do
-                {
-                    if (ancestor != null)
-                    {
-                        if (ancestor.getNodeType() == Node.ELEMENT_NODE && s.matches((Element) ancestor))
+                do {
+                    if (ancestor != null) {
+                        if (ancestor instanceof HtmlTag && s.matches((HtmlTag) ancestor))
                             retval = true;
                         else
-                            ancestor = ancestor.getParentNode();
+                            ancestor = ancestor.getParent();
                     }
                 } while (!retval && ancestor != null);
             } else if (combinator == Selector.Combinator.CHILD) {
-                Node parent = e.getParentNode();
+                PsiElement parent = tag.getParent();
                 retval = false;
-                if (parent != null && parent.getNodeType() == Node.ELEMENT_NODE)
-                    retval = s.matches((Element) parent);
+                if (parent != null && parent instanceof HtmlTag)
+                    retval = s.matches((HtmlTag) parent);
             }
 
             // set combinator for next loop
@@ -233,6 +225,6 @@ public class DirectAnalyzer extends Analyzer
         }
         return retval;
     }
-    
-    
+
+
 }
