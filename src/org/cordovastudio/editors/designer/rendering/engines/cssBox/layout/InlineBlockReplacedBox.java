@@ -19,7 +19,7 @@
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
-import org.w3c.dom.Element;
+import com.intellij.psi.html.HtmlTag;
 
 import java.awt.*;
 
@@ -36,9 +36,9 @@ public class InlineBlockReplacedBox extends InlineBlockBox implements ReplacedBo
     /**
      * Creates a new instance of InlineBlockReplacedBox
      */
-    public InlineBlockReplacedBox(Element el, Graphics2D g, VisualContext ctx)
+    public InlineBlockReplacedBox(HtmlTag tag, Graphics2D g, VisualContext ctx)
     {
-        super(el, g, ctx);
+        super(tag, g, ctx);
     }
 
     /**

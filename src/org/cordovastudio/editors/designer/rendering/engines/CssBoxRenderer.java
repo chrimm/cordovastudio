@@ -120,7 +120,7 @@ public class CssBoxRenderer extends RenderingEngine {
 
         //XmlTag bodyTag = document.getElementsByTagName("body").item(0);
 
-        XmlTag rootTag = file.getRootTag().findFirstSubTag("body");
+        XmlTag rootTag = document.getRootTag().findFirstSubTag("body");
 
         ViewInfo rootViewInfo = new ViewInfo("body", rootTag, 0, 0, 720, 1280);
 

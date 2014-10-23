@@ -23,7 +23,10 @@
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.html.HtmlTag;
+import com.intellij.psi.xml.XmlDocument;
+import com.intellij.psi.xml.XmlFile;
 import cz.vutbr.web.css.NodeData;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.io.DOMSource;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.io.DefaultDOMSource;
@@ -150,10 +153,22 @@ public class HTMLBoxFactory {
                     content = new ReplacedImage(rbox, rbox.getVisualContext(), base, dataurl);
                 } else if (mime.equals("text/html")) {
                     log.info("Parsing: " + src.getURL());
+
                     DOMSource parser = new DefaultDOMSource(src);
+
                     Document doc = parser.parse();
+
+                    // TODO: This is embarrassingly ugly... Please go away. Don't look at this.
+                    //
+                    // Okaaay, you're still here. So, do YOU know whether there is any neater way to do this?
+                    // We need an XmlDocument but all we got is a org.w3c.dom.Document. It's up to you now.
+
+                    XmlFile xfile = (XmlFile)PsiFileFactory.getInstance(null).createFileFromText("dummyXmlFile.xml", doc.getTextContent());
+
+                    XmlDocument xdoc = xfile.getDocument();
+
                     String encoding = parser.getCharset();
-                    content = new ReplacedText(rbox, doc, src.getURL(), encoding);
+                    content = new ReplacedText(rbox, xdoc, src.getURL(), encoding);
                 }
                 rbox.setContentObj(content);
             }

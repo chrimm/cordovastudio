@@ -26,6 +26,7 @@ package org.cordovastudio.editors.designer.rendering.engines.cssBox.css;
 
 import com.intellij.psi.html.HtmlTag;
 import com.intellij.psi.xml.XmlDocument;
+import com.intellij.psi.xml.XmlTag;
 import cz.vutbr.web.css.CSSFactory;
 import cz.vutbr.web.css.TermLength;
 import cz.vutbr.web.css.TermLengthOrPercent;
@@ -258,8 +259,8 @@ public class HTMLNorm {
         if (attrs.length() > 0)
             tag.setAttribute("XDefaultStyle", tag.getAttribute("XDefaultStyle") + ";" + attrs);
 
-        for (HtmlTag child : (HtmlTag[]) tag.getSubTags()) {
-            attributesToStyles(child, tab_inh);
+        for (XmlTag child : tag.getSubTags()) {
+            attributesToStyles((HtmlTag) child, tab_inh);
         }
     }
 
@@ -330,14 +331,14 @@ public class HTMLNorm {
      */
     public static void normalizeHTMLTree(XmlDocument doc) {
         //normalize tables
-        HtmlTag[] tables = (HtmlTag[]) doc.getRootTag().findSubTags("table");
-        for (HtmlTag table : tables) {
+        XmlTag[] tables = doc.getRootTag().findSubTags("table");
+        for (XmlTag table : tables) {
             Vector<HtmlTag> tags = new Vector<>();
 
-            recursiveFindBadNodesInTable(table, null, tags);
+            recursiveFindBadNodesInTable((HtmlTag)table, null, tags);
 
             for (HtmlTag tag : tags) {
-                moveSubtreeBefore(tag, table);
+                moveSubtreeBefore(tag, (HtmlTag)table);
             }
         }
     }
@@ -373,8 +374,8 @@ public class HTMLNorm {
             }
         }
 
-        for (HtmlTag child : (HtmlTag[]) tag.getSubTags()) {
-            recursiveFindBadNodesInTable(child, cellroot, out);
+        for (XmlTag child : tag.getSubTags()) {
+            recursiveFindBadNodesInTable((HtmlTag)child, cellroot, out);
         }
     }
 

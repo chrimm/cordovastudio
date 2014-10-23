@@ -27,6 +27,7 @@ package org.cordovastudio.editors.designer.rendering.engines.cssBox.css;
 import com.intellij.psi.html.HtmlTag;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlDocument;
+import com.intellij.psi.xml.XmlTag;
 import cz.vutbr.web.css.*;
 import cz.vutbr.web.css.Selector.PseudoDeclaration;
 import cz.vutbr.web.domassign.Analyzer;
@@ -261,7 +262,7 @@ public class DOMAnalyzer {
         HtmlTag head = getHead();
 
         if (head != null) {
-            for (HtmlTag meta : (HtmlTag[]) head.findSubTags("meta")) {
+            for (XmlTag meta : head.findSubTags("meta")) {
                 XmlAttribute httpEquiv = meta.getAttribute("http-equiv");
                 XmlAttribute charset = meta.getAttribute("charset");
 
@@ -557,8 +558,8 @@ public class DOMAnalyzer {
             tag.setAttribute("style", quote(decls));
         }
 
-        for (HtmlTag child : (HtmlTag[]) tag.getSubTags()) {
-            recursiveStylesToDom(child);
+        for (XmlTag child : tag.getSubTags()) {
+            recursiveStylesToDom((HtmlTag)child);
         }
     }
 
@@ -569,8 +570,8 @@ public class DOMAnalyzer {
             tag.setAttribute("style", quote(decls));
         }
 
-        for (HtmlTag child : (HtmlTag[]) tag.getSubTags()) {
-            recursiveStylesToDomInherited(child);
+        for (XmlTag child : tag.getSubTags()) {
+            recursiveStylesToDomInherited((HtmlTag)child);
         }
     }
 
@@ -584,8 +585,8 @@ public class DOMAnalyzer {
                 (rel != null && "link".equalsIgnoreCase(tag.getName()) && "stylesheet".equalsIgnoreCase(rel.getValue()))) {
             out.add(tag);
         } else {
-            for (HtmlTag child : (HtmlTag[]) tag.getSubTags()) {
-                recursiveFindStyleElements(child, out);
+            for (XmlTag child : tag.getSubTags()) {
+                recursiveFindStyleElements((HtmlTag)child, out);
 
             }
         }
@@ -612,9 +613,10 @@ public class DOMAnalyzer {
 
         p.println(ind + tag.getName() + " " + mat);
 
-        HtmlTag[] children = (HtmlTag[]) tag.getSubTags();
+        XmlTag[] children = tag.getSubTags();
+
         for (int i = 0; i < children.length; i++)
-            recursivePrintTags(children[i], level + 1, p);
+            recursivePrintTags((HtmlTag)children[i], level + 1, p);
     }
 
     /**
