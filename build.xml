@@ -1,349 +1,371 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="cordovastudio" default="all">
-  
-  
-  <property file="build.properties"/>
-  <!-- Uncomment the following property if no tests compilation is needed -->
-  <property name="skip.tests" value="true"/>
 
-  <!-- Compiler options -->
-  
-  <property name="compiler.debug" value="on"/>
-  <property name="compiler.generate.no.warnings" value="off"/>
-  <property name="compiler.args" value=""/>
-  <property name="compiler.max.memory" value="700m"/>
-  <patternset id="ignored.files">
-    <exclude name="**/CVS/**"/>
-    <exclude name="**/SCCS/**"/>
-    <exclude name="**/RCS/**"/>
-    <exclude name="**/rcs/**"/>
-    <exclude name="**/.DS_Store/**"/>
-    <exclude name="**/.svn/**"/>
-    <exclude name="**/.pyc/**"/>
-    <exclude name="**/.pyo/**"/>
-    <exclude name="**/*.pyc/**"/>
-    <exclude name="**/*.pyo/**"/>
-    <exclude name="**/.git/**"/>
-    <exclude name="**/*.hprof/**"/>
-    <exclude name="**/_svn/**"/>
-    <exclude name="**/.hg/**"/>
-    <exclude name="**/*.lib/**"/>
-    <exclude name="**/*~/**"/>
-    <exclude name="**/__pycache__/**"/>
-    <exclude name="**/.bundle/**"/>
-    <exclude name="**/*.rbc/**"/>
-  </patternset>
-  <patternset id="library.patterns">
-    <include name="*.zip"/>
-    <include name="*.apk"/>
-    <include name="*.war"/>
-    <include name="*.egg"/>
-    <include name="*.ear"/>
-    <include name="*.ane"/>
-    <include name="*.swc"/>
-    <include name="*.jar"/>
-  </patternset>
-  <patternset id="compiler.resources">
-    <exclude name="**/?*.java"/>
-    <exclude name="**/?*.form"/>
-    <exclude name="**/?*.class"/>
-    <exclude name="**/?*.groovy"/>
-    <exclude name="**/?*.scala"/>
-    <exclude name="**/?*.flex"/>
-    <exclude name="**/?*.kt"/>
-    <exclude name="**/?*.clj"/>
-  </patternset>
-  
-  <!-- JDK definitions -->
-  
-  <property name="jdk.bin.idea_ic-135.1230" value="${jdk.home.idea_ic-135.1230}/../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/bin"/>
-  <path id="jdk.classpath.idea_ic-135.1230">
-    <fileset dir="${jdk.home.idea_ic-135.1230}">
-      <include name="lib/annotations.jar"/>
-      <include name="lib/asm-all.jar"/>
-      <include name="lib/asm-commons.jar"/>
-      <include name="lib/asm.jar"/>
-      <include name="lib/asm4-all.jar"/>
-      <include name="lib/automaton.jar"/>
-      <include name="lib/boot.jar"/>
-      <include name="lib/bootstrap.jar"/>
-      <include name="lib/cglib-2.2.2.jar"/>
-      <include name="lib/cli-parser-1.1.jar"/>
-      <include name="lib/commons-codec-1.8.jar"/>
-      <include name="lib/commons-httpclient-3.1-patched.jar"/>
-      <include name="lib/commons-logging-1.1.3.jar"/>
-      <include name="lib/commons-net-3.1.jar"/>
-      <include name="lib/ecj-4.3.2.jar"/>
-      <include name="lib/extensions.jar"/>
-      <include name="lib/fluent-hc-4.3.2.jar"/>
-      <include name="lib/forms_rt.jar"/>
-      <include name="lib/groovy-all-2.2.1.jar"/>
-      <include name="lib/gson-2.2.4.jar"/>
-      <include name="lib/guava-14.0.1.jar"/>
-      <include name="lib/hamcrest-core-1.3.jar"/>
-      <include name="lib/hamcrest-library-1.3.jar"/>
-      <include name="lib/httpclient-4.3.2.jar"/>
-      <include name="lib/httpcore-4.3.1.jar"/>
-      <include name="lib/httpmime-4.3.2.jar"/>
-      <include name="lib/icons.jar"/>
-      <include name="lib/idea.jar"/>
-      <include name="lib/idea_rt.jar"/>
-      <include name="lib/isorelax.jar"/>
-      <include name="lib/javac2.jar"/>
-      <include name="lib/jaxen-1.1.3.jar"/>
-      <include name="lib/jayatana-1.2.4.jar"/>
-      <include name="lib/jcip-annotations.jar"/>
-      <include name="lib/jdkAnnotations.jar"/>
-      <include name="lib/jdom.jar"/>
-      <include name="lib/jgoodies-common-1.2.1.jar"/>
-      <include name="lib/jgoodies-forms.jar"/>
-      <include name="lib/jgoodies-looks-2.4.2.jar"/>
-      <include name="lib/jh.jar"/>
-      <include name="lib/jing.jar"/>
-      <include name="lib/jna-utils.jar"/>
-      <include name="lib/jna.jar"/>
-      <include name="lib/jps-launcher.jar"/>
-      <include name="lib/jps-server.jar"/>
-      <include name="lib/jsch-0.1.50.jar"/>
-      <include name="lib/jsch.agentproxy.connector-factory.jar"/>
-      <include name="lib/jsch.agentproxy.core.jar"/>
-      <include name="lib/jsch.agentproxy.pageant.jar"/>
-      <include name="lib/jsch.agentproxy.sshagent.jar"/>
-      <include name="lib/jsch.agentproxy.usocket-jna.jar"/>
-      <include name="lib/jsch.agentproxy.usocket-nc.jar"/>
-      <include name="lib/jsr166e.jar"/>
-      <include name="lib/jsr173_1.0_api.jar"/>
-      <include name="lib/junit-4.11.jar"/>
-      <include name="lib/jzlib-1.1.1.jar"/>
-      <include name="lib/log4j.jar"/>
-      <include name="lib/markdownj-core-0.4.2-SNAPSHOT.jar"/>
-      <include name="lib/microba.jar"/>
-      <include name="lib/miglayout-swing.jar"/>
-      <include name="lib/nanoxml-2.2.3.jar"/>
-      <include name="lib/nekohtml-1.9.14.jar"/>
-      <include name="lib/netty-all-5.0.0.Alpha2.jar"/>
-      <include name="lib/openapi.jar"/>
-      <include name="lib/optimizedFileManager.jar"/>
-      <include name="lib/oromatcher.jar"/>
-      <include name="lib/picocontainer.jar"/>
-      <include name="lib/protobuf-2.5.0.jar"/>
-      <include name="lib/proxy-vole_20120920.jar"/>
-      <include name="lib/pty4j-0.3.jar"/>
-      <include name="lib/purejavacomm.jar"/>
-      <include name="lib/resolver.jar"/>
-      <include name="lib/resources.jar"/>
-      <include name="lib/resources_en.jar"/>
-      <include name="lib/rhino-js-1_7R4.jar"/>
-      <include name="lib/rngom-20051226-patched.jar"/>
-      <include name="lib/sanselan-0.98-snapshot.jar"/>
-      <include name="lib/serviceMessages.jar"/>
-      <include name="lib/snappy-java-1.0.5.jar"/>
-      <include name="lib/swingx-core-1.6.2.jar"/>
-      <include name="lib/trang-core.jar"/>
-      <include name="lib/trove4j.jar"/>
-      <include name="lib/trove4j_src.jar"/>
-      <include name="lib/util.jar"/>
-      <include name="lib/velocity.jar"/>
-      <include name="lib/winp-1.17-patched.jar"/>
-      <include name="lib/xbean.jar"/>
-      <include name="lib/xerces.jar"/>
-      <include name="lib/xmlrpc-2.0.jar"/>
-      <include name="lib/xpp3-1.1.4-min.jar"/>
-      <include name="lib/xstream-1.4.3.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/ant-javafx.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/dt.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/javafx-mx.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/jconsole.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/sa-jdi.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/tools.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/charsets.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/deploy.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/javaws.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jce.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfr.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfxswt.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jsse.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/management-agent.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/plugin.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/resources.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/rt.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/cldrdata.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/dnsns.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/jfxrt.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/localedata.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/nashorn.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunec.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar"/>
-      <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/zipfs.jar"/>
-    </fileset>
-  </path>
-  
-  <property name="project.jdk.home" value="${jdk.home.idea_ic-135.1230}"/>
-  <property name="project.jdk.bin" value="${jdk.bin.idea_ic-135.1230}"/>
-  <property name="project.jdk.classpath" value="jdk.classpath.idea_ic-135.1230"/>
-  
-  
-  <!-- Project Libraries -->
-  
-  <path id="library.antlr-runtime-3.5.2.classpath">
-    <pathelement location="${basedir}/lib/antlr-runtime-3.5.2.jar"/>
-  </path>
-  
-  <path id="library.nekohtml-1.9.21.classpath">
-    <pathelement location="${basedir}/lib/nekohtml-1.9.21.jar"/>
-  </path>
-  
-  <path id="library.slf4j-api-1.7.7.classpath">
-    <pathelement location="${basedir}/lib/slf4j-api-1.7.7.jar"/>
-  </path>
-  
-  <path id="library.slf4j-simple-1.7.7.classpath">
-    <pathelement location="${basedir}/lib/slf4j-simple-1.7.7.jar"/>
-  </path>
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <pathelement location="${javac2.home}/javac2.jar"/>
-    <pathelement location="${javac2.home}/jdom.jar"/>
-    <pathelement location="${javac2.home}/asm4-all.jar"/>
-    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
-  </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
-  
-  <!-- Modules -->
-  
-  
-  <!-- Module CordovaStudio -->
-  
-  <dirname property="module.cordovastudio.basedir" file="${ant.file}"/>
-  
-  
-  <property name="module.jdk.home.cordovastudio" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.cordovastudio" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.cordovastudio" value="${project.jdk.classpath}"/>
-  
-  <property name="compiler.args.cordovastudio" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
-  
-  <property name="cordovastudio.output.dir" value="${module.cordovastudio.basedir}/out/production/CordovaStudio"/>
-  <property name="cordovastudio.testoutput.dir" value="${module.cordovastudio.basedir}/out/test/CordovaStudio"/>
-  
-  <path id="cordovastudio.module.bootclasspath">
-    <!-- Paths to be included in compilation bootclasspath -->
-  </path>
-  
-  <path id="cordovastudio.module.production.classpath">
-    <path refid="${module.jdk.classpath.cordovastudio}"/>
-    <path refid="library.antlr-runtime-3.5.2.classpath"/>
-    <path refid="library.nekohtml-1.9.21.classpath"/>
-    <path refid="library.slf4j-api-1.7.7.classpath"/>
-    <path refid="library.slf4j-simple-1.7.7.classpath"/>
-  </path>
-  
-  <path id="cordovastudio.runtime.production.module.classpath">
-    <pathelement location="${cordovastudio.output.dir}"/>
-    <path refid="library.antlr-runtime-3.5.2.classpath"/>
-    <path refid="library.nekohtml-1.9.21.classpath"/>
-    <path refid="library.slf4j-api-1.7.7.classpath"/>
-    <path refid="library.slf4j-simple-1.7.7.classpath"/>
-  </path>
-  
-  <path id="cordovastudio.module.classpath">
-    <path refid="${module.jdk.classpath.cordovastudio}"/>
-    <pathelement location="${cordovastudio.output.dir}"/>
-    <path refid="library.antlr-runtime-3.5.2.classpath"/>
-    <path refid="library.nekohtml-1.9.21.classpath"/>
-    <path refid="library.slf4j-api-1.7.7.classpath"/>
-    <path refid="library.slf4j-simple-1.7.7.classpath"/>
-  </path>
-  
-  <path id="cordovastudio.runtime.module.classpath">
-    <pathelement location="${cordovastudio.testoutput.dir}"/>
-    <pathelement location="${cordovastudio.output.dir}"/>
-    <path refid="library.antlr-runtime-3.5.2.classpath"/>
-    <path refid="library.nekohtml-1.9.21.classpath"/>
-    <path refid="library.slf4j-api-1.7.7.classpath"/>
-    <path refid="library.slf4j-simple-1.7.7.classpath"/>
-  </path>
-  
-  
-  <patternset id="excluded.from.module.cordovastudio">
-    <patternset refid="ignored.files"/>
-  </patternset>
-  
-  <patternset id="excluded.from.compilation.cordovastudio">
-    <patternset refid="excluded.from.module.cordovastudio"/>
-  </patternset>
-  
-  <path id="cordovastudio.module.sourcepath">
-    <dirset dir="${module.cordovastudio.basedir}">
-      <include name="src"/>
-    </dirset>
-  </path>
-  
-  
-  <target name="compile.module.cordovastudio" depends="compile.module.cordovastudio.production,compile.module.cordovastudio.tests" description="Compile module CordovaStudio"/>
-  
-  <target name="compile.module.cordovastudio.production" depends="register.custom.compilers" description="Compile module CordovaStudio; production classes">
-    <mkdir dir="${cordovastudio.output.dir}"/>
-    <javac2 destdir="${cordovastudio.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.cordovastudio}/javac">
-      <compilerarg line="${compiler.args.cordovastudio}"/>
-      <bootclasspath refid="cordovastudio.module.bootclasspath"/>
-      <classpath refid="cordovastudio.module.production.classpath"/>
-      <src refid="cordovastudio.module.sourcepath"/>
-      <patternset refid="excluded.from.compilation.cordovastudio"/>
-    </javac2>
-    
-    <copy todir="${cordovastudio.output.dir}">
-      <fileset dir="${module.cordovastudio.basedir}/src">
-        <patternset refid="compiler.resources"/>
-        <type type="file"/>
-      </fileset>
-    </copy>
-  </target>
-  
-  <target name="compile.module.cordovastudio.tests" depends="register.custom.compilers,compile.module.cordovastudio.production" description="compile module CordovaStudio; test classes" unless="skip.tests"/>
-  
-  <target name="clean.module.cordovastudio" description="cleanup module">
-    <delete dir="${cordovastudio.output.dir}"/>
-    <delete dir="${cordovastudio.testoutput.dir}"/>
-  </target>
-  
-  <property name="cordovastudio.plugin.path.jar" value="${module.cordovastudio.basedir}/CordovaStudio.zip"/>
-  
-  <!-- Build archive for plugin 'CordovaStudio' -->
-  <target name="plugin.build.jar.cordovastudio" depends="compile.module.cordovastudio" description="Build plugin archive for module &#39;CordovaStudio&#39;">
-    <property name="tmp.dir.cordovastudio" value="${module.cordovastudio.basedir}/../temp"/>
-    <mkdir dir="${tmp.dir.cordovastudio}"/>
-    <mkdir dir="${tmp.dir.cordovastudio}/lib"/>
-    <jar destfile="${tmp.dir.cordovastudio}/lib/CordovaStudio.jar" duplicate="preserve">
-      <zipfileset dir="${module.cordovastudio.basedir}/out/production/CordovaStudio"/>
-      <zipfileset file="${module.cordovastudio.basedir}/META-INF/plugin.xml" prefix="META-INF"/>
-      <manifest>
-        <attribute name="Created-By" value="IntelliJ IDEA"/>
-        <attribute name="Manifest-Version" value="1.0"/>
-      </manifest>
-    </jar>
-    <copy file="${module.cordovastudio.basedir}/lib/antlr-runtime-3.5.2.jar" tofile="${tmp.dir.cordovastudio}/lib/antlr-runtime-3.5.2.jar"/>
-    <copy file="${module.cordovastudio.basedir}/lib/nekohtml-1.9.21.jar" tofile="${tmp.dir.cordovastudio}/lib/nekohtml-1.9.21.jar"/>
-    <copy file="${module.cordovastudio.basedir}/lib/slf4j-api-1.7.7.jar" tofile="${tmp.dir.cordovastudio}/lib/slf4j-api-1.7.7.jar"/>
-    <copy file="${module.cordovastudio.basedir}/lib/slf4j-simple-1.7.7.jar" tofile="${tmp.dir.cordovastudio}/lib/slf4j-simple-1.7.7.jar"/>
-    <zip destfile="${cordovastudio.plugin.path.jar}">
-      <fileset dir="${module.cordovastudio.basedir}/../temp"/>
-    </zip>
-    <delete dir="${tmp.dir.cordovastudio}"/>
-  </target>
-  
-  <target name="init" description="Build initialization">
-    <!-- Perform any build initialization in this target -->
-  </target>
-  
-  <target name="clean" depends="clean.module.cordovastudio" description="cleanup all"/>
-  
-  <target name="build.modules" depends="init, clean, plugin.build.jar.cordovastudio" description="build all modules"/>
-  
-  <target name="all" depends="build.modules" description="build all"/>
+
+    <property file="build.properties"/>
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <property name="skip.tests" value="true"/>
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value=""/>
+    <property name="compiler.max.memory" value="700m"/>
+    <patternset id="ignored.files">
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/.pyc/**"/>
+        <exclude name="**/.pyo/**"/>
+        <exclude name="**/*.pyc/**"/>
+        <exclude name="**/*.pyo/**"/>
+        <exclude name="**/.git/**"/>
+        <exclude name="**/*.hprof/**"/>
+        <exclude name="**/_svn/**"/>
+        <exclude name="**/.hg/**"/>
+        <exclude name="**/*.lib/**"/>
+        <exclude name="**/*~/**"/>
+        <exclude name="**/__pycache__/**"/>
+        <exclude name="**/.bundle/**"/>
+        <exclude name="**/*.rbc/**"/>
+    </patternset>
+    <patternset id="library.patterns">
+        <include name="*.zip"/>
+        <include name="*.apk"/>
+        <include name="*.war"/>
+        <include name="*.egg"/>
+        <include name="*.ear"/>
+        <include name="*.ane"/>
+        <include name="*.swc"/>
+        <include name="*.jar"/>
+    </patternset>
+    <patternset id="compiler.resources">
+        <exclude name="**/?*.java"/>
+        <exclude name="**/?*.form"/>
+        <exclude name="**/?*.class"/>
+        <exclude name="**/?*.groovy"/>
+        <exclude name="**/?*.scala"/>
+        <exclude name="**/?*.flex"/>
+        <exclude name="**/?*.kt"/>
+        <exclude name="**/?*.clj"/>
+    </patternset>
+
+    <!-- JDK definitions -->
+
+    <property name="jdk.bin.idea_ic-135.1230"
+              value="${jdk.home.idea_ic-135.1230}/../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/bin"/>
+    <path id="jdk.classpath.idea_ic-135.1230">
+        <fileset dir="${jdk.home.idea_ic-135.1230}">
+            <include name="lib/annotations.jar"/>
+            <include name="lib/asm-all.jar"/>
+            <include name="lib/asm-commons.jar"/>
+            <include name="lib/asm.jar"/>
+            <include name="lib/asm4-all.jar"/>
+            <include name="lib/automaton.jar"/>
+            <include name="lib/boot.jar"/>
+            <include name="lib/bootstrap.jar"/>
+            <include name="lib/cglib-2.2.2.jar"/>
+            <include name="lib/cli-parser-1.1.jar"/>
+            <include name="lib/commons-codec-1.8.jar"/>
+            <include name="lib/commons-httpclient-3.1-patched.jar"/>
+            <include name="lib/commons-logging-1.1.3.jar"/>
+            <include name="lib/commons-net-3.1.jar"/>
+            <include name="lib/ecj-4.3.2.jar"/>
+            <include name="lib/extensions.jar"/>
+            <include name="lib/fluent-hc-4.3.2.jar"/>
+            <include name="lib/forms_rt.jar"/>
+            <include name="lib/groovy-all-2.2.1.jar"/>
+            <include name="lib/gson-2.2.4.jar"/>
+            <include name="lib/guava-14.0.1.jar"/>
+            <include name="lib/hamcrest-core-1.3.jar"/>
+            <include name="lib/hamcrest-library-1.3.jar"/>
+            <include name="lib/httpclient-4.3.2.jar"/>
+            <include name="lib/httpcore-4.3.1.jar"/>
+            <include name="lib/httpmime-4.3.2.jar"/>
+            <include name="lib/icons.jar"/>
+            <include name="lib/idea.jar"/>
+            <include name="lib/idea_rt.jar"/>
+            <include name="lib/isorelax.jar"/>
+            <include name="lib/javac2.jar"/>
+            <include name="lib/jaxen-1.1.3.jar"/>
+            <include name="lib/jayatana-1.2.4.jar"/>
+            <include name="lib/jcip-annotations.jar"/>
+            <include name="lib/jdkAnnotations.jar"/>
+            <include name="lib/jdom.jar"/>
+            <include name="lib/jgoodies-common-1.2.1.jar"/>
+            <include name="lib/jgoodies-forms.jar"/>
+            <include name="lib/jgoodies-looks-2.4.2.jar"/>
+            <include name="lib/jh.jar"/>
+            <include name="lib/jing.jar"/>
+            <include name="lib/jna-utils.jar"/>
+            <include name="lib/jna.jar"/>
+            <include name="lib/jps-launcher.jar"/>
+            <include name="lib/jps-server.jar"/>
+            <include name="lib/jsch-0.1.50.jar"/>
+            <include name="lib/jsch.agentproxy.connector-factory.jar"/>
+            <include name="lib/jsch.agentproxy.core.jar"/>
+            <include name="lib/jsch.agentproxy.pageant.jar"/>
+            <include name="lib/jsch.agentproxy.sshagent.jar"/>
+            <include name="lib/jsch.agentproxy.usocket-jna.jar"/>
+            <include name="lib/jsch.agentproxy.usocket-nc.jar"/>
+            <include name="lib/jsr166e.jar"/>
+            <include name="lib/jsr173_1.0_api.jar"/>
+            <include name="lib/junit-4.11.jar"/>
+            <include name="lib/jzlib-1.1.1.jar"/>
+            <include name="lib/log4j.jar"/>
+            <include name="lib/markdownj-core-0.4.2-SNAPSHOT.jar"/>
+            <include name="lib/microba.jar"/>
+            <include name="lib/miglayout-swing.jar"/>
+            <include name="lib/nanoxml-2.2.3.jar"/>
+            <include name="lib/nekohtml-1.9.14.jar"/>
+            <include name="lib/netty-all-5.0.0.Alpha2.jar"/>
+            <include name="lib/openapi.jar"/>
+            <include name="lib/optimizedFileManager.jar"/>
+            <include name="lib/oromatcher.jar"/>
+            <include name="lib/picocontainer.jar"/>
+            <include name="lib/protobuf-2.5.0.jar"/>
+            <include name="lib/proxy-vole_20120920.jar"/>
+            <include name="lib/pty4j-0.3.jar"/>
+            <include name="lib/purejavacomm.jar"/>
+            <include name="lib/resolver.jar"/>
+            <include name="lib/resources.jar"/>
+            <include name="lib/resources_en.jar"/>
+            <include name="lib/rhino-js-1_7R4.jar"/>
+            <include name="lib/rngom-20051226-patched.jar"/>
+            <include name="lib/sanselan-0.98-snapshot.jar"/>
+            <include name="lib/serviceMessages.jar"/>
+            <include name="lib/snappy-java-1.0.5.jar"/>
+            <include name="lib/swingx-core-1.6.2.jar"/>
+            <include name="lib/trang-core.jar"/>
+            <include name="lib/trove4j.jar"/>
+            <include name="lib/trove4j_src.jar"/>
+            <include name="lib/util.jar"/>
+            <include name="lib/velocity.jar"/>
+            <include name="lib/winp-1.17-patched.jar"/>
+            <include name="lib/xbean.jar"/>
+            <include name="lib/xerces.jar"/>
+            <include name="lib/xmlrpc-2.0.jar"/>
+            <include name="lib/xpp3-1.1.4-min.jar"/>
+            <include name="lib/xstream-1.4.3.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/ant-javafx.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/dt.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/javafx-mx.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/jconsole.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/sa-jdi.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/tools.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/charsets.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/deploy.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/javaws.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jce.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfr.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfxswt.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jsse.jar"/>
+            <include
+                    name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/management-agent.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/plugin.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/resources.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/rt.jar"/>
+            <include
+                    name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/cldrdata.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/dnsns.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/jfxrt.jar"/>
+            <include
+                    name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/localedata.jar"/>
+            <include
+                    name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/nashorn.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunec.jar"/>
+            <include
+                    name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar"/>
+            <include
+                    name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar"/>
+            <include name="../../Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/zipfs.jar"/>
+        </fileset>
+    </path>
+
+    <property name="project.jdk.home" value="${jdk.home.idea_ic-135.1230}"/>
+    <property name="project.jdk.bin" value="${jdk.bin.idea_ic-135.1230}"/>
+    <property name="project.jdk.classpath" value="jdk.classpath.idea_ic-135.1230"/>
+
+
+    <!-- Project Libraries -->
+
+    <path id="library.antlr-runtime-3.5.2.classpath">
+        <pathelement location="${basedir}/lib/antlr-runtime-3.5.2.jar"/>
+    </path>
+
+    <path id="library.nekohtml-1.9.21.classpath">
+        <pathelement location="${basedir}/lib/nekohtml-1.9.21.jar"/>
+    </path>
+
+    <path id="library.slf4j-api-1.7.7.classpath">
+        <pathelement location="${basedir}/lib/slf4j-api-1.7.7.jar"/>
+    </path>
+
+    <path id="library.slf4j-simple-1.7.7.classpath">
+        <pathelement location="${basedir}/lib/slf4j-simple-1.7.7.jar"/>
+    </path>
+    <!-- Register Custom Compiler Taskdefs -->
+    <property name="javac2.home" value="${idea.home}/lib"/>
+    <path id="javac2.classpath">
+        <pathelement location="${javac2.home}/javac2.jar"/>
+        <pathelement location="${javac2.home}/jdom.jar"/>
+        <pathelement location="${javac2.home}/asm4-all.jar"/>
+        <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+    </path>
+    <target name="register.custom.compilers">
+        <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+        <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions"
+                 classpathref="javac2.classpath"/>
+    </target>
+
+    <!-- Modules -->
+
+
+    <!-- Module CordovaStudio -->
+
+    <dirname property="module.cordovastudio.basedir" file="${ant.file}"/>
+
+
+    <property name="module.jdk.home.cordovastudio" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.cordovastudio" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.cordovastudio" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.cordovastudio" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+
+    <property name="cordovastudio.output.dir" value="${module.cordovastudio.basedir}/out/production/CordovaStudio"/>
+    <property name="cordovastudio.testoutput.dir" value="${module.cordovastudio.basedir}/out/test/CordovaStudio"/>
+
+    <path id="cordovastudio.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="cordovastudio.module.production.classpath">
+        <path refid="${module.jdk.classpath.cordovastudio}"/>
+        <path refid="library.antlr-runtime-3.5.2.classpath"/>
+        <path refid="library.nekohtml-1.9.21.classpath"/>
+        <path refid="library.slf4j-api-1.7.7.classpath"/>
+        <path refid="library.slf4j-simple-1.7.7.classpath"/>
+    </path>
+
+    <path id="cordovastudio.runtime.production.module.classpath">
+        <pathelement location="${cordovastudio.output.dir}"/>
+        <path refid="library.antlr-runtime-3.5.2.classpath"/>
+        <path refid="library.nekohtml-1.9.21.classpath"/>
+        <path refid="library.slf4j-api-1.7.7.classpath"/>
+        <path refid="library.slf4j-simple-1.7.7.classpath"/>
+    </path>
+
+    <path id="cordovastudio.module.classpath">
+        <path refid="${module.jdk.classpath.cordovastudio}"/>
+        <pathelement location="${cordovastudio.output.dir}"/>
+        <path refid="library.antlr-runtime-3.5.2.classpath"/>
+        <path refid="library.nekohtml-1.9.21.classpath"/>
+        <path refid="library.slf4j-api-1.7.7.classpath"/>
+        <path refid="library.slf4j-simple-1.7.7.classpath"/>
+    </path>
+
+    <path id="cordovastudio.runtime.module.classpath">
+        <pathelement location="${cordovastudio.testoutput.dir}"/>
+        <pathelement location="${cordovastudio.output.dir}"/>
+        <path refid="library.antlr-runtime-3.5.2.classpath"/>
+        <path refid="library.nekohtml-1.9.21.classpath"/>
+        <path refid="library.slf4j-api-1.7.7.classpath"/>
+        <path refid="library.slf4j-simple-1.7.7.classpath"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.cordovastudio">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.cordovastudio">
+        <patternset refid="excluded.from.module.cordovastudio"/>
+    </patternset>
+
+    <path id="cordovastudio.module.sourcepath">
+        <dirset dir="${module.cordovastudio.basedir}">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.cordovastudio"
+            depends="compile.module.cordovastudio.production,compile.module.cordovastudio.tests"
+            description="Compile module CordovaStudio"/>
+
+    <target name="compile.module.cordovastudio.production" depends="register.custom.compilers"
+            description="Compile module CordovaStudio; production classes">
+        <mkdir dir="${cordovastudio.output.dir}"/>
+        <javac2 destdir="${cordovastudio.output.dir}" debug="${compiler.debug}"
+                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true"
+                executable="${module.jdk.bin.cordovastudio}/javac">
+            <compilerarg line="${compiler.args.cordovastudio}"/>
+            <bootclasspath refid="cordovastudio.module.bootclasspath"/>
+            <classpath refid="cordovastudio.module.production.classpath"/>
+            <src refid="cordovastudio.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.cordovastudio"/>
+        </javac2>
+
+        <copy todir="${cordovastudio.output.dir}">
+            <fileset dir="${module.cordovastudio.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="test" depends="compile.module.cordovastudio.tests" description="Test" unless="skip.tests"></target>
+
+    <target name="compile.module.cordovastudio.tests"
+            depends="register.custom.compilers,compile.module.cordovastudio.production"
+            description="compile module CordovaStudio; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.cordovastudio" description="cleanup module">
+        <delete dir="${cordovastudio.output.dir}"/>
+        <delete dir="${cordovastudio.testoutput.dir}"/>
+    </target>
+
+    <property name="cordovastudio.plugin.path.jar" value="${module.cordovastudio.basedir}/CordovaStudio.zip"/>
+
+    <!-- Build archive for plugin 'CordovaStudio' -->
+    <target name="plugin.build.jar.cordovastudio" depends="compile.module.cordovastudio"
+            description="Build plugin archive for module &#39;CordovaStudio&#39;">
+        <property name="tmp.dir.cordovastudio" value="${module.cordovastudio.basedir}/../temp"/>
+        <mkdir dir="${tmp.dir.cordovastudio}"/>
+        <mkdir dir="${tmp.dir.cordovastudio}/lib"/>
+        <jar destfile="${tmp.dir.cordovastudio}/lib/CordovaStudio.jar" duplicate="preserve">
+            <zipfileset dir="${module.cordovastudio.basedir}/out/production/CordovaStudio"/>
+            <zipfileset file="${module.cordovastudio.basedir}/META-INF/plugin.xml" prefix="META-INF"/>
+            <manifest>
+                <attribute name="Created-By" value="IntelliJ IDEA"/>
+                <attribute name="Manifest-Version" value="1.0"/>
+            </manifest>
+        </jar>
+        <copy file="${module.cordovastudio.basedir}/lib/antlr-runtime-3.5.2.jar"
+              tofile="${tmp.dir.cordovastudio}/lib/antlr-runtime-3.5.2.jar"/>
+        <copy file="${module.cordovastudio.basedir}/lib/nekohtml-1.9.21.jar"
+              tofile="${tmp.dir.cordovastudio}/lib/nekohtml-1.9.21.jar"/>
+        <copy file="${module.cordovastudio.basedir}/lib/slf4j-api-1.7.7.jar"
+              tofile="${tmp.dir.cordovastudio}/lib/slf4j-api-1.7.7.jar"/>
+        <copy file="${module.cordovastudio.basedir}/lib/slf4j-simple-1.7.7.jar"
+              tofile="${tmp.dir.cordovastudio}/lib/slf4j-simple-1.7.7.jar"/>
+        <zip destfile="${cordovastudio.plugin.path.jar}">
+            <fileset dir="${module.cordovastudio.basedir}/../temp"/>
+        </zip>
+        <delete dir="${tmp.dir.cordovastudio}"/>
+    </target>
+
+    <target name="init" description="Build initialization">
+        <!-- Perform any build initialization in this target -->
+    </target>
+
+    <target name="clean" depends="clean.module.cordovastudio" description="cleanup all"/>
+
+    <target name="build.modules" depends="init, clean, plugin.build.jar.cordovastudio" description="build all modules"/>
+
+    <target name="all" depends="build.modules" description="build all"/>
 </project>
