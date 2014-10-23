@@ -208,19 +208,6 @@
     <path id="library.slf4j-simple-1.7.7.classpath">
         <pathelement location="${basedir}/lib/slf4j-simple-1.7.7.jar"/>
     </path>
-    <!-- Register Custom Compiler Taskdefs -->
-    <property name="javac2.home" value="${idea.home}/lib"/>
-    <path id="javac2.classpath">
-        <pathelement location="${javac2.home}/javac2.jar"/>
-        <pathelement location="${javac2.home}/jdom.jar"/>
-        <pathelement location="${javac2.home}/asm4-all.jar"/>
-        <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
-    </path>
-    <target name="register.custom.compilers">
-        <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-        <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions"
-                 classpathref="javac2.classpath"/>
-    </target>
 
     <!-- Modules -->
 
@@ -297,18 +284,18 @@
             depends="compile.module.cordovastudio.production,compile.module.cordovastudio.tests"
             description="Compile module CordovaStudio"/>
 
-    <target name="compile.module.cordovastudio.production" depends="register.custom.compilers"
+    <target name="compile.module.cordovastudio.production"
             description="Compile module CordovaStudio; production classes">
         <mkdir dir="${cordovastudio.output.dir}"/>
-        <javac2 destdir="${cordovastudio.output.dir}" debug="${compiler.debug}"
-                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true"
-                executable="${module.jdk.bin.cordovastudio}/javac">
+        <javac destdir="${cordovastudio.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+               memorymaximumsize="${compiler.max.memory}" fork="true"
+               executable="${module.jdk.bin.cordovastudio}/javac">
             <compilerarg line="${compiler.args.cordovastudio}"/>
             <bootclasspath refid="cordovastudio.module.bootclasspath"/>
             <classpath refid="cordovastudio.module.production.classpath"/>
             <src refid="cordovastudio.module.sourcepath"/>
             <patternset refid="excluded.from.compilation.cordovastudio"/>
-        </javac2>
+        </javac>
 
         <copy todir="${cordovastudio.output.dir}">
             <fileset dir="${module.cordovastudio.basedir}/src">
@@ -319,9 +306,7 @@
     </target>
 
     <target name="test" depends="compile.module.cordovastudio.tests" description="Test" unless="skip.tests"></target>
-
-    <target name="compile.module.cordovastudio.tests"
-            depends="register.custom.compilers,compile.module.cordovastudio.production"
+    <target name="compile.module.cordovastudio.tests" depends="compile.module.cordovastudio.production"
             description="compile module CordovaStudio; test classes" unless="skip.tests"/>
 
     <target name="clean.module.cordovastudio" description="cleanup module">
