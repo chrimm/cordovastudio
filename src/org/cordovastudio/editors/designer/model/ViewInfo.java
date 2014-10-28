@@ -81,7 +81,7 @@ public class ViewInfo {
     /**
      * Returns the list of children views. This is never null, but can be empty.
      */
-    synchronized public List<ViewInfo> getChildren() {
+    public List<ViewInfo> getChildren() {
         return mChildren;
     }
 
