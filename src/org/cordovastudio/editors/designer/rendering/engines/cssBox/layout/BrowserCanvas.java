@@ -26,6 +26,7 @@ package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
 import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.html.HtmlTag;
+import org.cordovastudio.editors.designer.model.ViewInfo;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.render.GraphicsRenderer;
 import org.slf4j.Logger;
@@ -131,6 +132,10 @@ public class BrowserCanvas extends JPanel {
         return viewport;
     }
 
+    public ViewInfo getRootViewInfo() {
+        return viewport.getViewInfo();
+    }
+
     /**
      * Creates the document layout according to the given viewport size where the visible area size
      * is equal to the whole canvas. If the size of the resulting page is greater than the specified
@@ -197,6 +202,7 @@ public class BrowserCanvas extends JPanel {
         viewport.draw(r);
         r.close();
         setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
+
         revalidate();
     }
 

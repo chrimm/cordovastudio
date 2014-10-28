@@ -23,6 +23,7 @@
  */
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlDocument;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.CSSNorm;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
@@ -45,6 +46,7 @@ public class ReplacedText extends ReplacedContent {
     private String encoding;
     private DOMAnalyzer decoder;
     private Viewport viewport;
+    private XmlElementFactory elementFactory;
 
     /**
      * The last dimension used for layout or null when no layout has been created
@@ -56,11 +58,12 @@ public class ReplacedText extends ReplacedContent {
      */
     private Dimension layoutDimension;
 
-    public ReplacedText(ElementBox owner, XmlDocument doc, URL base, String encoding) {
+    public ReplacedText(ElementBox owner, XmlDocument doc, URL base, String encoding, XmlElementFactory elementFactory) {
         super(owner);
         this.doc = doc;
         this.base = base;
         this.encoding = encoding;
+        this.elementFactory = elementFactory;
         currentDimension = null;
         layoutDimension = null;
         createDecoder();
@@ -160,7 +163,7 @@ public class ReplacedText extends ReplacedContent {
         VisualContext ctx = new VisualContext(null, getOwner().getViewport().getFactory());
 
         log.trace("Creating boxes");
-        BoxFactory factory = new BoxFactory(decoder, base);
+        BoxFactory factory = new BoxFactory(decoder, base, elementFactory);
         factory.setConfig(owner.getViewport().getConfig());
         factory.reset();
         viewport = factory.createViewportTree(decoder.getRoot(), owner.getGraphics(), ctx, dim.width, dim.height);

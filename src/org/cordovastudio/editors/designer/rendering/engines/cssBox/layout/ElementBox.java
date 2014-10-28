@@ -20,6 +20,7 @@
  * Copyright (C) 2014 Christoffer T. Timm
  * Changes:
  *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
+ *  – Added support for ViewInfos
  */
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
@@ -1411,5 +1412,4 @@ abstract public class ElementBox extends Box {
             }
         }
     }
-
 }

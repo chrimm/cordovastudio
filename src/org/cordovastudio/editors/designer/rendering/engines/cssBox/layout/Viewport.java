@@ -24,11 +24,13 @@ package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
 import com.intellij.psi.html.HtmlTag;
 import cz.vutbr.web.css.CSSFactory;
+import org.cordovastudio.editors.designer.model.ViewInfo;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.render.BoxRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -93,6 +95,8 @@ public class Viewport extends BlockBox {
         isblock = true;
         contblock = true;
         root = null;
+        viewInfo = new ViewInfo("viewport", e, 0, 0, width, height);
+        viewInfo.setChildren(new ArrayList<>());
         visibleRect = new Rectangle(0, 0, width, height);
     }
 
@@ -131,6 +135,10 @@ public class Viewport extends BlockBox {
      */
     public BrowserConfig getConfig() {
         return config;
+    }
+
+    public ViewInfo getViewInfo() {
+        return viewInfo;
     }
 
     /**
@@ -248,6 +256,8 @@ public class Viewport extends BlockBox {
         this.height = height;
         content = new Dimension(width, height);
         bounds = new Rectangle(0, 0, totalWidth(), totalHeight());
+        //TODO needed here?
+        //updateViewInfo(bounds);
     }
 
     @Override
@@ -386,6 +396,8 @@ public class Viewport extends BlockBox {
             scontext.clear();
 
         absolutePositionsChildren();
+
+        updateViewInfo(absbounds);
     }
 
     /**

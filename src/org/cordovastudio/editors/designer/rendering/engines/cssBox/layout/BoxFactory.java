@@ -20,6 +20,7 @@
  * Copyright (C) 2014 Christoffer T. Timm
  * Changes:
  *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
+ *  – Added support for ViewInfos
  */
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
@@ -33,6 +34,7 @@ import com.intellij.psi.xml.XmlText;
 import cz.vutbr.web.css.*;
 import cz.vutbr.web.css.CSSProperty.Overflow;
 import cz.vutbr.web.css.Selector.PseudoDeclaration;
+import org.cordovastudio.editors.designer.model.ViewInfo;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.io.DOMSource;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.io.DocumentSource;
@@ -42,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
@@ -60,7 +63,7 @@ import java.util.Vector;
 public class BoxFactory {
     private static Logger log = LoggerFactory.getLogger(BoxFactory.class);
 
-    private final XmlElementFactory elementFactory;
+    protected final XmlElementFactory elementFactory;
 
     protected BrowserConfig config;
     protected HTMLBoxFactory html;
@@ -159,7 +162,7 @@ public class BoxFactory {
         viewport = new Viewport(vp, g, ctx, this, root, width, height);
         viewport.setConfig(config);
         BoxTreeCreationStatus stat = new BoxTreeCreationStatus(viewport);
-        createSubtree(root, stat);
+        createSubtree(root, stat, viewport.getViewInfo());
         log.debug("Root box is: " + viewport.getRootBox());
 
         return viewport;
@@ -171,7 +174,7 @@ public class BoxFactory {
      *
      * @param stat current tree creation status used for determining the parents
      */
-    public void createBoxTree(BoxTreeCreationStatus stat) {
+    public void createBoxTree(BoxTreeCreationStatus stat, ViewInfo parentViewInfo) {
         boolean generated = false;
         do {
             if (stat.parent.isDisplayed()) {
@@ -184,7 +187,7 @@ public class BoxFactory {
                     PsiElement element = createPseudoElement(stat.parent, PseudoDeclaration.BEFORE);
                     if (element != null && (element instanceof HtmlTag || element instanceof XmlText)) {
                         stat.curchild = -1;
-                        createSubtree(element, stat);
+                        createSubtree(element, stat, parentViewInfo);
                     }
                 }
 
@@ -194,7 +197,7 @@ public class BoxFactory {
                     PsiElement childElement = children[child];
                     if (childElement instanceof HtmlTag || childElement instanceof XmlText) {
                         stat.curchild = child;
-                        createSubtree(childElement, stat);
+                        createSubtree(childElement, stat, parentViewInfo);
                     }
                 }
 
@@ -203,7 +206,7 @@ public class BoxFactory {
                     PsiElement element = createPseudoElement(stat.parent, PseudoDeclaration.AFTER);
                     if (element != null && (element instanceof HtmlTag || element instanceof XmlText)) {
                         stat.curchild = children.length;
-                        createSubtree(element, stat);
+                        createSubtree(element, stat, parentViewInfo);
                     }
                 }
 
@@ -224,20 +227,29 @@ public class BoxFactory {
      * Creates a subtree of a parent box that corresponds to a single child DOM node of this box and adds the subtree to the complete tree.
      *
      * @param subTreeRoot the root DOM node of the subtree being created
-     * @param stat        curent box creation status for obtaining the containing boxes
+     * @param stat        current box creation status for obtaining the containing boxes
      */
-    private void createSubtree(PsiElement subTreeRoot, BoxTreeCreationStatus stat) {
+    private void createSubtree(PsiElement subTreeRoot, BoxTreeCreationStatus stat, ViewInfo parentViewInfo) {
         //store current status for the parent
         stat.parent.curstat = new BoxTreeCreationStatus(stat);
 
         //Create the new box for the child
         Box newbox;
+
+        ViewInfo viewInfo = null;
+
         boolean istext = false;
         if (subTreeRoot instanceof XmlText) {
             newbox = createTextBox((XmlText) subTreeRoot, stat);
             istext = true;
-        } else
+        } else {
             newbox = createElementBox((HtmlTag) subTreeRoot, stat);
+            viewInfo = createViewInfo(newbox);
+            newbox.setViewInfo(viewInfo);
+            List<ViewInfo> subViewInfos = parentViewInfo.getChildren();
+            subViewInfos.add(viewInfo);
+        }
+
 
         //Create the child subtree
         if (!istext) {
@@ -275,15 +287,34 @@ public class BoxFactory {
                 //Last inflow box is local for block boxes
                 newstat.lastinflow = null; //TODO this does not work in some cases (absolute.html)
                 //create the subtree
-                createBoxTree(newstat);
+                createBoxTree(newstat, viewInfo);
                 //remove trailing whitespaces in blocks
                 removeTrailingWhitespaces(block);
             } else
-                createBoxTree(newstat);
+                createBoxTree(newstat, viewInfo);
         }
 
         //Add the new box to the parent according to its type
         addToTree(newbox, stat);
+    }
+
+    /**
+     * Creates a new {@link ViewInfo} for the specified {@link Box} and attach it to the given parent.
+     *
+     * @param newbox The {@link Box} for which the ViewInfo shall be created.
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    private ViewInfo createViewInfo(Box newbox) {
+        ViewInfo viewInfo = new ViewInfo(((HtmlTag)newbox.getElement()).getName(), newbox.getElement(), 0, 0, 0, 0);
+        viewInfo.setChildren(new ArrayList<>());
+        /*
+        if(newbox instanceof BlockBox) {
+            LengthSet margins = ((BlockBox) newbox).getMargin();
+            viewInfo.setExtendedInfo(((BlockBox) newbox).getFirstInlineBoxBaseline(), margins.left, margins.top, margins.right, margins.bottom);
+        }
+        */
+
+        return viewInfo;
     }
 
     /**

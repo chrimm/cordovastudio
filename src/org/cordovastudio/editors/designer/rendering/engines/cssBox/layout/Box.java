@@ -25,6 +25,7 @@
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
 import com.intellij.psi.PsiElement;
+import org.cordovastudio.editors.designer.model.ViewInfo;
 
 import java.awt.*;
 import java.net.URL;
@@ -150,6 +151,11 @@ abstract public class Box {
      */
     protected Box rest;
 
+    /**
+     * Assigned {@link ViewInfo}
+     */
+    protected ViewInfo viewInfo;
+
     //==============================================================
 
     /**
@@ -243,6 +249,43 @@ abstract public class Box {
      */
     public PsiElement getElement() {
         return element;
+    }
+
+    /**
+     * Return the attached {@link ViewInfo}.
+     *
+     * @return The attached {@link ViewInfo}
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    public ViewInfo getViewInfo() {
+        return viewInfo;
+    }
+
+    /**
+     * Attaches the specified {@link ViewInfo}.
+     *
+     * @param viewInfo The {@link ViewInfo} to attach
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    public void setViewInfo(ViewInfo viewInfo) {
+        this.viewInfo = viewInfo;
+    }
+
+    /**
+     * Updated the assigned {@link ViewInfo} with the specified bound.
+     *
+     * @param bounds The new bounds to set
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    protected void updateViewInfo(Rectangle bounds) {
+        if(viewInfo == null) {
+            return;
+        }
+
+        ViewInfo tmpViewInfo = new ViewInfo(viewInfo.getClassName(), viewInfo.getCookie(), 0, 0, bounds.width, bounds.height, viewInfo.getViewObject(), viewInfo.getLayoutParamsObject());
+        tmpViewInfo.setChildren(viewInfo.getChildren());
+        tmpViewInfo.setExtendedInfo(viewInfo.getBaseLine(), viewInfo.getLeftMargin(), viewInfo.getTopMargin(), viewInfo.getRightMargin(), viewInfo.getBottomMargin());
+        viewInfo = tmpViewInfo;
     }
 
     /**

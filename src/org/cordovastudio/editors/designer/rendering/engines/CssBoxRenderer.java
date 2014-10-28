@@ -21,8 +21,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlTag;
-import org.cordovastudio.editors.designer.model.ViewInfo;
 import org.cordovastudio.editors.designer.rendering.*;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.CSSNorm;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
@@ -65,9 +63,6 @@ public class CssBoxRenderer extends RenderingEngine {
     @Override
     public RenderSession createSession(RenderParams params) throws RenderingException {
 
-        //ILayoutPullParser parser = params.getParser();
-        //XmlFile file = (parser instanceof LayoutPsiPullParser) ? ((LayoutPsiPullParser)parser).getXmlFile() : null;
-
         URL baseUrl;
         XmlDocument document;
         DOMAnalyzer domAnalyzer;
@@ -102,6 +97,13 @@ public class CssBoxRenderer extends RenderingEngine {
         /*
             Do not delete or uncommend the adding of these default style sheets, as this will end up with the
             <html> tag being interpreted as an inline element which in turn will crash the hole rendering.
+
+            The CSSBox renderer needs this styles, which represent the W3C defaults.
+            - CSSNorm.stdStyleSheet(): corresponds to the CSS2.1 recommendation (Appendix D)
+            - CSSNorm.userStyleSheet(): style sheet defining the additional basic style not covered by the CSS recommendation
+            - CSSNorm.formsStyleSheet(): A style sheet defining a basic style of form fields. This style sheet may be used
+                for a simple rendering of form fields when their functionality is not implemented
+                in another way.
          */
 
         domAnalyzer.attributesToStyles(); //convert the HTML presentation attributes to inline styles
@@ -122,13 +124,8 @@ public class CssBoxRenderer extends RenderingEngine {
 
         BufferedImage image = canvas.getImage();
 
-        //XmlTag bodyTag = document.getElementsByTagName("body").item(0);
+        //ViewInfo rootViewInfo = new ViewInfo("body", canvas.getViewport().getRootElement(), 0, 0, 720, 1280);
 
-        XmlTag rootTag = document.getRootTag().findFirstSubTag("body");
-
-        ViewInfo rootViewInfo = new ViewInfo("body", rootTag, 0, 0, 720, 1280);
-
-        return new StaticRenderSession(SUCCESS.createResult(), rootViewInfo, image);
-
+        return new StaticRenderSession(SUCCESS.createResult(), canvas.getRootViewInfo(), image);
     }
 }
