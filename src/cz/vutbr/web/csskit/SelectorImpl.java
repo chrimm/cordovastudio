@@ -8,6 +8,7 @@
 
 package cz.vutbr.web.csskit;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.html.HtmlTag;
 import cz.vutbr.web.css.CSSFactory;
 import cz.vutbr.web.css.CombinedSelector;
@@ -15,7 +16,6 @@ import cz.vutbr.web.css.CombinedSelector.Specificity;
 import cz.vutbr.web.css.CombinedSelector.Specificity.Level;
 import cz.vutbr.web.css.MatchCondition;
 import cz.vutbr.web.css.Selector;
-import org.w3c.dom.Element;
 
 import java.util.HashMap;
 
@@ -404,71 +404,71 @@ public class SelectorImpl extends AbstractRule<Selector.SelectorPart> implements
                     case FIRST_CHILD:
                     case LAST_CHILD:
                     case ONLY_CHILD:
-
-                        boolean first = false;
-                        boolean last = false;
-                        if (declaration != PseudoDeclaration.LAST_CHILD) {
-                            HtmlTag prev = tag;
-                            while (true) {
-                                prev = (HtmlTag) prev.getPrevSibling();
-                                if (prev == null) {
-                                    first = true;
-                                    break;
-                                }
+                        if(tag.getParent() instanceof HtmlTag) {
+                            boolean first = false;
+                            boolean last = false;
+                            if (declaration != PseudoDeclaration.LAST_CHILD) {
+                                PsiElement prev = tag;
+                                do {
+                                    prev = prev.getPrevSibling();
+                                    if (prev == null) {
+                                        first = true;
+                                        break;
+                                    }
+                                } while (!(prev instanceof HtmlTag));
+                            }
+                            if (declaration != PseudoDeclaration.FIRST_CHILD) {
+                                PsiElement next = tag;
+                                do {
+                                    next = next.getNextSibling();
+                                    if (next == null) {
+                                        last = true;
+                                        break;
+                                    }
+                                } while (!(next instanceof HtmlTag));
+                            }
+                            switch (declaration) {
+                                case FIRST_CHILD:
+                                    return first;
+                                case LAST_CHILD:
+                                    return last;
+                                default:
+                                    return first && last; //ONLY_CHILD
                             }
                         }
-                        if (declaration != PseudoDeclaration.FIRST_CHILD) {
-                            HtmlTag next = tag;
-                            while (true) {
-                                next = (HtmlTag) next.getNextSibling();
-                                if (next == null) {
-                                    last = true;
-                                    break;
-                                }
-                            }
-                        }
-                        switch (declaration) {
-                            case FIRST_CHILD:
-                                return first;
-                            case LAST_CHILD:
-                                return last;
-                            default:
-                                return first && last; //ONLY_CHILD
-                        }
-
                     case FIRST_OF_TYPE:
                     case LAST_OF_TYPE:
                     case ONLY_OF_TYPE:
-
-                        boolean firstt = false;
-                        boolean lastt = false;
-                        if (declaration != PseudoDeclaration.LAST_OF_TYPE) {
-                            HtmlTag prev = tag;
-                            firstt = true;
-                            do {
-                                prev = (HtmlTag) prev.getPrevSibling();
-                                if (prev != null && isSameElementType(tag, prev))
-                                    firstt = false;
-                            } while (prev != null && firstt);
+                        if(tag.getParent() instanceof HtmlTag) {
+                            boolean firstt = false;
+                            boolean lastt = false;
+                            if (declaration != PseudoDeclaration.LAST_OF_TYPE) {
+                                PsiElement prev = tag;
+                                firstt = true;
+                                do {
+                                    prev = prev.getPrevSibling();
+                                    if (prev != null && isSameElementType(tag, prev))
+                                        firstt = false;
+                                } while (prev != null && prev instanceof HtmlTag && firstt);
+                            }
+                            if (declaration != PseudoDeclaration.FIRST_OF_TYPE) {
+                                PsiElement next = tag;
+                                lastt = true;
+                                do {
+                                    next = next.getNextSibling();
+                                    if (next != null && isSameElementType(tag, next))
+                                        lastt = false;
+                                } while (next != null && next instanceof HtmlTag && lastt);
+                            }
+                            switch (declaration) {
+                                case FIRST_OF_TYPE:
+                                    return firstt;
+                                case LAST_OF_TYPE:
+                                    return lastt;
+                                default:
+                                    return firstt && lastt; //ONLY_OF_TYPE
+                            }
                         }
-                        if (declaration != PseudoDeclaration.FIRST_OF_TYPE) {
-                            HtmlTag next = tag;
-                            lastt = true;
-                            do {
-                                next = (HtmlTag) next.getNextSibling();
-                                if (next != null && isSameElementType(tag, next))
-                                    lastt = false;
-                            } while (next != null && lastt);
-                        }
-                        switch (declaration) {
-                            case FIRST_OF_TYPE:
-                                return firstt;
-                            case LAST_OF_TYPE:
-                                return lastt;
-                            default:
-                                return firstt && lastt; //ONLY_OF_TYPE
-                        }
-
                     case NTH_CHILD:
                         return positionMatches(countSiblingsBefore(tag, false) + 1, elementIndex);
                     case NTH_LAST_CHILD:
@@ -601,12 +601,14 @@ public class SelectorImpl extends AbstractRule<Selector.SelectorPart> implements
         /**
          * Checks whether two elements have the same name.
          *
-         * @param tag1 the first element
-         * @param tag2 the second element
+         * @param element1 the first element
+         * @param element2 the second element
          * @return <code>true</code> when the elements have the same names
          */
-        protected boolean isSameElementType(HtmlTag tag1, HtmlTag tag2) {
-            return tag1.getName().equalsIgnoreCase(tag2.getName());
+        protected boolean isSameElementType(PsiElement element1, PsiElement element2) {
+            return element1 instanceof HtmlTag
+                && element2 instanceof HtmlTag
+                && ((HtmlTag)element1).getName().equalsIgnoreCase(((HtmlTag)element2).getName());
         }
 
         /**
@@ -921,22 +923,22 @@ public class SelectorImpl extends AbstractRule<Selector.SelectorPart> implements
         /**
          * The element used as the selector
          */
-        private Element elem;
+        private PsiElement elem;
         /**
          * When set to true, the selector has a maximal specificity (inline). Otherwise, it has a minimal specificity.
          */
         private boolean inlinePriority;
 
-        protected ElementDOMImpl(Element e, boolean inlinePriority) {
+        protected ElementDOMImpl(PsiElement e, boolean inlinePriority) {
             this.elem = e;
             this.inlinePriority = inlinePriority;
         }
 
-        public Element getElement() {
+        public PsiElement getElement() {
             return elem;
         }
 
-        public ElementDOM setElement(Element e) {
+        public ElementDOM setElement(PsiElement e) {
             this.elem = e;
             return this;
         }

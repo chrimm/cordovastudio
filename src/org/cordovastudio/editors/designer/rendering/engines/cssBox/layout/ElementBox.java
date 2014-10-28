@@ -90,7 +90,7 @@ abstract public class ElementBox extends Box {
     /**
      * Assigned element
      */
-    protected PsiElement tag;
+    protected PsiElement element;
 
     /**
      * First DOM child node index covered by this box (inclusive)
@@ -282,10 +282,10 @@ abstract public class ElementBox extends Box {
         minAbsBounds = null;
         style = null;
         pseudoStyle = new HashMap<Selector.PseudoDeclaration, NodeData>();
-        if (tag != null) {
-            this.tag = tag;
+        if (element != null) {
+            this.element = element;
             firstDOMChild = 0;
-            lastDOMChild = tag.getChildren().length;
+            lastDOMChild = element.getChildren().length;
             previousTwin = null;
             nextTwin = null;
 
@@ -367,7 +367,7 @@ abstract public class ElementBox extends Box {
      * @return the corresponding DOM element
      */
     public PsiElement getElement() {
-        return tag;
+        return element;
     }
 
     /**

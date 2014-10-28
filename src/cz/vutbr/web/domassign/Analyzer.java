@@ -7,8 +7,10 @@
 
 package cz.vutbr.web.domassign;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.html.HtmlTag;
 import com.intellij.psi.xml.XmlDocument;
+import com.intellij.psi.xml.XmlTag;
 import cz.vutbr.web.css.*;
 import cz.vutbr.web.css.Selector.PseudoDeclaration;
 import cz.vutbr.web.csskit.TagUtil;
@@ -77,7 +79,7 @@ public class Analyzer {
         Traversal<StyleMap> traversal = new Traversal<StyleMap>(doc, (Object) declarations) {
 
             @Override
-            protected void processTag(StyleMap result, HtmlTag current, Object source) {
+            protected void processElement(StyleMap result, PsiElement current, Object source) {
 
                 NodeData main = CSSFactory.createNodeData();
 
@@ -88,7 +90,7 @@ public class Analyzer {
                         main.push(d);
                     }
                     if (inherit)
-                        main.inheritFrom(result.get(walker.parentTag(), null));
+                        main.inheritFrom(result.get(walker.parentElement(), null));
                 }
                 // concretize values and store them
                 result.put(current, null, main.concretize());
@@ -139,8 +141,10 @@ public class Analyzer {
         if (rules != null && !rules.isEmpty()) {
 
             Traversal<DeclarationMap> traversal = new Traversal<DeclarationMap>(doc, (Object) rules) {
-                protected void processTag(DeclarationMap result, HtmlTag current, Object source) {
-                    assignDeclarationsToElement(result, walker, current, (Holder) source);
+                protected void processElement(DeclarationMap result, PsiElement current, Object source) {
+                    if(current instanceof HtmlTag) {
+                        assignDeclarationsToElement(result, walker, current, (Holder) source);
+                    }
                 }
             };
 
@@ -161,11 +165,16 @@ public class Analyzer {
      *
      * @param declarations Declarations of all processed elements
      * @param walker       Tree walker
-     * @param tag          DOM Element
+     * @param element          DOM Element
      * @param holder       Wrap
      */
-    protected void assignDeclarationsToElement(DeclarationMap declarations, HtmlTreeWalker walker, HtmlTag tag, Holder holder) {
+    protected void assignDeclarationsToElement(DeclarationMap declarations, HtmlTreeWalker walker, PsiElement element, Holder holder) {
 
+        if(!(element instanceof XmlTag)) {
+            log.error("Element '"+element.toString()+"' is of type "+element.getClass().getName()+" but should be of type XmlTag.", element);
+        }
+
+        HtmlTag tag = (HtmlTag)element;
         if (log.isDebugEnabled()) {
             log.debug("Traversal of {} {}.", tag.getName(), tag.getValue());
         }
@@ -261,13 +270,13 @@ public class Analyzer {
             declarations.sortDeclarations(tag, p); //sort pseudos
 
         // set the main list
-        declarations.put(tag, null, eldecl);
+        declarations.put(element, null, eldecl);
     }
 
     protected boolean matchSelector(CombinedSelector sel, HtmlTag tag, HtmlTreeWalker w) {
 
         // store current walker position
-        HtmlTag current = w.getCurrentTag();
+        HtmlTag current = (HtmlTag)w.getCurrentElement();
 
         boolean retval = false;
         Selector.Combinator combinator = null;
@@ -281,27 +290,29 @@ public class Analyzer {
             if (combinator == null) {
                 retval = s.matches(tag);
             } else if (combinator == Selector.Combinator.ADJACENT) {
-                HtmlTag adjacent = w.previousSibling();
+                PsiElement adjacent = w.previousSibling();
                 retval = false;
-                if (adjacent != null)
-                    retval = s.matches(adjacent);
+                if (adjacent != null && adjacent instanceof HtmlTag)
+                    retval = s.matches((HtmlTag)adjacent);
             } else if (combinator == Selector.Combinator.PRECEDING) {
-                HtmlTag preceding;
                 retval = false;
-                while (!retval && (preceding = w.previousSibling()) != null) {
-                    retval = s.matches(preceding);
+                PsiElement preceding = w.previousSibling();
+                while (!retval && preceding != null && preceding instanceof HtmlTag) {
+                    retval = s.matches((HtmlTag)preceding);
+                    preceding = w.previousSibling();
                 }
             } else if (combinator == Selector.Combinator.DESCENDANT) {
-                HtmlTag ancestor;
                 retval = false;
-                while (!retval && (ancestor = w.parentTag()) != null) {
-                    retval = s.matches(ancestor);
+                PsiElement ancestor = w.parentElement();
+                while (!retval && ancestor != null && ancestor instanceof HtmlTag) {
+                    retval = s.matches((HtmlTag)ancestor);
+                    ancestor = w.parentElement();
                 }
             } else if (combinator == Selector.Combinator.CHILD) {
-                HtmlTag parent = w.parentTag();
+                PsiElement parent = w.parentElement();
                 retval = false;
-                if (parent != null)
-                    retval = s.matches(parent);
+                if (parent != null && (parent instanceof HtmlTag))
+                    retval = s.matches((HtmlTag)parent);
             }
 
             // set combinator for next loop
@@ -313,7 +324,7 @@ public class Analyzer {
         }
 
         // restore walker position
-        w.setCurrentTag(current);
+        w.setCurrentElement(current);
         return retval;
     }
 

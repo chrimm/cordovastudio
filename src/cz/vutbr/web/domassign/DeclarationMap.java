@@ -10,6 +10,7 @@
  */
 package cz.vutbr.web.domassign;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.html.HtmlTag;
 import cz.vutbr.web.css.Declaration;
 import cz.vutbr.web.css.Selector.PseudoDeclaration;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author burgetr
  */
-public class DeclarationMap extends MultiMap<HtmlTag, PseudoDeclaration, List<Declaration>> {
+public class DeclarationMap extends MultiMap<PsiElement, PseudoDeclaration, List<Declaration>> {
 
     /**
      * Adds a declaration for a specified list. If the list does not exist yet, it is created.

@@ -1,10 +1,16 @@
+/*
+ * Copyright (C) kapy
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
+ */
 package cz.vutbr.web.csskit.antlr;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import com.intellij.psi.PsiElement;
+import cz.vutbr.web.css.*;
+import cz.vutbr.web.css.RuleBlock.Priority;
+import cz.vutbr.web.csskit.PriorityStrategy;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
@@ -12,15 +18,11 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.fit.net.DataURLHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
 
-import cz.vutbr.web.css.CSSException;
-import cz.vutbr.web.css.CSSFactory;
-import cz.vutbr.web.css.MediaQuery;
-import cz.vutbr.web.css.RuleList;
-import cz.vutbr.web.css.StyleSheet;
-import cz.vutbr.web.css.RuleBlock.Priority;
-import cz.vutbr.web.csskit.PriorityStrategy;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Handles construction of parser
@@ -224,7 +226,7 @@ public class CSSParserFactory {
 	 *             When unrecoverable exception during parsing occurs
 	 */
 	public static StyleSheet parse(Object source, String encoding, SourceType type,
-			Element inline, boolean inlinePriority, URL base) throws IOException, CSSException {
+			PsiElement inline, boolean inlinePriority, URL base) throws IOException, CSSException {
 
 		StyleSheet sheet = (StyleSheet) CSSFactory.getRuleFactory()
 				.createStyleSheet().unlock();
@@ -283,7 +285,7 @@ public class CSSParserFactory {
 	 *             When unrecoverable exception during parsing occurs
 	 */
 	public static StyleSheet append(Object source, String encoding, SourceType type,
-			Element inline, boolean inlinePriority, StyleSheet sheet, URL base) throws IOException, CSSException {
+			PsiElement inline, boolean inlinePriority, StyleSheet sheet, URL base) throws IOException, CSSException {
 
 	    Priority start = sheet.getLastMark();
 	    if (start == null)

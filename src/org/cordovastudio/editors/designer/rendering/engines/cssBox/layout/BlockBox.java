@@ -205,7 +205,7 @@ public class BlockBox extends ElementBox
     /** Convert an inline box to a block box */
     public BlockBox(InlineBox src)
     {
-        super(src.tag, src.g, src.ctx);
+        super(src.element, src.g, src.ctx);
 
         viewport = src.viewport;
         cblock = src.cblock;
@@ -266,7 +266,7 @@ public class BlockBox extends ElementBox
     @Override
     public BlockBox copyBox()
     {
-        BlockBox ret = new BlockBox((HtmlTag)tag, g, ctx);
+        BlockBox ret = new BlockBox((HtmlTag)element, g, ctx);
         ret.copyValues(this);
         return ret;
     }
@@ -299,8 +299,8 @@ public class BlockBox extends ElementBox
     @Override
     public String toString()
     {
-        return "<" + ((HtmlTag)tag).getName() + " id=\"" + ((HtmlTag)tag).getAttribute("id") +
-               "\" class=\""  + ((HtmlTag)tag).getAttribute("class") + "\">";
+        return "<" + ((HtmlTag)element).getName() + " id=\"" + ((HtmlTag)element).getAttribute("id") +
+               "\" class=\""  + ((HtmlTag)element).getAttribute("class") + "\">";
     }
 
     //========================================================================

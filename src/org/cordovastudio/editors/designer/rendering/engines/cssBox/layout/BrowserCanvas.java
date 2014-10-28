@@ -24,6 +24,7 @@
 
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
+import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.html.HtmlTag;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.render.GraphicsRenderer;
@@ -46,6 +47,7 @@ public class BrowserCanvas extends JPanel {
     private static final long serialVersionUID = -8715215920271505397L;
     private static Logger log = LoggerFactory.getLogger(BrowserCanvas.class);
 
+    protected XmlElementFactory elementFactory;
     protected HtmlTag root;
     protected DOMAnalyzer decoder;
     protected URL baseurl;
@@ -66,10 +68,11 @@ public class BrowserCanvas extends JPanel {
      * @param decoder the CSS decoder used to compute the style
      * @param baseurl the document base URL
      */
-    public BrowserCanvas(HtmlTag root, DOMAnalyzer decoder, URL baseurl) {
+    public BrowserCanvas(HtmlTag root, DOMAnalyzer decoder, URL baseurl, XmlElementFactory elementFactory) {
         this.root = root;
         this.decoder = decoder;
         this.baseurl = baseurl;
+        this.elementFactory = elementFactory;
         this.config = new BrowserConfig();
         this.createImage = true;
         this.autoSizeUpdate = true;
@@ -84,10 +87,8 @@ public class BrowserCanvas extends JPanel {
      * @param dim     the preferred canvas dimensions
      * @param baseurl the document base URL
      */
-    public BrowserCanvas(HtmlTag root,
-                         DOMAnalyzer decoder,
-                         Dimension dim, URL baseurl) {
-        this(root, decoder, baseurl);
+    public BrowserCanvas(HtmlTag root, DOMAnalyzer decoder, Dimension dim, URL baseurl, XmlElementFactory elementFactory) {
+        this(root, decoder, baseurl, elementFactory);
         createLayout(dim);
     }
 
@@ -161,7 +162,7 @@ public class BrowserCanvas extends JPanel {
         }
 
         log.trace("Creating boxes");
-        BoxFactory factory = new BoxFactory(decoder, baseurl);
+        BoxFactory factory = new BoxFactory(decoder, baseurl, elementFactory);
         factory.setConfig(config);
         factory.reset();
         VisualContext ctx = new VisualContext(null, factory);

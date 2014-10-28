@@ -252,7 +252,7 @@ public class TextBox extends Box implements Inline {
      * indices are reset to their initial values.
      */
     private void applyWhiteSpace() {
-        text = applyTransformations(collapseWhitespaces(node.getText()));
+        text = applyTransformations(collapseWhitespaces(element.getText()));
         textStart = 0;
         textEnd = text.length();
         isempty = (textEnd == 0);

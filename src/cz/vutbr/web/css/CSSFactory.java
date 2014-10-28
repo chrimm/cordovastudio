@@ -7,8 +7,10 @@
  */
 package cz.vutbr.web.css;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.html.HtmlTag;
 import com.intellij.psi.xml.XmlDocument;
+import com.intellij.psi.xml.XmlText;
 import cz.vutbr.web.csskit.MatchConditionImpl;
 import cz.vutbr.web.csskit.antlr.CSSParserFactory;
 import cz.vutbr.web.csskit.antlr.CSSParserFactory.SourceType;
@@ -19,8 +21,6 @@ import cz.vutbr.web.domassign.Traversal;
 import org.fit.net.DataURLHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -519,12 +519,19 @@ public final class CSSFactory {
         }
 
         @Override
-        protected void processTag(StyleSheet result, HtmlTag current, Object source) {
+        protected void processElement(StyleSheet result, PsiElement current, Object source) {
+
+            if(!(current instanceof HtmlTag)) {
+                /* Skip everything that is not a tag */
+                //log.warn("Current element is of type " + current.getClass().getName() + ", but should be of type HtmlTag. Skipping processing it.");
+                return;
+            }
+
             // base uri
             URL base = ((Pair) source).base;
             // allowed media
             MediaSpec media = ((Pair) source).media;
-            Element elem = (Element) current;
+            HtmlTag elem = (HtmlTag)current;
 
             try {
                 // embedded style-sheet
@@ -535,22 +542,22 @@ public final class CSSFactory {
                 }
                 // linked style-sheet
                 else if (isLinkedStyleSheet(elem, media)) {
-                    URL uri = DataURLHandler.createURL(base, elem.getAttribute("href"));
+                    URL uri = DataURLHandler.createURL(base, elem.getAttributeValue("href"));
                     result = CSSParserFactory.append(uri, encoding, SourceType.URL,
                             result, uri);
                     log.debug("Matched linked CSS style");
                 }
                 // in-line style and default style
                 else {
-                    if (elem.getAttribute("style") != null && elem.getAttribute("style").length() > 0) {
+                    if (elem.getAttributeValue("style") != null && elem.getAttributeValue("style").length() > 0) {
                         result = CSSParserFactory.append(
-                                elem.getAttribute("style"), null, SourceType.INLINE,
+                                elem.getAttributeValue("style"), null, SourceType.INLINE,
                                 elem, true, result, base);
                         log.debug("Matched inline CSS style");
                     }
-                    if (elem.getAttribute("XDefaultStyle") != null && elem.getAttribute("XDefaultStyle").length() > 0) {
+                    if (elem.getAttributeValue("XDefaultStyle") != null && elem.getAttributeValue("XDefaultStyle").length() > 0) {
                         result = CSSParserFactory.append(
-                                elem.getAttribute("XDefaultStyle"), null, SourceType.INLINE,
+                                elem.getAttributeValue("XDefaultStyle"), null, SourceType.INLINE,
                                 elem, false, result, base);
                         log.debug("Matched default CSS style");
                     }
@@ -559,20 +566,23 @@ public final class CSSFactory {
                 log.error("THROWN:", ce);
             } catch (IOException ioe) {
                 log.error("THROWN:", ioe);
+            } catch (Exception e) {
+                log.error("THROWN:", e);
             }
 
         }
 
-        private static boolean isEmbeddedStyleSheet(Element e, MediaSpec media) {
-            return "style".equalsIgnoreCase(e.getNodeName())
-                    && isAllowedMedia(e, media);
+        private static boolean isEmbeddedStyleSheet(HtmlTag tag, MediaSpec media) {
+            return "style".equalsIgnoreCase(tag.getName())
+                    && isAllowedMedia(tag, media);
         }
 
-        private static boolean isLinkedStyleSheet(Element e, MediaSpec media) {
-            return e.getNodeName().equalsIgnoreCase("link")
-                    && (e.getAttribute("rel").toLowerCase().contains("stylesheet"))
-                    && (e.getAttribute("type").isEmpty() || "text/css".equalsIgnoreCase(e.getAttribute("type")))
-                    && isAllowedMedia(e, media);
+        private static boolean isLinkedStyleSheet(HtmlTag tag, MediaSpec media) {
+            return tag.getName().equalsIgnoreCase("link")
+                    && !"".equals(tag.getAttributeValue("rel"))
+                    && (tag.getAttributeValue("rel").toLowerCase().contains("stylesheet"))
+                    && ("".equals(tag.getAttributeValue("type")) || "text/css".equalsIgnoreCase(tag.getAttributeValue("type")))
+                    && isAllowedMedia(tag, media);
         }
 
         /**
@@ -581,9 +591,10 @@ public final class CSSFactory {
          * @param e Element
          * @return Element's text
          */
-        private static String extractElementText(Element e) {
-            Node text = e.getFirstChild();
-            if (text != null && text.getNodeType() == Node.TEXT_NODE)
+        private static String extractElementText(PsiElement e) {
+
+            PsiElement text = e.getFirstChild();
+            if (text != null && text instanceof XmlText)
                 return ((Text) text).getData();
             return "";
         }
@@ -592,12 +603,12 @@ public final class CSSFactory {
          * Checks allowed media by searching for {@code media} attribute on
          * element and its content
          *
-         * @param e     (STYLE) Element
+         * @param tag     (STYLE) Element
          * @param media Current media specification used for parsing
          * @return {@code true} if allowed, {@code false} otherwise
          */
-        private static boolean isAllowedMedia(Element e, MediaSpec media) {
-            String attr = e.getAttribute("media");
+        private static boolean isAllowedMedia(HtmlTag tag, MediaSpec media) {
+            String attr = tag.getAttributeValue("media");
             if (attr != null && attr.length() > 0) {
                 attr = attr.trim();
                 if (attr.length() > 0) {

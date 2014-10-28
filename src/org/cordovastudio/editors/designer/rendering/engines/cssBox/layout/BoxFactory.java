@@ -25,8 +25,8 @@
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.html.HtmlTag;
-import com.intellij.psi.impl.source.html.HtmlTagImpl;
 import com.intellij.psi.impl.source.xml.XmlTextImpl;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlText;
@@ -60,6 +60,8 @@ import java.util.Vector;
 public class BoxFactory {
     private static Logger log = LoggerFactory.getLogger(BoxFactory.class);
 
+    private final XmlElementFactory elementFactory;
+
     protected BrowserConfig config;
     protected HTMLBoxFactory html;
 
@@ -75,9 +77,10 @@ public class BoxFactory {
      * @param decoder The CSS decoder used for obtaining the DOM styles.
      * @param baseurl Base URL used for completing the relative URLs in the document.
      */
-    public BoxFactory(DOMAnalyzer decoder, URL baseurl) {
+    public BoxFactory(DOMAnalyzer decoder, URL baseurl, XmlElementFactory elementFactory) {
         this.decoder = decoder;
         this.baseurl = baseurl;
+        this.elementFactory = elementFactory;
         this.next_order = 0;
         this.config = new BrowserConfig();
         this.html = new HTMLBoxFactory(this);
@@ -780,11 +783,15 @@ public class BoxFactory {
      * @return the new element
      */
     public HtmlTag createAnonymousElement(String name, String display) {
+        return (HtmlTag)elementFactory.createHTMLTagFromText("<"+name+" class=\"Xanonymous\" style=\"display:"+display+"\">");
+        /*
         HtmlTag div = new HtmlTagImpl();
         div.setName(name);
         div.setAttribute("class", "Xanonymous");
         div.setAttribute("style", "display:" + display);
+
         return div;
+        */
     }
 
     /**

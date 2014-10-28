@@ -83,7 +83,7 @@ public class InlineBox extends ElementBox implements InlineElement {
 
     @Override
     public InlineBox copyBox() {
-        InlineBox ret = new InlineBox((HtmlTag) tag, g, ctx);
+        InlineBox ret = new InlineBox((HtmlTag) element, g, ctx);
         ret.copyValues(this);
         return ret;
     }
@@ -92,8 +92,8 @@ public class InlineBox extends ElementBox implements InlineElement {
 
     @Override
     public String toString() {
-        return "<" + ((HtmlTag) tag).getName() + " id=\"" + ((HtmlTag) tag).getAttribute("id") +
-                "\" class=\"" + ((HtmlTag) tag).getAttribute("class") + "\">";
+        return "<" + ((HtmlTag) element).getName() + " id=\"" + ((HtmlTag) element).getAttribute("id") +
+                "\" class=\"" + ((HtmlTag) element).getAttribute("class") + "\">";
     }
 
     @Override

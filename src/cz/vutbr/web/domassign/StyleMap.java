@@ -10,7 +10,7 @@
  */
 package cz.vutbr.web.domassign;
 
-import com.intellij.psi.html.HtmlTag;
+import com.intellij.psi.PsiElement;
 import cz.vutbr.web.css.CSSFactory;
 import cz.vutbr.web.css.NodeData;
 import cz.vutbr.web.css.Selector.PseudoDeclaration;
@@ -21,7 +21,7 @@ import cz.vutbr.web.css.Selector.PseudoDeclaration;
  *
  * @author burgetr
  */
-public class StyleMap extends MultiMap<HtmlTag, PseudoDeclaration, NodeData> {
+public class StyleMap extends MultiMap<PsiElement, PseudoDeclaration, NodeData> {
 
     public StyleMap(int size) {
         super(size);

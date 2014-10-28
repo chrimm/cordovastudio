@@ -1,7 +1,14 @@
+/*
+ * Copyright (C) kapy
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Changed node class from org.w3c.dom.Node to com.intellij.psi.PsiElement
+ */
+
 package cz.vutbr.web.css;
 
-import org.w3c.dom.Element;
-
+import com.intellij.psi.PsiElement;
 import cz.vutbr.web.css.RuleBlock.Priority;
 import cz.vutbr.web.css.Selector.Operator;
 
@@ -114,7 +121,7 @@ public interface RuleFactory {
      * @param inlinePriority true means that the selector has an inline priority
 	 * @return New CSS element DOM selector part
 	 */
-	Selector.ElementDOM createElementDOM(Element e,  boolean inlinePriority);
+	Selector.ElementDOM createElementDOM(PsiElement e,  boolean inlinePriority);
 	
 	/**
 	 * Creates CSS selector part, element name

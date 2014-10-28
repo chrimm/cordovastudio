@@ -7,6 +7,7 @@
  */
 package cz.vutbr.web.domassign;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.html.HtmlTag;
 import com.intellij.psi.xml.XmlDocument;
 
@@ -33,35 +34,35 @@ public abstract class Traversal<T> {
     public void listTraversal(T result) {
 
         // tree traversal as nodes are found inside
-        HtmlTag current, checkpoint = null;
-        current = walker.nextTag();
+        PsiElement current, checkpoint = null;
+        current = walker.nextElement();
         while (current != null) {
             // this method can change position in walker
-            checkpoint = walker.getCurrentTag();
-            processTag(result, current, source);
-            walker.setCurrentTag(checkpoint);
-            current = walker.nextTag();
+            checkpoint = walker.getCurrentElement();
+            processElement(result, current, source);
+            walker.setCurrentElement(checkpoint);
+            current = walker.nextElement();
         }
     }
 
     public void levelTraversal(T result) {
 
         // this method can change position in walker
-        HtmlTag current, checkpoint = null;
-        current = checkpoint = walker.getCurrentTag();
-        processTag(result, current, source);
-        walker.setCurrentTag(checkpoint);
+        PsiElement current, checkpoint = null;
+        current = checkpoint = walker.getCurrentElement();
+        processElement(result, current, source);
+        walker.setCurrentElement(checkpoint);
 
         // traverse children:
-        for (HtmlTag t = walker.firstChild(); t != null; t = walker.nextSibling()) {
+        for (PsiElement t = walker.firstChild(); t != null; t = walker.nextSibling()) {
             levelTraversal(result);
         }
 
         // return position to the current (level up):
-        walker.setCurrentTag(checkpoint);
+        walker.setCurrentElement(checkpoint);
     }
 
-    protected abstract void processTag(T result, HtmlTag current, Object source);
+    protected abstract void processElement(T result, PsiElement current, Object source);
 
     public Traversal<T> reset(HtmlTreeWalker walker, Object source) {
         this.walker = walker;

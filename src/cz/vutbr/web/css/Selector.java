@@ -8,8 +8,8 @@
 
 package cz.vutbr.web.css;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.html.HtmlTag;
-import org.w3c.dom.Element;
 
 /**
  * Acts as collection of parsed parts of Selector (Parts)
@@ -255,9 +255,9 @@ public interface Selector extends Rule<Selector.SelectorPart> {
     }
 
     public interface ElementDOM extends SelectorPart {
-        public Element getElement();
+        public PsiElement getElement();
 
-        public ElementDOM setElement(Element e);
+        public ElementDOM setElement(PsiElement e);
     }
 
     /**

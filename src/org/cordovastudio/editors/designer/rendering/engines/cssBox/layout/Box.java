@@ -70,7 +70,7 @@ abstract public class Box {
      * The DOM node that forms this box. It is either an inline element
      * (e.g. <em>) or a text node (anonymous box)
      */
-    protected PsiElement node;
+    protected PsiElement element;
 
     /**
      * The order of the node in the code (first node is 0)
@@ -162,7 +162,7 @@ abstract public class Box {
     public Box(PsiElement element, Graphics2D g, VisualContext ctx) {
         this.g = g;
         this.ctx = ctx;
-        node = element;
+        this.element = element;
         rootelem = false;
         isblock = false;
         isempty = true;
@@ -241,8 +241,8 @@ abstract public class Box {
      *
      * @return the DOM node
      */
-    public PsiElement getNode() {
-        return node;
+    public PsiElement getElement() {
+        return element;
     }
 
     /**

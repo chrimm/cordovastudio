@@ -17,6 +17,8 @@
 package org.cordovastudio.editors.designer.rendering.engines;
 
 import com.intellij.lang.annotation.HighlightSeverity;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
@@ -110,7 +112,9 @@ public class CssBoxRenderer extends RenderingEngine {
         //TODO: getting styles takes quite a long time, can we omit this?
         domAnalyzer.getStyleSheets();
 
-        BrowserCanvas canvas = new BrowserCanvas(domAnalyzer.getRoot(), domAnalyzer, baseUrl);
+        XmlElementFactory factory = XmlElementFactory.getInstance((Project)params.getProjectKey());
+
+        BrowserCanvas canvas = new BrowserCanvas(domAnalyzer.getRoot(), domAnalyzer, baseUrl, factory);
 
         canvas.getConfig().setLoadImages(true);
         canvas.getConfig().setLoadBackgroundImages(true);

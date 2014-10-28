@@ -16,7 +16,9 @@
 
 package cz.vutbr.web.domassign;
 
-import com.intellij.psi.html.HtmlTag;
+
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.xml.XmlDocument;
 
 /**
  * Created by cti on 21.10.14.
@@ -26,19 +28,19 @@ public class HtmlTreeWalker {
     /**
      * The current Node.
      */
-    HtmlTag currentTag;
+    PsiElement currentElement;
 
     /**
      * The root Node.
      */
-    HtmlTag root;
+    PsiElement root;
 
-    public HtmlTreeWalker(HtmlTag root) {
+    public HtmlTreeWalker(PsiElement root) {
         this.root = root;
-        this.currentTag = root;
+        this.currentElement = root;
     }
 
-    public HtmlTag getRoot() {
+    public PsiElement getRoot() {
         return root;
     }
 
@@ -52,29 +54,29 @@ public class HtmlTreeWalker {
     /**
      * Return the current Node.
      */
-    public HtmlTag getCurrentTag() {
-        return currentTag;
+    public PsiElement getCurrentElement() {
+        return currentElement;
     }
 
     /**
      * Return the current Node.
      */
-    public void setCurrentTag(HtmlTag tag) {
-        currentTag = tag;
+    public void setCurrentElement(PsiElement tag) {
+        currentElement = tag;
     }
 
     /**
      * Return the parent Node from the current node. If result is not null, set the current Node.
      */
-    public HtmlTag parentTag() {
+    public PsiElement parentElement() {
 
-        if (currentTag == null)
+        if (currentElement == null)
             return null;
 
-        HtmlTag tag = (HtmlTag) currentTag.getParentTag();
+        PsiElement tag = currentElement.getParent();
 
         if (tag != null)
-            currentTag = tag;
+            currentElement = tag;
 
         return tag;
 
@@ -83,15 +85,15 @@ public class HtmlTreeWalker {
     /**
      * Return the first child Node from the current node. If result is not null, set the current Node.
      */
-    public HtmlTag firstChild() {
+    public PsiElement firstChild() {
 
-        if (currentTag == null)
+        if (currentElement == null)
             return null;
 
-        HtmlTag tag = (HtmlTag) currentTag.getFirstChild();
+        PsiElement tag = currentElement.getFirstChild();
 
         if (tag != null)
-            currentTag = tag;
+            currentElement = tag;
 
         return tag;
     }
@@ -99,15 +101,15 @@ public class HtmlTreeWalker {
     /**
      * Return the last child Node from the current nod. If result is not null, set the current Node.
      */
-    public HtmlTag lastChild() {
+    public PsiElement lastChild() {
 
-        if (currentTag == null)
+        if (currentElement == null)
             return null;
 
-        HtmlTag tag = (HtmlTag) currentTag.getLastChild();
+        PsiElement tag = currentElement.getLastChild();
 
         if (tag != null)
-            currentTag = tag;
+            currentElement = tag;
 
         return tag;
     }
@@ -115,15 +117,15 @@ public class HtmlTreeWalker {
     /**
      * Return the previous sibling Node from the current node. If result is not null, set the current Node.
      */
-    public HtmlTag previousSibling() {
+    public PsiElement previousSibling() {
 
-        if (currentTag == null)
+        if (currentElement == null)
             return null;
 
-        HtmlTag node = (HtmlTag) currentTag.getPrevSibling();
+        PsiElement node = currentElement.getPrevSibling();
 
         if (node != null)
-            currentTag = node;
+            currentElement = node;
 
         return node;
     }
@@ -131,15 +133,15 @@ public class HtmlTreeWalker {
     /**
      * Return the next sibling Node from the current node. If result is not null, set the current Node.
      */
-    public HtmlTag nextSibling() {
+    public PsiElement nextSibling() {
 
-        if (currentTag == null)
+        if (currentElement == null)
             return null;
 
-        HtmlTag tag = (HtmlTag) currentTag.getNextSibling();
+        PsiElement tag = currentElement.getNextSibling();
 
         if (tag != null)
-            currentTag = tag;
+            currentElement = tag;
 
         return tag;
     }
@@ -147,77 +149,77 @@ public class HtmlTreeWalker {
     /**
      * Return the previous Node from the current node. If result is not null, set the current Node.
      */
-    public HtmlTag previousTag() {
+    public PsiElement previousElement() {
 
-        if (currentTag == null)
+        if (currentElement == null)
             return null;
 
         // get sibling
-        HtmlTag result = (HtmlTag) currentTag.getPrevSibling();
+        PsiElement result = currentElement.getPrevSibling();
 
         if (result == null) {
-            result = (HtmlTag) currentTag.getParentTag();
+            result = currentElement.getParent();
             if (result != null) {
-                currentTag = result;
+                currentElement = result;
                 return result;
             }
             return null;
         }
 
         // get the lastChild of result.
-        HtmlTag lastChild = (HtmlTag) result.getLastChild();
+        PsiElement lastChild = result.getLastChild();
 
-        HtmlTag prev = lastChild;
+        PsiElement prev = lastChild;
         while (lastChild != null) {
             prev = lastChild;
-            lastChild = (HtmlTag) prev.getLastChild();
+            lastChild = prev.getLastChild();
         }
 
         lastChild = prev;
 
         // if there is a lastChild which passes filters return it.
         if (lastChild != null) {
-            currentTag = lastChild;
+            currentElement = lastChild;
             return lastChild;
         }
 
         // otherwise return the previous sibling.
-        currentTag = result;
+        currentElement = result;
         return result;
     }
 
     /**
      * Return the next Node from the current node. If result is not null, set the current Node.
      */
-    public HtmlTag nextTag() {
+    public PsiElement nextElement() {
 
-        if (currentTag == null)
+        if (currentElement == null)
             return null;
 
-        HtmlTag result = (HtmlTag) currentTag.getFirstChild();
+        PsiElement result = currentElement.getFirstChild();
 
         if (result != null) {
-            currentTag = result;
+            currentElement = result;
             return result;
         }
 
-        result = (HtmlTag) currentTag.getNextSibling();
+        result = currentElement.getNextSibling();
 
         if (result != null) {
-            currentTag = result;
+            currentElement = result;
             return result;
         }
 
         // return parent's 1st sibling.
-        HtmlTag parent = (HtmlTag) currentTag.getParentTag();
+        PsiElement parent = currentElement.getParent();
 
-        while (parent != null) {
-            result = (HtmlTag) parent.getNextSibling();
+        while (parent != null && !(parent instanceof XmlDocument)) {
+            result = parent.getNextSibling();
             if (result != null) {
-                currentTag = result;
+                currentElement = result;
                 return result;
             } else {
-                parent = (HtmlTag) parent.getParentTag();
+                parent = (PsiElement) parent.getParent();
             }
         }
 
