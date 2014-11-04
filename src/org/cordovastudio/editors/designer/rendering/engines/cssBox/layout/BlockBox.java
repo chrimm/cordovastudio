@@ -1327,6 +1327,8 @@ public class BlockBox extends ElementBox
             absbounds.width = bounds.width;
             absbounds.height = bounds.height;
 
+            updateViewInfo(absbounds);
+
             if (isDisplayed())
             {
                 if (isVisible())

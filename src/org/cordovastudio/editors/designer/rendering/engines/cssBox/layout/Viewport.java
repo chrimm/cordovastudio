@@ -97,6 +97,7 @@ public class Viewport extends BlockBox {
         root = null;
         viewInfo = new ViewInfo("viewport", e, 0, 0, width, height);
         viewInfo.setChildren(new ArrayList<>());
+        viewInfo.setExtendedInfo(0, 0, 0, 0, 0);
         visibleRect = new Rectangle(0, 0, width, height);
     }
 

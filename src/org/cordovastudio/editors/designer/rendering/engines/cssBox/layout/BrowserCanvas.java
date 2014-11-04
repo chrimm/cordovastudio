@@ -132,8 +132,58 @@ public class BrowserCanvas extends JPanel {
         return viewport;
     }
 
-    public ViewInfo getRootViewInfo() {
-        return viewport.getViewInfo();
+    public ViewInfo getBodyViewInfo() {
+        return findBodyViewInfoRecursive(viewport.getViewInfo());
+    }
+
+    public ElementBox getBodyBox() {
+        return findBodyBoxRec(getRootBox());
+    }
+
+    private ElementBox findBodyBoxRec(ElementBox candidate) {
+        if(candidate != null && "body".equals(((HtmlTag)candidate.getElement()).getName())) {
+            return candidate;
+        }
+
+        if(!candidate.getSubBoxList().isEmpty()) {
+            for(Box subBox : candidate.getSubBoxList()) {
+                /* Skip <head> as it can not contain the <body> tag and skip all boxes that are not ElementBoxes */
+                if("head".equals(((HtmlTag)subBox.getElement()).getName()) || !(subBox instanceof ElementBox)) {
+                    continue;
+                }
+
+                ElementBox ret = findBodyBoxRec((ElementBox)subBox);
+
+                if(ret != null) {
+                    return ret;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private ViewInfo findBodyViewInfoRecursive(ViewInfo candidate) {
+        if(candidate.getCookie() != null && "body".equals(((HtmlTag)candidate.getCookie()).getName())) {
+            return candidate;
+        }
+
+        if(!candidate.getChildren().isEmpty()) {
+            for(ViewInfo child : candidate.getChildren()) {
+                /* Skip <head> as it can't contain the body tag */
+                if("head".equals(((HtmlTag)child.getCookie()).getName())) {
+                    continue;
+                }
+
+                ViewInfo ret = findBodyViewInfoRecursive(child);
+
+                if(ret != null) {
+                    return ret;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**

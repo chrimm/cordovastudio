@@ -2,32 +2,270 @@
 
 <meta-model>
 
+    <!-- =============== Specials ================ -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
+          tag="illegal">
+
+        <palette title="(illegal tag)" icon="CordovaIcons.Palette.Include"/>
+    </meta>
+
     <!-- ================= Roots ================= -->
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
+          tag="viewport"
+          delete="false">
+
+        <palette title="Device" icon="CordovaIcons.Palette.DeviceScreen"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
           tag="html"
           delete="false">
 
-        <palette title="Device Screen" icon="CordovaIcons.Palette.DeviceScreen"/>
+        <palette title="Device" icon="CordovaIcons.Palette.DeviceScreen"/>
     </meta>
+<!--
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
+          tag="head"
+          delete="false">
 
-    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+        <palette title="HTML Head" icon="CordovaIcons.Palette.DeviceScreen"/>
+    </meta>
+-->
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
           layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
           tag="body"
           delete="false">
 
-        <palette title="HTML Body" icon="CordovaIcons.Palette.DeviceScreen"/>
+        <palette title="Viewport" icon="CordovaIcons.Palette.ViewStub"/>
+    </meta>
+<!--
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="header">
+
+        <palette title="Header" icon="CordovaIcons.Palette.DeviceScreen"/>
+    </meta>
+-->
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="footer">
+
+        <palette title="Footer" icon="CordovaIcons.Palette.DeviceScreen"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div">
+
+        <palette title="Container" icon="CordovaIcons.Palette.Space"/>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
-          tag="div">
+          tag="object">
 
-        <palette title="Container" icon="CordovaIcons.Palette.DeviceScreen"/>
+        <palette title="Object" icon="CordovaIcons.Palette.DeviceScreen"/>
     </meta>
 
     <!-- ================= Widgets ================= -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Header1"
+          tag="h1">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Header 1" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a level 1 header of text to the user."/>
+
+        <morphing to="a p span"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <h1>Header</h1>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Header2"
+          tag="h2">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Header 2" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a level 2 header of text to the user."/>
+
+        <morphing to="a p span"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <h2>Header</h2>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Header3"
+          tag="h3">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Header 3" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a level 3 header of text to the user."/>
+
+        <morphing to="a p span"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <h3>Header</h3>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Header4"
+          tag="h4">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Header 4" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a level 4 header of text to the user."/>
+
+        <morphing to="a p span"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <h4>Header</h4>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Header5"
+          tag="h5">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Header 5" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a level 1 header of text to the user."/>
+
+        <morphing to="a p span"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <h5>Text</h5>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Header6"
+          tag="h6">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Header 6" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a level 6 header of text to the user."/>
+
+        <morphing to="a p span"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <h6>Header</h6>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Header7"
+          tag="h7">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Header 7" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a level 1 header of text to the user."/>
+
+        <morphing to="a p span"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <h7>Text</h7>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.Paragraph"
+          tag="p">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Paragraph" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays a paragraph of text to the user."/>
+
+        <morphing to="span a h1 h2 h3 h4 h5 h6 h7"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <p>Text</p>
+            ]]>
+        </creation>
+    </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           class="html.element.Span"
@@ -54,12 +292,34 @@
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          class="jquery-mobile.widget.Button"
-          tag="Button">
+          class="html.element.Anchor"
+          tag="a">
 
         <presentation title=" - &quot;%text%&quot;"/>
 
-        <palette title="Button" icon="CordovaIcons.Palette.Button"
+        <palette title="Link" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Displays text to the user."/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <a href="#">Text</a>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="jquery-mobile.widget.Button"
+          tag="input">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Button" icon="CordovaIcons.Palette.EditText"
                  tooltip="Represents a push-button widget. (jQuery Mobile Widget)"/>
 
         <morphing to="RadioButton CheckBox ToggleButton ZoomButton ImageButton TextView EditText"/>

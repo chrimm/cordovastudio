@@ -26,10 +26,10 @@ public class ViewInfo {
 
     private final Object mCookie;
     private final String mName;
-    private final int mLeft;
-    private final int mRight;
-    private final int mTop;
-    private final int mBottom;
+    private int mLeft;
+    private int mRight;
+    private int mTop;
+    private int mBottom;
     private List<ViewInfo> mChildren = Collections.emptyList();
     private final Object mViewObject;
     private final Object mLayoutParamsObject;
@@ -63,10 +63,27 @@ public class ViewInfo {
      */
     public void setChildren(List<ViewInfo> children) {
         if (children != null) {
-            mChildren = Collections.unmodifiableList(children);
+            //mChildren = Collections.unmodifiableList(children);
+            mChildren = children;
         } else {
             mChildren = Collections.emptyList();
         }
+    }
+
+    /**
+     * Sets the values for left, top right and bottom.
+     *
+     * @param left The value for the left bound
+     * @param top The value for the top bound
+     * @param right The value for the right bound
+     * @param bottom The value for the bottom bound
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    public void setMeasurementInfo(int left, int top, int right, int bottom) {
+        mLeft = left;
+        mTop = top;
+        mRight = right;
+        mBottom = bottom;
     }
 
     public void setExtendedInfo(int baseLine, int leftMargin, int topMargin,

@@ -21,7 +21,7 @@
 
 package org.cordovastudio.editors.designer.rendering;
 
-import com.intellij.psi.xml.XmlFile;
+import org.cordovastudio.devices.Device;
 
 import java.io.File;
 import java.util.Map;
@@ -65,7 +65,7 @@ public abstract class RenderingEngine {
      * @return a new {@link RenderSession} object that contains the result of the scene creation and
      * first rendering.
      */
-    public abstract RenderSession createSession(RenderParams params) throws RenderingException;
+    public abstract RenderSession createSession(RenderParams params, Device device) throws RenderingException;
 
     /**
      * Renders a Drawable. If the rendering is successful, the result image is accessible through

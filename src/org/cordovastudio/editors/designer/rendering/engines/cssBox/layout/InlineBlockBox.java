@@ -246,6 +246,8 @@ public class InlineBlockBox extends BlockBox implements InlineElement {
             absbounds.width = bounds.width;
             absbounds.height = bounds.height;
 
+            updateViewInfo(absbounds);
+
             //repeat for all valid subboxes
             for (int i = startChild; i < endChild; i++)
                 getSubBox(i).absolutePositions();

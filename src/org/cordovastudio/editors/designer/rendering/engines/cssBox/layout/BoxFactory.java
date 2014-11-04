@@ -307,12 +307,17 @@ public class BoxFactory {
     private ViewInfo createViewInfo(Box newbox) {
         ViewInfo viewInfo = new ViewInfo(((HtmlTag)newbox.getElement()).getName(), newbox.getElement(), 0, 0, 0, 0);
         viewInfo.setChildren(new ArrayList<>());
-        /*
+
         if(newbox instanceof BlockBox) {
             LengthSet margins = ((BlockBox) newbox).getMargin();
-            viewInfo.setExtendedInfo(((BlockBox) newbox).getFirstInlineBoxBaseline(), margins.left, margins.top, margins.right, margins.bottom);
+            if(margins == null) {
+                viewInfo.setExtendedInfo(0, 0, 0, 0, 0);
+            } else {
+                viewInfo.setExtendedInfo(((BlockBox) newbox).getFirstInlineBoxBaseline(), margins.left, margins.top, margins.right, margins.bottom);
+            }
+        } else {
+            viewInfo.setExtendedInfo(0, 0, 0, 0, 0);
         }
-        */
 
         return viewInfo;
     }

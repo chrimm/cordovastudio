@@ -21,12 +21,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
+import org.cordovastudio.devices.Device;
 import org.cordovastudio.editors.designer.rendering.*;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.CSSNorm;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.css.DOMAnalyzer;
 import org.cordovastudio.editors.designer.rendering.engines.cssBox.layout.BrowserCanvas;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -61,7 +61,7 @@ public class CssBoxRenderer extends RenderingEngine {
      * first rendering.
      */
     @Override
-    public RenderSession createSession(RenderParams params) throws RenderingException {
+    public RenderSession createSession(RenderParams params, Device device) throws RenderingException {
 
         URL baseUrl;
         XmlDocument document;
@@ -120,12 +120,10 @@ public class CssBoxRenderer extends RenderingEngine {
 
         canvas.getConfig().setLoadImages(true);
         canvas.getConfig().setLoadBackgroundImages(true);
-        canvas.createLayout(new Dimension(720, 1280));
+        canvas.createLayout(device.getScreenSize());
 
         BufferedImage image = canvas.getImage();
 
-        //ViewInfo rootViewInfo = new ViewInfo("body", canvas.getViewport().getRootElement(), 0, 0, 720, 1280);
-
-        return new StaticRenderSession(SUCCESS.createResult(), canvas.getRootViewInfo(), image);
+        return new StaticRenderSession(SUCCESS.createResult(), canvas.getBodyViewInfo(), image);
     }
 }

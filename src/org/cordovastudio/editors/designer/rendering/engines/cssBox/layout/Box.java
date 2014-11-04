@@ -277,15 +277,12 @@ abstract public class Box {
      * @param bounds The new bounds to set
      * @author Christoffer T. Timm <kontakt@christoffertimm.de>
      */
-    protected void updateViewInfo(Rectangle bounds) {
+    public void updateViewInfo(Rectangle bounds) {
         if(viewInfo == null) {
             return;
         }
 
-        ViewInfo tmpViewInfo = new ViewInfo(viewInfo.getClassName(), viewInfo.getCookie(), 0, 0, bounds.width, bounds.height, viewInfo.getViewObject(), viewInfo.getLayoutParamsObject());
-        tmpViewInfo.setChildren(viewInfo.getChildren());
-        tmpViewInfo.setExtendedInfo(viewInfo.getBaseLine(), viewInfo.getLeftMargin(), viewInfo.getTopMargin(), viewInfo.getRightMargin(), viewInfo.getBottomMargin());
-        viewInfo = tmpViewInfo;
+        viewInfo.setMeasurementInfo(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     /**

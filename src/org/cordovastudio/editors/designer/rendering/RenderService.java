@@ -27,7 +27,6 @@ import org.cordovastudio.devices.Device;
 import org.cordovastudio.devices.State;
 import org.cordovastudio.editors.designer.model.ViewInfo;
 import org.cordovastudio.editors.designer.rendering.engines.CssBoxRenderer;
-import org.cordovastudio.editors.designer.rendering.engines.DummyRenderer;
 import org.cordovastudio.editors.designer.rendering.renderConfiguration.RenderConfiguration;
 import org.cordovastudio.modules.CordovaFacet;
 import org.cordovastudio.test.DummyDeviceFactory;
@@ -247,7 +246,7 @@ public class RenderService implements IImageFactory {
                         int retries = 0;
                         RenderSession session = null;
                         while (retries < 10) {
-                            session = myRenderingEngine.createSession(params);
+                            session = myRenderingEngine.createSession(params, myDevice);
                             Result result = session.getResult();
                             if (result.getStatus() != Result.Status.ERROR_TIMEOUT) {
                                 // Sometimes happens at startup; treat it as a timeout; typically a retry fixes it
@@ -344,7 +343,7 @@ public class RenderService implements IImageFactory {
         Project project = module.getProject();
 
         //TODO: determine the right Rendering Engine from settings and return the real one
-        return new DummyRenderer();
+        return new CssBoxRenderer();
     }
 
     /**
@@ -422,7 +421,7 @@ public class RenderService implements IImageFactory {
                     int retries = 0;
                     while (retries < 10) {
                         try {
-                            RenderSession session = myRenderingEngine.createSession(params);
+                            RenderSession session = myRenderingEngine.createSession(params, myDevice);
                             Result result = session.getResult();
                             if (result.getStatus() != Result.Status.ERROR_TIMEOUT) {
                                 // Sometimes happens at startup; treat it as a timeout; typically a retry fixes it

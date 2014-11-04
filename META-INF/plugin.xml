@@ -14,10 +14,10 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin version="2">
+<idea-plugin version="2" url="http://www.cordovastudio.org">
     <id>org.cordovastudio</id>
     <name>Cordova Studio</name>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <vendor email="support@cordovastudio.org" url="http://www.cordovastudio.org">Christoffer T. Timm</vendor>
 
     <description><![CDATA[

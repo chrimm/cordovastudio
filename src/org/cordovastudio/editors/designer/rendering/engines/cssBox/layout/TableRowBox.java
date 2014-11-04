@@ -160,6 +160,8 @@ public class TableRowBox extends BlockBox {
         absbounds.width = bounds.width;
         absbounds.height = bounds.height;
 
+        updateViewInfo(absbounds);
+
         //Compute the absolute positions as for in-flow boxes. Ignore floating.
         if (isDisplayed()) {
             //for (int i = startChild; i < endChild; i++)

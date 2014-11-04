@@ -33,7 +33,6 @@ import org.cordovastudio.editors.designer.designSurface.RootView;
 import org.cordovastudio.editors.designer.rendering.MergeCookie;
 import org.cordovastudio.editors.designer.rendering.RenderResult;
 import org.cordovastudio.editors.designer.rendering.RenderSession;
-import org.cordovastudio.utils.XmlUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -129,7 +128,7 @@ public class RadModelBuilder {
         //XmlTag rootTag = pages[0];
 
         //as long as we don't support SPAs, just use thhe <body> tag as root tag
-        XmlTag rootTag = myDesigner.getXmlFile().getRootTag().findFirstSubTag("body");
+        XmlTag rootTag = myDesigner.getXmlFile().getRootTag().findFirstSubTag("html");
 
         boolean isMerge = rootTag != null && "merge".equals(rootTag.getName());
         if (root == null || isMerge != (root.getMetaModel() == myMetaManager.getModelByTag("merge"))) {
@@ -234,8 +233,13 @@ public class RadModelBuilder {
                 tag = (XmlTag) cookie;
                 if (myMergeComponentMap.containsKey(tag)) {
                     // Just expand the bounds
-                    int left = parentX + view.getLeft();
-                    int top = parentY + view.getTop();
+
+                    /* With the CssBoxRenderer we already have absolute coordinates, so we don't need to compute them */
+                    //int top = parentY + view.getTop();
+                    //int left = parentX + view.getLeft();
+
+                    int top = view.getTop();
+                    int left = view.getLeft();
                     int width = view.getRight() - view.getLeft();
                     int height = view.getBottom() - view.getTop();
                     RadViewComponent radViewComponent = myMergeComponentMap.get(tag);
@@ -261,12 +265,17 @@ public class RadModelBuilder {
             if (component == null) {
                 // TODO: Construct tag name from ViewInfo's class name so we don't have to touch the PSI data structures at all
                 // (so we don't need a read lock)
-                String tagName = tag.isValid() ? tag.getName() : "div";
+                String tagName = tag.isValid() ? tag.getName() : "illegal";
                 try {
                     MetaModel metaModel = myMetaManager.getModelByTag(tagName);
                     if (metaModel == null) {
-                        metaModel = myMetaManager.getModelByTag("div");
-                        assert metaModel != null;
+                        return null;
+                        //TODO: for now, we just don't display/use unknown tags,
+                        //but in the future, we should consider displaying "(illegal tag)".
+                        //What about legal tag, that we just don't want to see in the ComponentTree, like <script>?
+
+                        //metaModel = myMetaManager.getModelByTag("unknown");
+                        //assert metaModel != null;
                     }
 
                     component = RadComponentOperations.createComponent(tag, metaModel);
@@ -285,8 +294,12 @@ public class RadModelBuilder {
             component.setViewInfo(view);
             component.setNativeComponent(myNativeComponent);
 
-            int left = parentX + view.getLeft();
-            int top = parentY + view.getTop();
+            /* With the CssBoxRenderer we already have absolute coordinates, so we don't need to compute them */
+            //int top = parentY + view.getTop();
+            //int left = parentX + view.getLeft();
+
+            int top = view.getTop();
+            int left = view.getLeft();
             int width = view.getRight() - view.getLeft();
             int height = view.getBottom() - view.getTop();
 
