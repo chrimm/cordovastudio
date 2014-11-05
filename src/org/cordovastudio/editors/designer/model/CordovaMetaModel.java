@@ -1,5 +1,11 @@
 /*
  * Copyright (C) 2013 The Android Open Source Project
+ * (Original as of com.android.tools.idea.designer.AndroidMetaModel)
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Adopted for Cordova projects
+ *  – Added support for models that are distinguished by class and/or type instead of tag-only
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +27,7 @@ import org.cordovastudio.editors.designer.policies.FillPolicy;
 import org.cordovastudio.editors.designer.policies.ResizePolicy;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CordovaMetaModel extends MetaModel {
   public static final String ATTR_RESIZE = "resize";
@@ -29,8 +36,8 @@ public class CordovaMetaModel extends MetaModel {
   private ResizePolicy myResizePolicy;
   private FillPolicy myFillPolicy;
 
-  public CordovaMetaModel(Class<RadComponent> model, String target, String tag) {
-    super(model, target, tag);
+  public CordovaMetaModel(Class<RadComponent> model, @NotNull String tag, @Nullable String htmlClass, @Nullable String htmlType) {
+    super(model, tag, htmlClass, htmlType);
   }
 
   public void initializeFrom(@NotNull Element element) {

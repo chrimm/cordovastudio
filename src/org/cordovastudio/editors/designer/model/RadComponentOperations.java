@@ -40,8 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import org.cordovastudio.GlobalConstants.*;
-
 /**
  * Operations for a hierarchy of {@link org.cordovastudio.editors.designer.model.RadViewComponent} instances, such as adding, removing
  * and moving components.
@@ -308,7 +306,7 @@ return null;
       builder.append('\t');
     }
     builder.append(component).append(" | ").append(component.getLayout()).append(" | ").append(component.getMetaModel().getTag())
-      .append(" | ").append(component.getMetaModel().getTarget()).append(" = ").append(component.getChildren().size()).append("\n");
+      .append(" | ").append(component.getMetaModel().getHtmlClass()).append(" = ").append(component.getChildren().size()).append("\n");
     for (RadComponent childComponent : component.getChildren()) {
       printTree(builder, childComponent, level + 1);
     }

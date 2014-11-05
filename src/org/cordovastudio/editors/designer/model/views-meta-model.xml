@@ -73,6 +73,54 @@
         <palette title="Object" icon="CordovaIcons.Palette.DeviceScreen"/>
     </meta>
 
+    <!-- ============== HTML5 elements ============= -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.a"
+          tag="a">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Hyperlink (Anchor)" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A clickable hyperlink to an internal or external target"/>
+
+        <properties
+                inplace="text"
+                important="text linktarget title"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <a>Link</a>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          class="html.element.abbr"
+          tag="abbr">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Abbreviation" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="An explanation for an abbreviation"/>
+
+        <properties
+                inplace="text"
+                important="text title"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <abbr>ABBR</abbr>
+            ]]>
+        </creation>
+    </meta>
+
+    <!-- ======== Deprecated HTML4 elements ======== -->
+
     <!-- ================= Widgets ================= -->
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"

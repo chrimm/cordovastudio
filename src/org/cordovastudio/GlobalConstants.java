@@ -90,6 +90,7 @@ public final class GlobalConstants {
     public static final String ATTR_CLASS = "class";
     public static final String ATTR_STYLE = "style";
     public static final String ATTR_TITLE = "title";
+    public static final String ATTR_TYPE = "type";
 
     /*
      * Tag values

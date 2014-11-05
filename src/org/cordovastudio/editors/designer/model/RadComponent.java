@@ -361,7 +361,7 @@ public abstract class RadComponent extends PropertiesContainer {
                                      ", " +
                                      myMetaModel.getTag() +
                                      ", " +
-                                     myMetaModel.getTarget() +
+                                     myMetaModel.getHtmlClass() +
                                      " without properties");
         */
     }

@@ -15,25 +15,24 @@
  */
 package org.cordovastudio.editors.designer.componentTree;
 
-import org.cordovastudio.GlobalConstants;
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInsight.daemon.impl.SeverityRegistrar;
 import com.intellij.designer.model.ErrorInfo;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.ui.LayeredIcon;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import org.cordovastudio.branding.CordovaIcons;
-import org.cordovastudio.editors.designer.model.*;
+import org.cordovastudio.editors.designer.model.IComponentDecorator;
+import org.cordovastudio.editors.designer.model.MetaModel;
+import org.cordovastudio.editors.designer.model.RadComponent;
 import org.cordovastudio.editors.designer.palette.PaletteItem;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-import static org.cordovastudio.GlobalConstants.*;
-import static org.cordovastudio.editors.designer.model.RadModelBuilder.ROOT_NODE_TAG;
+import static org.cordovastudio.GlobalConstants.ATTR_ID;
 
 /**
  * Tree decorator for the component tree.
@@ -55,27 +54,6 @@ public final class CordovaTreeDecorator implements TreeComponentDecorator {
   public void decorate(RadComponent component, SimpleColoredComponent renderer, AttributeWrapper wrapper, boolean full) {
     MetaModel metaModel = component.getMetaModel();
 
-    // Special case: for the <view> tag, show the referenced
-    // class instead
-    String tag = metaModel.getTag();
-    if (VIEW_TAG.equals(tag) && component instanceof RadViewComponent) {
-      // We have to use the XmlTag to look up the class attribute since the
-      // component.getPropertyValue(ATTR_CLASS) call does not return it
-      RadViewComponent rvc = (RadViewComponent)component;
-      XmlAttribute attribute = rvc.getTag().getAttribute(ATTR_CLASS);
-      if (attribute != null) {
-        String cls = attribute.getValue();
-        if (!StringUtil.isEmpty(cls)) {
-          if (myProject != null) {
-            MetaManager metaManager = ViewsMetaManager.getInstance(myProject);
-            MetaModel classModel = metaManager.getModelByTarget(cls);
-            if (classModel != null) {
-              metaModel = classModel;
-            }
-          }
-        }
-      }
-    }
     decorate(component, metaModel, renderer, wrapper, full);
   }
 

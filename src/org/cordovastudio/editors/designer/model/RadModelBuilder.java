@@ -41,6 +41,9 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
+import static org.cordovastudio.GlobalConstants.ATTR_CLASS;
+import static org.cordovastudio.GlobalConstants.ATTR_TYPE;
+
 /**
  * Builder responsible for building up (and synchronizing) a hierarchy of {@link org.cordovastudio.editors.designer.model.ViewInfo}
  * objects from layoutlib with a corresponding hierarchy of {@link org.cordovastudio.editors.designer.model.RadViewComponent}
@@ -256,7 +259,9 @@ public class RadModelBuilder {
                     component = null;
                 } else {
                     ApplicationManager.getApplication().assertReadAccessAllowed();
+
                     String name = tag.getName();
+
                     if (myMetaManager.getModelByTag(name) != component.getMetaModel()) {
                         component = null;
                     }
@@ -266,8 +271,52 @@ public class RadModelBuilder {
                 // TODO: Construct tag name from ViewInfo's class name so we don't have to touch the PSI data structures at all
                 // (so we don't need a read lock)
                 String tagName = tag.isValid() ? tag.getName() : "illegal";
+
+                String attrClassStr = tag.getAttributeValue(ATTR_CLASS);
+                if(attrClassStr == null) {
+                    attrClassStr = "";
+                }
+                String[] htmlClasses = attrClassStr.split(" ");
+
+                String htmlType = tag.getAttributeValue(ATTR_TYPE);
+
                 try {
-                    MetaModel metaModel = myMetaManager.getModelByTag(tagName);
+                    MetaModel metaModel = null;
+
+
+                    /* First try to get Model by Class and Type */
+                    /* ex: <input type="submit" class="button"> */
+                    if(htmlClasses.length > 0 && htmlType != null && !"".equals(htmlType)) {
+                        for(String htmlClass : htmlClasses) {
+                            metaModel = myMetaManager.getModel(tagName, htmlClass, htmlType);
+                            if(metaModel != null)
+                                break;
+                        }
+                    }
+
+                    /* If none found, try only by Type */
+                    /* ex: <input type="submit" class="someStylingOnlyClasses"> */
+                    if(metaModel == null && htmlType != null && !"".equals(htmlType)) {
+                        metaModel = myMetaManager.getModel(tagName, null, htmlType);
+                    }
+
+                    /* If still none found, try each Class, but no Type */
+                    /* ex: <command class="button"> */
+                    if(metaModel == null && htmlClasses.length > 0) {
+                        for(String htmlClass : htmlClasses) {
+                            metaModel = myMetaManager.getModel(tagName, htmlClass, null);
+                            if(metaModel != null)
+                                break;
+                        }
+                    }
+
+                    /* If still none found, try by Tag only */
+                    /* ex: <button> */
+                    if(metaModel == null) {
+                        metaModel = myMetaManager.getModelByTag(tagName);
+                    }
+
+                    /* If yet still nothing is found, we simply don't recognise this tag --> error handling */
                     if (metaModel == null) {
                         return null;
                         //TODO: for now, we just don't display/use unknown tags,

@@ -40,8 +40,8 @@ public class ViewsMetaManager extends MetaManager {
 
   @NotNull
   @Override
-  protected CordovaMetaModel createModel(Class<RadComponent> model, String target, String tag) throws Exception {
-    return new CordovaMetaModel(model, target, tag);
+  protected CordovaMetaModel createModel(Class<RadComponent> model, String tag, String htmlClass, String htmlType) throws Exception {
+    return new CordovaMetaModel(model, tag, htmlClass, htmlType);
   }
 
   @NotNull
