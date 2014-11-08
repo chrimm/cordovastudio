@@ -34,12 +34,12 @@ public class TagDescriptor {
     private String mHtmlClass;
 
     @Nullable
-    private String mType;
+    private String mHtmlType;
 
     public TagDescriptor(@NotNull String tag, @Nullable String htmlClass, @Nullable String type) {
         mTag = tag;
         mHtmlClass = htmlClass;
-        mType = type;
+        mHtmlType = type;
     }
 
     @NotNull
@@ -53,8 +53,8 @@ public class TagDescriptor {
     }
 
     @Nullable
-    public String getType() {
-        return mType;
+    public String getHtmlType() {
+        return mHtmlType;
     }
 
     public void setTag(@NotNull String tag) {
@@ -66,7 +66,15 @@ public class TagDescriptor {
     }
 
     public void setType(@Nullable String type) {
-        this.mType = type;
+        this.mHtmlType = type;
+    }
+
+    public boolean hasType() {
+        return mHtmlType != null && !mHtmlType.isEmpty();
+    }
+
+    public boolean hasClass() {
+        return mHtmlClass != null && !mHtmlClass.isEmpty();
     }
 
     @Override
@@ -78,7 +86,7 @@ public class TagDescriptor {
 
         if (mHtmlClass != null ? !mHtmlClass.equals(that.mHtmlClass) : that.mHtmlClass != null) return false;
         if (!mTag.equals(that.mTag)) return false;
-        if (mType != null ? !mType.equals(that.mType) : that.mType != null) return false;
+        if (mHtmlType != null ? !mHtmlType.equals(that.mHtmlType) : that.mHtmlType != null) return false;
 
         return true;
     }
@@ -87,7 +95,7 @@ public class TagDescriptor {
     public int hashCode() {
         int result = mTag.hashCode();
         result = 31 * result + (mHtmlClass != null ? mHtmlClass.hashCode() : 0);
-        result = 31 * result + (mType != null ? mType.hashCode() : 0);
+        result = 31 * result + (mHtmlType != null ? mHtmlType.hashCode() : 0);
         return result;
     }
 
@@ -96,7 +104,7 @@ public class TagDescriptor {
         return "TagDescriptor{" +
                 "Tag='" + mTag + '\'' +
                 ", HtmlClass='" + mHtmlClass + '\'' +
-                ", Type='" + mType + '\'' +
+                ", Type='" + mHtmlType + '\'' +
                 '}';
     }
 }

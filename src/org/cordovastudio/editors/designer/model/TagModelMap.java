@@ -28,6 +28,44 @@ public class TagModelMap extends HashMap<TagDescriptor, MetaModel> {
     }
 
     public MetaModel get(String tag, String htmlClass, String type) {
-        return super.get(new TagDescriptor(tag, htmlClass, type));
+        return get(new TagDescriptor(tag, htmlClass, type));
+    }
+
+    public MetaModel get(TagDescriptor tagDescriptor) {
+        /* Tag, Type AND Class */
+        if (tagDescriptor.hasType() && tagDescriptor.hasClass()){
+            return super.get(tagDescriptor);
+        }
+        /* Tag only, ignore Type and Class */
+        else if (!tagDescriptor.hasType() && !tagDescriptor.hasClass()) {
+            for(TagDescriptor currDescr : super.keySet()) {
+                if(currDescr.getTag().equalsIgnoreCase(tagDescriptor.getTag())) {
+                    return super.get(currDescr);
+                }
+            }
+        }
+        /* Tag and Type, ignore Class */
+        else if (tagDescriptor.hasType() && !tagDescriptor.hasClass()) {
+            for(TagDescriptor currDescr : super.keySet()) {
+                if(currDescr.getTag().equalsIgnoreCase(tagDescriptor.getTag())
+                        && currDescr.getHtmlType() != null
+                        && currDescr.getHtmlType().equalsIgnoreCase(tagDescriptor.getHtmlType())) {
+                    return super.get(currDescr);
+                }
+            }
+        }
+        /* Tag and Class, ignore Type */
+        else if (!tagDescriptor.hasType() && tagDescriptor.hasClass()) {
+            for(TagDescriptor currDescr : super.keySet()) {
+                if(currDescr.getTag().equalsIgnoreCase(tagDescriptor.getTag())
+                        && currDescr.getHtmlClass() != null
+                        && currDescr.getHtmlClass().equalsIgnoreCase(tagDescriptor.getHtmlClass())) {
+                    return super.get(currDescr);
+                }
+            }
+        }
+
+        /* None found */
+        return null;
     }
 }
