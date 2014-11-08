@@ -5,6 +5,7 @@
  * Copyright (C) 2014 Christoffer T. Timm
  * Changes:
  *  – Added support for models that are distinguished by class and/or type instead of tag-only
+ *  – Added support for multiple model definition files
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,9 +59,8 @@ public abstract class MetaManager extends ModelLoader {
 
     private Map<Object, Object> myCache = new HashMap<Object, Object>();
 
-    protected MetaManager(Project project, String name) {
+    protected MetaManager(Project project) {
         super(project);
-        load(name);
     }
 
     @Override

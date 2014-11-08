@@ -2,24 +2,7 @@
 
 <meta-model>
 
-    <!-- =============== Specials ================ -->
-
-    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
-          tag="illegal">
-
-        <palette title="(illegal tag)" icon="CordovaIcons.Palette.Include"/>
-    </meta>
-
     <!-- ================= Roots ================= -->
-
-    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
-          tag="viewport"
-          delete="false">
-
-        <palette title="Device" icon="CordovaIcons.Palette.DeviceScreen"/>
-    </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
           layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
@@ -44,6 +27,9 @@
 
         <palette title="Viewport" icon="CordovaIcons.Palette.ViewStub"/>
     </meta>
+
+    <!-- ============== HTML5 elements ============= -->
+
 <!--
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
           layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
@@ -72,8 +58,6 @@
 
         <palette title="Object" icon="CordovaIcons.Palette.DeviceScreen"/>
     </meta>
-
-    <!-- ============== HTML5 elements ============= -->
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           class="html.element.a"

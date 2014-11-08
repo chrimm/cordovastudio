@@ -51,7 +51,7 @@ import static org.cordovastudio.GlobalConstants.ATTR_TYPE;
 public class RadModelBuilder {
     private static final String DESIGNER_KEY = "DESIGNER";
 
-    // Special tag defined in the meta model file (views-meta-model.xml) defining the root node, shown as "Device Screen"
+    // Special tag defined in the meta model file (html5-meta-model.xml) defining the root node, shown as "Device Screen"
     public static final String ROOT_NODE_TAG = "html";
 
     private final IdManager myIdManager;

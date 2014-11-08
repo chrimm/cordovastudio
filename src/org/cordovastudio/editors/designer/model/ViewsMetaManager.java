@@ -1,5 +1,11 @@
 /*
  * Copyright 2000-2012 JetBrains s.r.o.
+ * (Original as of com.intellij.android.designer.model.ViewsMetaManager)
+ *
+ * Copyright (C) Christoffer T. Timm
+ * Changes:
+ *  – Added support for multiple model definition files, now every file in "metaModelDefinitions/" will be loaded,
+ *    thus you can specify any UI Framework you like, just by adding a corresponding model definition xml file to this folder.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +29,8 @@ import org.cordovastudio.editors.designer.palette.VariationPaletteItem;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +39,25 @@ import java.util.Map;
  */
 public class ViewsMetaManager extends MetaManager {
   public ViewsMetaManager(Project project) {
-    super(project, "views-meta-model.xml");
+      super(project);
+
+      File definitionFileFolder = new File(getClass().getResource("metaModelDefinitions/").getFile());
+
+      if(definitionFileFolder.exists() && definitionFileFolder.isDirectory()) {
+
+          File[] definitionFiles = definitionFileFolder.listFiles(new FilenameFilter() {
+              @Override
+              public boolean accept(File dir, String name) {
+                  return name.endsWith(".xml");
+              }
+          });
+
+          if(definitionFiles != null && definitionFiles.length > 0) {
+              for(File file : definitionFiles) {
+                  load(file);
+              }
+          }
+      }
   }
 
   public static ViewsMetaManager getInstance(Project project) {
