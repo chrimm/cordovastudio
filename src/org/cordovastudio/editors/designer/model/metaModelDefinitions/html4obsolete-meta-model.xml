@@ -18,7 +18,12 @@
 
 <meta-model>
 
-    <!-- ======== Deprecated HTML4 elements ======== -->
+    <!--
+     ~ This file contains all HTML4 elements that are obsolete since HTML5
+     ~ For a comprehensive list of all obsolete elements, see: http://www.w3.org/TR/html5/obsolete.html
+     -->
+
+    <!-- ========= Obsolete HTML4 elements ========= -->
 
     <!-- ================= Widgets ================= -->
 

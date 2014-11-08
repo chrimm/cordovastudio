@@ -18,6 +18,11 @@
 
 <meta-model>
 
+    <!--
+     ~ This file contains all model elements, that are not part of any other definition file, but MUST exist,
+     ~ because they define roots etc.
+     -->
+
     <!-- =============== Specials ================ -->
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
