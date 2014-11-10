@@ -49,7 +49,24 @@
         <palette title="Viewport" icon="CordovaIcons.Palette.ViewStub"/>
     </meta>
 
-    <!-- ============== HTML5 elements ============= -->
+    <!-- ============== HTML5 Head Elements ============= -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="base">
+
+        <palette title="Base URL" icon="CordovaIcons.Palette.Dummy"/>
+    </meta>
+
+    <!-- ============= HTML5 Special Elements =========== -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="br"
+          showInComponentTree="false">
+
+    </meta>
+
+    <!-- ============== HTML5 Body Elements ============= -->
 
 <!--
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
@@ -80,8 +97,12 @@
         <palette title="Object" icon="CordovaIcons.Palette.DeviceScreen"/>
     </meta>
 
+
+
+
+
+
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          class="html.element.a"
           tag="a">
 
         <presentation title=" - &quot;%text%&quot;"/>
@@ -91,7 +112,7 @@
 
         <properties
                 inplace="text"
-                important="text linktarget title"
+                important="text href title"
                 expert=""
                 />
 
@@ -103,7 +124,6 @@
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          class="html.element.abbr"
           tag="abbr">
 
         <presentation title=" - &quot;%text%&quot;"/>
@@ -124,9 +144,531 @@
         </creation>
     </meta>
 
-    <!-- ======== Deprecated HTML4 elements ======== -->
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="address">
 
-    <!-- ================= Widgets ================= -->
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Address" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A part of text being marked up as an address or other contact information"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <address>
+                    Street<br />
+                    City, ZIP<br />
+                    Country
+                </address>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="article">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Article" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="An article consisting of multiple sections, headers, paragraphs, etc."/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <article>
+                    <h1>Header</h1>
+                    <section>
+                        <h2>First section</h2>
+                        <p>
+                            This is the first paragraph.
+                        </p>
+                    </section
+                </article>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="aside">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Aside" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="An area containing tangential content."/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <aside>NB: This is a aside</aside>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="audio">
+
+        <presentation title=""/>
+
+        <palette title="Audio Stream" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="An audio stream"/>
+
+        <properties
+                inplace=""
+                important="src"
+                expert="media type"
+                />
+
+        <creation>
+            <![CDATA[
+                <audio>
+                    <source src="">
+                </audio>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="b">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Bold Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A part of text, typically offset in bold"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <b>Bold Text</b>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="bdi">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Bi-directional Text (isolated)" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A part of text, isolated from its surroundings for the purposes of bidirectional text formatting"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <bdi>BiDi Text</bdi>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="bdo">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Bi-directional Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A part of bi-directional text, that has a direction, overriding the surrounding direction"/>
+
+        <properties
+                inplace="text"
+                important="dir text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <bdo dir="auto">BiDi Text</bdo>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="blockquote">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Blockquote" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A block of quoted text"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="cite"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <blockquote>Blockquote</blockquote>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="button">
+
+        <presentation title=" - &quot;%value%&quot;"/>
+
+        <palette title="Submit Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A button to submit a form"/>
+
+        <properties
+                inplace="value"
+                important="value name"
+                normal="disabled autofocus type"
+                expert="form formaction formenctype formmethod formtarget formnovalidate"
+                />
+
+        <creation>
+            <![CDATA[
+                <button type="submit">Submit</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="button"
+          type="reset">
+
+        <presentation title=" - &quot;%value%&quot;"/>
+
+        <palette title="Reset Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A button to reset the form"/>
+
+        <properties
+                inplace="value"
+                important="value name"
+                normal="disabled autofocus type"
+                expert="form formaction formenctype formmethod formtarget formnovalidate"
+                />
+
+        <creation>
+            <![CDATA[
+                <button type="reset">Reset</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="button"
+          type="button">
+
+        <presentation title=" - &quot;%value%&quot;"/>
+
+        <palette title="Generic Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A button without any special functionality"/>
+
+        <properties
+                inplace="value"
+                important="value name"
+                normal="disabled autofocus type"
+                expert="form formaction formenctype formmethod formtarget formnovalidate"
+                />
+
+        <creation>
+            <![CDATA[
+                <button type="reset">Button</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="canvas">
+
+        <presentation title=""/>
+
+        <palette title="Canvas" icon="CordovaIcons.Palette.View"
+                 tooltip="An area for dynamic graphics"/>
+
+        <properties
+                inplace=""
+                important="height width"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <canvas height="100" width="100"></canvas>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="caption">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Caption" icon="CordovaIcons.Palette.TextView"
+                 tooltip="The title for a table"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <caption>Caption</caption>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="cite">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Cited Work" icon="CordovaIcons.Palette.TextView"
+                 tooltip="The cited title of a work"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <cite>Cited Work Title</cite>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="code">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Code Fragment" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A fragment of code, typically styled in monospaced font"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <code>Code snippet</code>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="col">
+
+        <presentation title=""/>
+
+        <palette title="Column" icon="CordovaIcons.Palette.TableLayout"
+                 tooltip="A column of a table"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal="span"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <col/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="colgroup">
+
+        <presentation title=""/>
+
+        <palette title="Column Group" icon="CordovaIcons.Palette.TableLayout"
+                 tooltip="A group of table columns"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal="span"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <colgroup>
+                    <col/>
+                </colgroup>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="command">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Generic Command" icon="CordovaIcons.Palette.Button"
+                 tooltip="A command with an associated action"/>
+
+        <properties
+                inplace="label"
+                important="label"
+                normal="type icon disabled"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <command type="command" label="Command"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="command"
+          type="radio">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Radio Command" icon="CordovaIcons.Palette.RadioButton"
+                 tooltip="A selection of one item from a list of items"/>
+
+        <properties
+                inplace="label"
+                important="label"
+                normal="type icon disabled checked radiogroup"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <command type="radio" label="Command Item"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="command"
+          type="checkbox">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Checkbox Command" icon="CordovaIcons.Palette.CheckBox"
+                 tooltip="A state or option that can be toggled"/>
+
+        <properties
+                inplace="label"
+                important="label"
+                normal="type icon disabled checked"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <command type="checkbox" label="Command Item"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="datalist">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Datalist" icon="CordovaIcons.Palette.ListView"
+                 tooltip="A set of option elements that represent predefined options for other controls"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <datalist>
+                    <option label="Option1" value="Option1"></option>
+                </datalist>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="dd">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Description" icon="CordovaIcons.Palette.TextView"
+                 tooltip="The description part of a term-description pair"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <dd>Description</dd>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="del">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Deleted Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A part of text, marked up as deleted (i.e. typically striked through)"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="cite datetime"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <del>Deleted Text</del>
+            ]]>
+        </creation>
+    </meta>
+
+    <!-- ... TODO: implement more elements here ... -->
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           class="html.element.Header1"
