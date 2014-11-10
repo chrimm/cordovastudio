@@ -5,7 +5,8 @@
  * Copyright (C) 2014 Christoffer T. Timm
  * Changes:
  *  – Added support for models that are distinguished by class and/or type instead of tag-only
- *  – Added support for multiple model definition files
+ *  – Added support for multiple meta model definition files
+ *  – Added support for meta model definition files lacking palette definitions
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,8 +74,11 @@ public abstract class MetaManager extends ModelLoader {
             loadModel(classLoader, element, modelToMorphing);
         }
 
-        for (Element element : rootElement.getChild(PALETTE).getChildren(GROUP)) {
-            loadGroup(element);
+        Element paletteElement = rootElement.getChild(PALETTE);
+        if(paletteElement != null) {
+            for (Element element : rootElement.getChild(PALETTE).getChildren(GROUP)) {
+                loadGroup(element);
+            }
         }
 
         Element wrapInElement = rootElement.getChild(WRAP_IN);
