@@ -31,6 +31,8 @@
           delete="false">
 
         <palette title="Device" icon="CordovaIcons.Palette.DeviceScreen"/>
+
+        <properties expert="manifest"/>
     </meta>
 <!--
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
@@ -1036,6 +1038,689 @@
         <creation>
             <![CDATA[
                 <header>Header</header>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="hgroup">
+
+        <palette title="Headings Group" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A group of headings"/>
+
+        <creation>
+            <![CDATA[
+                <hgroup></hgroup>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="hr">
+
+        <palette title="Thematic Break" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A paragraph-level thematic break, genuinely a horizontal rule"/>
+
+        <creation>
+            <![CDATA[
+                <hr/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="i">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Italic Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A span of text offset from its surrounding content without conveying any extra emphasis or importance, and for which the conventional typographic presentation is italic text"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                />
+
+        <creation>
+            <![CDATA[
+                <i>Italic Text</i>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="iframe">
+
+        <palette title="Nested Content" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A new nested browsing context"/>
+
+        <properties
+                inplace=""
+                important="src name"
+                normal="height width seamless"
+                expert="srcdoc sandbox"
+                />
+
+        <creation>
+            <![CDATA[
+                <iframe src="" height="100" width="100" seamless="seamless"></iframe>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="img">
+
+        <presentation title=" - &quot;%alt%&quot;"/>
+
+        <palette title="Image" icon="CordovaIcons.Palette.ImageView"
+                 tooltip="An image from a local or a remote location"/>
+
+        <properties
+                inplace=""
+                important="src"
+                normal="alt height width"
+                expert="usemap ismap"
+                />
+
+        <creation>
+            <![CDATA[
+                <img src=""/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Text Input Field" icon="CordovaIcons.Palette.EditText"
+                 tooltip="A one-line plain text edit control"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form maxlength readonly size autocomplete autofocus required placeholder"
+                expert="list pattern dirname"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="text" value="" name="text-field" placeholder="Enter text..."/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="password">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Password Input Field" icon="CordovaIcons.Palette.EditText"
+                 tooltip="A one-line plain-text edit control for entering a password"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form maxlength readonly size autocomplete autofocus required placeholder"
+                expert="list pattern dirname"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="password" value="" name="password" placeholder="Enter password..."/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="checkbox">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Checkbox" icon="CordovaIcons.Palette.CheckBox"
+                 tooltip="A state or option that can be toggled"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form maxlength readonly size autocomplete autofocus required placeholder"
+                expert="list pattern dirname"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="checkbox" value="" name="option"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="radio">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Radio Button" icon="CordovaIcons.Palette.RadioButton"
+                 tooltip="A selection of one item from a list of items"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form size autofocus required"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="checkbox" value="" name="option"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="button">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Generic Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A button with no additional semantics"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="button" value="" name="button"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="submit">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Submit Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A button for submitting a form"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus"
+                expert="formaction formenctype formmethod formtarget formnovalidate"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="submit" value="Submit" name="submit"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="reset">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Reset Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A button for resetting a form"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="reset" value="Reset" name="reset"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="reset">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="File Selection Field" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="An input control to select one or multiple files (e.g. for uploading purposes)"/>
+
+        <properties
+                inplace=""
+                important="name type"
+                normal="disabled form autofocus accept required multiple"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="file" name="file"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="hidden">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Hidden Field" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A hidden field that is not intended to be examined or manipulated by the user"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="hidden" value="" name="hidden-value"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="image">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Image(-coordinates) Input Control" icon="CordovaIcons.Palette.ImageButton"
+                 tooltip="An image from which the UA enables a user to interactively select a pair of coordinates and submit the form, or alternatively a button from which the user can submit the form"/>
+
+        <properties
+                inplace=""
+                important="name type alt src"
+                normal="disabled form autofocus height width"
+                expert="formaction formenctype formmethod formtarget formnovalidate"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="image" name="image"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="datetime">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Date/Time Input Control" icon="CordovaIcons.Palette.DatePicker"
+                 tooltip="A control for setting the element’s value to a string representing a global date and time (with timezone information)"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="datetime" value="" name="datetime"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="datetime-local">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Date/Time Input Control" icon="CordovaIcons.Palette.DatePicker"
+                 tooltip="A control for setting the element’s value to a string representing a global date and time (without timezone information)"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="datetime-local" value="" name="datetime"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="datetime-local">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Date/Time Input Control" icon="CordovaIcons.Palette.DatePicker"
+                 tooltip="A control for setting the element’s value to a string representing a global date and time (without timezone information)"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="datetime-local" value="" name="datetime"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="date">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Date Input Control" icon="CordovaIcons.Palette.CalendarView"
+                 tooltip="A control for setting the element’s value to a string representing a date"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="date" value="" name="date"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="month">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Month Input Control" icon="CordovaIcons.Palette.CalendarView"
+                 tooltip="A control for setting the element’s value to a string representing a month"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="month" value="" name="month"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="month">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Time Input Control" icon="CordovaIcons.Palette.TimePicker"
+                 tooltip="A control for setting the element’s value to a string representing a time (with no timezone information)"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="time" value="" name="time"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="week">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Week Input Control" icon="CordovaIcons.Palette.CalendarView"
+                 tooltip="A control for setting the element’s value to a string representing a week"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="week" value="" name="week"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="number">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Number Input Control" icon="CordovaIcons.Palette.NumberPicker"
+                 tooltip="A control for setting the element’s value to a string representing a week"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required placeholder"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="number" value="" name="number" placeholder="Select a number..."/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="range">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Number-range Input Control" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="An imprecise control for setting the element’s value to a string representing a number"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete min max step readonly required"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="range" value="" name="number-range"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="email">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Email Input Control" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A control for editing a list of e-mail addresses given in the element’s value"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size multiple"
+                expert="list pattern"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="email" value="" name="email" placeholder="Enter email address..."/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="url">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="URL Input Control" icon="CordovaIcons.Palette.WebView"
+                 tooltip="A control for editing an absolute URL given in the element’s value"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size"
+                expert="list pattern"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="url" value="" name="url" placeholder="Enter URL..."/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="search">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Search Input Control" icon="CordovaIcons.Palette.SearchView"
+                 tooltip="A one-line plain-text edit control for entering one or more search terms"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size"
+                expert="list pattern dirname"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="search" value="" name="search" placeholder="Enter search terms..."/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="tel">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Phone Number Input Control" icon="CordovaIcons.Palette.DialerFilter"
+                 tooltip="A one-line plain-text edit control for entering a telephone number"/>
+
+        <properties
+                inplace="placeholder"
+                important="name type value"
+                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size"
+                expert="list pattern"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="tel" value="" name="phone" placeholder="Enter phone number..."/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="color">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Color Selection Control" icon="CordovaIcons.Palette.SurfaceView"
+                 tooltip="A color-well control, for setting the element’s value to a string representing a simple color"/>
+
+        <properties
+                inplace=""
+                important="name type value"
+                normal="disabled form autofocus autocomplete"
+                expert="list"
+                />
+
+        <creation>
+            <![CDATA[
+                <input type="color" value="" name="color"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="ins">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Inserted Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A range of text that has been inserted (added) to a document"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="cite datetime"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <ins>Inserted Text</ins>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="kbd">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Keyboard Typed Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A range of text that is marked up as a example for typed text, typically set in monospaced font"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <kbd>Inserted Text</kbd>
             ]]>
         </creation>
     </meta>
