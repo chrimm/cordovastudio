@@ -19,7 +19,9 @@
 <meta-model>
 
     <!--
-     ~ This file contains all HTML5 elements (i.e. HTML-Tags)
+     ~ This file contains all HTML5 elements (i.e. HTML-Tags) that are part of the HTML5 specification
+     ~ (and some that are not yet officially part of it, but are included here for compatibility purposes, such as:
+     ~ "main", "dialog" and "menuitem".)
      ~ For a comprehensive list of all HTML5 elements, see: http://www.w3.org/TR/html-markup/elements.html
      -->
 
@@ -34,15 +36,16 @@
 
         <properties expert="manifest"/>
     </meta>
-    <!--
-        <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
-              layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
-              tag="head"
-              delete="false">
 
-            <palette title="HTML Head" icon="CordovaIcons.Palette.DeviceScreen"/>
-        </meta>
-    -->
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
+          tag="head"
+          delete="false"
+          showInComponentTree="false">
+
+        <palette title="HTML Head" icon="CordovaIcons.Palette.DeviceScreen"/>
+    </meta>
+
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
           layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
           tag="body"
