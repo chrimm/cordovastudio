@@ -25,7 +25,155 @@
 
     <!-- ========= Obsolete HTML4 elements ========= -->
 
-    <!-- ================= Widgets ================= -->
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="acronym"
+          obsolete="true">
 
+        <presentation title=" - &quot;%text%&quot;"/>
 
+        <palette title="Acronym" icon="CordovaIcons.Palette.TextView"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="applet"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Java Applet" icon="CordovaIcons.Palette.TextureView"/>
+
+        <properties
+                important="name"
+                normal="align alt archive code codeBase height object vspace width"
+                expert=""
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="basefont"
+          obsolete="true"
+          showInComponentTree="false"/>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="big"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Big Text" icon="CordovaIcons.Palette.TextView"/>
+
+        <properties
+                inplace="text"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="center"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Centering Block" icon="CordovaIcons.Palette.Dummy"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="dir"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Directory" icon="CordovaIcons.Palette.ListView"/>
+
+        <properties
+                normal="compact"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="font"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Font Style Override" icon="CordovaIcons.Palette.TextView"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="color face size"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="frame"
+          obsolete="true">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Frame" icon="CordovaIcons.Palette.FrameLayout"/>
+
+        <properties
+                important="name src"
+                normal="frameborder framesize marginheight marginwidth noresize scrolling"
+                expert="longdesc"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="frameset"
+          obsolete="true">
+
+        <palette title="Frameset" icon="CordovaIcons.Palette.GridLayout"/>
+
+        <properties
+                normal="cols rows"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="noframes"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="No-Frame Fallback" icon="CordovaIcons.Palette.TextView"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="strike"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Striked Text" icon="CordovaIcons.Palette.TextView"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                />
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="tt"
+          obsolete="true">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Teletype Text" icon="CordovaIcons.Palette.TextView"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                />
+    </meta>
 </meta-model>
