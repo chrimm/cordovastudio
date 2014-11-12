@@ -34,15 +34,15 @@
 
         <properties expert="manifest"/>
     </meta>
-<!--
-    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
-          layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
-          tag="head"
-          delete="false">
+    <!--
+        <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+              layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
+              tag="head"
+              delete="false">
 
-        <palette title="HTML Head" icon="CordovaIcons.Palette.DeviceScreen"/>
-    </meta>
--->
+            <palette title="HTML Head" icon="CordovaIcons.Palette.DeviceScreen"/>
+        </meta>
+    -->
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
           layout="org.cordovastudio.editors.designer.model.RadSingleChildrenViewLayout"
           tag="body"
@@ -54,19 +54,50 @@
     <!-- ============== HTML5 Head Elements ============= -->
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
-          tag="base">
+          tag="base"
+          showInComponentTree="false">
 
         <palette title="Base URL" icon="CordovaIcons.Palette.Dummy"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="link"
+          showInComponentTree="false">
+
+        <palette title="Resource Link" icon="CordovaIcons.Palette.Dummy"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="meta"
+          showInComponentTree="false">
+
+        <palette title="Meta Information" icon="CordovaIcons.Palette.Dummy"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="title"
+          showInComponentTree="false">
+
+        <palette title="Document Title" icon="CordovaIcons.Palette.Dummy"/>
     </meta>
 
     <!-- ============= HTML5 Special Elements =========== -->
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           tag="br"
-          showInComponentTree="false">
+          showInComponentTree="false"/>
 
-    </meta>
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="script"
+          showInComponentTree="false"/>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="style"
+          showInComponentTree="false"/>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="wbr"
+          showInComponentTree="false"/>
 
     <!-- ============== HTML5 Body Elements ============= -->
 
@@ -685,7 +716,7 @@
           tag="div">
 
         <palette title="Container" icon="CordovaIcons.Palette.Space"
-                 tooltip="A generic container for flow content that by itself does not represent anything" />
+                 tooltip="A generic container for flow content that by itself does not represent anything"/>
 
         <creation>
             <![CDATA[
@@ -1725,19 +1756,373 @@
         </creation>
     </meta>
 
-    <!-- ... TODO: implement more elements here ... -->
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="keygen">
 
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Key-pair Generator Control" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A control for generating a public-private key pair and for submitting the public key from that key pair"/>
+
+        <properties
+                inplace=""
+                important="name"
+                normal="challenge keytype autofocus disabled form"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <keygen name="keygen" keytype="rsa"/>
+            ]]>
+        </creation>
+    </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          class="html.element.Paragraph"
+          tag="label">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Label" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A caption for a form control"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="for form"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <label for="">Label</label>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="legend">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Legend" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A title or explanatory caption for the rest of the contents of the legend element’s parent element"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <legend>Legend</legend>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="li">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="List Item" icon="CordovaIcons.Palette.TwoLineListItem"
+                 tooltip="A list item of either an ordered or an unordered list"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert="value"
+                />
+
+        <creation>
+            <![CDATA[
+                <li>List Item</li>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="li">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="List Item" icon="CordovaIcons.Palette.TwoLineListItem"
+                 tooltip="A list item of either an ordered or an unordered list or a menu"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert="value"
+                />
+
+        <creation>
+            <![CDATA[
+                <li>List Item</li>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="map">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Image Map (map part)" icon="CordovaIcons.Palette.ImageView"
+                 tooltip="In conjunction with any area element descendants, defines an image map"/>
+
+        <properties
+                inplace=""
+                important="name"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <img src="" height="100" width="100" usemap="imagemap">
+                <map name="imagemap">
+                    <area shape="rect" coords="0,0,100,100" href="" alt="">
+                </map>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="mark">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Marked (highlighted) Text" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A run of text in one document marked or highlighted for reference purposes"/>
+
+        <properties
+                inplace="text"
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <mark>Highlighted Text</mark>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="menu">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Menu" icon="CordovaIcons.Palette.TabHost"
+                 tooltip="A list of menu items"/>
+
+        <properties
+                inplace=""
+                important="label type"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <menu type="toolbar" label="toolbar">
+                    <li>Menu Item 1</li>
+                    <li>Menu Item 2</li>
+                </menu>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="meter">
+
+        <palette title="Scalar Gauge" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A scalar gauge providing a measurement within a known range, or a fractional value"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal="value min max low high optimum"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <meter min="0" max="100" optimum="50" value="50" low="25" hight="75"></meter>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="nav">
+
+        <palette title="Navigation" icon="CordovaIcons.Palette.ListView"
+                 tooltip="A section of a document that links to other documents or to parts within the document itself; that is, a section of navigation links"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <nav>
+                    <a href="">Link 1</a>
+                    <a href="">Link 2</a>
+                    <a href="">Link 3</a>
+                </nav>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="noscript">
+
+        <palette title="Fallback Content for Scripts" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A part of text to be presented whenever the surrounding scripted control is not supported by the user's browsing/rendering engine"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <noscript>This text is displayed, when the script is not supported</noscript>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="object">
+
+        <palette title="Object (generic external content)" icon="CordovaIcons.Palette.TextureView"
+                 tooltip="Generic external content, such as a Flash Container or alike"/>
+
+        <properties
+                inplace=""
+                important="data type name"
+                normal="height width form"
+                expert="usemap"
+                />
+
+        <creation>
+            <![CDATA[
+                <object data="" name="object"></object>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="ol">
+
+        <palette title="Ordered List" icon="CordovaIcons.Palette.ListView"
+                 tooltip="A list (or sequence) of items; that is, a list in which the items are intentionally ordered, such that changing the order would change the meaning of the list"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal="start reversed type"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <ol>
+                    <li>First List Item</li>
+                    <li>Second List Item</li>
+                    <li>Third List Item</li>
+                </ol>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="optgroup">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Option Group" icon="CordovaIcons.Palette.RadioGroup"
+                 tooltip="A group of option elements with a common label"/>
+
+        <properties
+                inplace=""
+                important="label"
+                normal="disabled"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <optgroup label="options">
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </optgroup>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="option">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Option Item" icon="CordovaIcons.Palette.RadioButton"
+                 tooltip="An option in a select control, or an option in a labelled set of options grouped together in an Option Group, or an option among the list of suggestions in a Data List"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="disabled selected value label"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <option value="1">Option 1</option>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="output">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Output/Result" icon="CordovaIcons.Palette.RadioButton"
+                 tooltip="The result of a calculation (e.g. in a Form)"/>
+
+        <properties
+                inplace=""
+                important="name"
+                normal="form for"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <output name="result"></output>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           tag="p">
 
         <presentation title=" - &quot;%text%&quot;"/>
 
         <palette title="Paragraph" icon="CordovaIcons.Palette.TextView"
-                 tooltip="Displays a paragraph of text to the user."/>
-
-        <morphing to="span a h1 h2 h3 h4 h5 h6 h7"/>
+                 tooltip="A paragraph of text"/>
 
         <properties
                 inplace="text"
@@ -1753,15 +2138,293 @@
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          class="html.element.Span"
+          tag="param">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Object Parameter" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Defines parameters for plugins invoked by object elements"/>
+
+        <properties
+                inplace=""
+                important="name value"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <param name="parameter" value="value"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="pre">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Preformatted Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A block of preformatted text, in which structure is represented by typographic conventions rather than by elements"/>
+
+        <properties
+                inplace="text"
+                important=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <pre>Proformatted Text</pre>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="progress">
+
+        <palette title="Progress Indicator" icon="CordovaIcons.Palette.ProgressBar"
+                 tooltip="Represents the completion progress of a task"/>
+
+        <properties
+                inplace=""
+                important="value"
+                normal="max"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <progress>0%</progress>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="q">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Quoted Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Content quoted from another source"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="cite"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <q>Quoted Text</q>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="rp">
+
+        <palette title="Ruby Parenthesis" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="Can be used to provide parentheses around a ruby text component of a ruby annotation, to be shown by UAs that don’t support ruby annotations"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <rp></rp>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="rt">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Ruby Text" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="Marks the ruby text component of a ruby annotation"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <rt></rt>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="ruby">
+
+        <palette title="Ruby Text" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="Allows spans of phrasing content to be marked with ruby annotations"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <ruby>
+                    <rp>(</rp><rt>Ruby Text</rt><rp>)</rp>
+                </ruby>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="s">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Struck Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Contents that are no longer accurate or no longer relevant and that therefore has been “struck” from the document (typically styled striked through)"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <s>Struck Text</s>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="samp">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Sample Output" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Represents (sample) output from a program or computing system"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <samp>Sample Output</samp>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="section">
+
+        <palette title="Section" icon="CordovaIcons.Palette.Space"
+                 tooltip="Section of a document, typically with a title or heading"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <section>
+                    <h1>Headline</h1>
+                    <p>First Paragraph</p>
+                </section>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="select">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Selection Form Control" icon="CordovaIcons.Palette.ExpandableListView"
+                 tooltip="A control for selecting among a list of options"/>
+
+        <properties
+                inplace=""
+                important="name"
+                normal="disabled form size multiple autofocus required"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <select>
+                    <option value="1">First Option</option>
+                </select>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="small">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Small Print Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="So-called “fine print” or “small print”, such as legal disclaimers and caveats"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <small>Fine Print</small>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="source">
+
+        <palette title="Media Source" icon="CordovaIcons.Palette.WebView"
+                 tooltip="Enables multiple media sources to be specified for audio and video elements"/>
+
+        <properties
+                inplace=""
+                important="src"
+                normal="type media"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <source src=""/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           tag="span">
 
         <presentation title=" - &quot;%text%&quot;"/>
 
-        <palette title="Text" icon="CordovaIcons.Palette.TextView"
-                 tooltip="Displays text to the user."/>
-
-        <morphing to="Input Image"/>
+        <palette title="Span of Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A generic wrapper for phrasing content that by itself does not represent anything"/>
 
         <properties
                 inplace="text"
@@ -1776,320 +2439,543 @@
         </creation>
     </meta>
 
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="strong">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Strongly Emphasized Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A span of text with strong importance (typically set bold)"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <strong>Strong Text</strong>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="sub">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Subscript" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A span of text set in subscript"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <sub>Subscript Text</sub>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="summary">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Summary" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A summary, caption, or legend for a Details element"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <summy>Summary Text</summary>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="sup">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Super Script" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A span of text set in superscript"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <sup>Superscript Text</sup>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="table">
+
+        <palette title="Table" icon="CordovaIcons.Palette.TableView"
+                 tooltip="A table; that is, data with more than one dimension"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal="border"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <table>
+                    <thead>
+                        <tr>
+                            <th>1st Column Head</th>
+                            <th>2nd Column Head</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1st Column Data</td>
+                            <td>2nd Column Data</td>
+                        </tr>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="tbody">
+
+        <palette title="Table Row Group" icon="CordovaIcons.Palette.TableView"
+                 tooltip="A block of rows that consist of a body of data for its parent Table"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <tbody>
+                    <tr>
+                        <td>1st Row, 1st Column Data</td>
+                        <td>1st Row, 2nd Column Data</td>
+                    </tr>
+                    <tr>
+                        <td>2nd Row, 1st Column Data</td>
+                        <td>2nd Row, 2nd Column Data</td>
+                    </tr>
+                </tbody>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="td">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Table Cell" icon="CordovaIcons.Palette.TableView"
+                 tooltip="A data cell in a table"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="colspan rowspan"
+                expert="headers"
+                />
+
+        <creation>
+            <![CDATA[
+                <td>Table Cell</td>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="textarea">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Multiline Text Input Field" icon="CordovaIcons.Palette.TextEdit"
+                 tooltip="A multi-line plain-text edit control for the element’s raw value"/>
+
+        <properties
+                inplace="text"
+                important="name"
+                normal="text disabled form readonly maxlength autofocus required placeholder rows cols"
+                expert="dirname wrap"
+                />
+
+        <creation>
+            <![CDATA[
+                <textarea placeholder="Enter Text..."></textarea>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="tfoot">
+
+        <palette title="Table Footer" icon="CordovaIcons.Palette.TableView"
+                 tooltip="The block of rows that consist of the column summaries (footers) for its parent table element"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <tfoot>
+                    <tr>
+                        <td>1st Column Footer</td>
+                        <td>2nd Column Footer</td>
+                    </tr>
+                </tfoot>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="th">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Table Header Cell" icon="CordovaIcons.Palette.TableView"
+                 tooltip="A header cell in a table"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="colspan rowspan"
+                expert="headers"
+                />
+
+        <creation>
+            <![CDATA[
+                <th>Table Header Cell</th>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="thead">
+
+        <palette title="Table Header" icon="CordovaIcons.Palette.TableView"
+                 tooltip="The block of rows that consist of the column labels (headings) for its parent Table"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <thead>
+                    <tr>
+                        <th>1st Column Head</th>
+                        <th>2nd Column Head</th>
+                    </tr>
+                </thead>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="time">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Time" icon="CordovaIcons.Palette.DigitalClock"
+                 tooltip="A date and/or time"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="datetime"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <time datetime="13:37:00">13:37</time>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="tr">
+
+        <palette title="Table Row" icon="CordovaIcons.Palette.TableRow"
+                 tooltip="A row of cells in a table"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <tr>
+                    <td>1st Cell of a Table Row</td>
+                    <td>2nd Cell of a Table Row</td>
+                <tr>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="track">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Supplementary Media Track" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="Enables supplementary media tracks such as subtitle tracks and caption tracks to be specified for audio and video elements"/>
+
+        <properties
+                inplace=""
+                important="kind src"
+                normal="srclang label default"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <track kind="subtitles" src="" label="Default Subtitles (EN)" srclang="en" default="default"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="u">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Underlined Text" icon="CordovaIcons.Palette.TextView"
+                 tooltip="A span of text offset from its surrounding content without conveying any extra emphasis or importance, and for which the conventional typographic presentation is underlining"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <u>Underlined Text</u>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="ul">
+
+        <palette title="Unordered List" icon="CordovaIcons.Palette.ListView"
+                 tooltip="An unordered list of items; that is, a list in which changing the order of the items would not change the meaning of list."/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <ul>
+                    <li>A List Item</li>
+                    <li>Another List Item</li>
+                </ul>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="var">
+
+        <palette title="Variable/Placeholder" icon="CordovaIcons.Palette.TextView"
+                 tooltip="Either a variable in a mathematical expression or programming context, or placeholder text that the reader is meant to mentally replace with some other literal value"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <var>Variable</var>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="video">
+
+        <palette title="Video" icon="CordovaIcons.Palette.VideoView"
+                 tooltip="A video or movie"/>
+
+        <properties
+                inplace=""
+                important="src"
+                normal="autoplay preload controls loop poster height width muted"
+                expert="mediagroup"
+                />
+
+        <creation>
+            <![CDATA[
+                <video>
+                    <source src="">
+                </video>
+            ]]>
+        </creation>
+    </meta>
 
     <!-- ================= Palette ================= -->
 
     <palette>
-        <!--
-        <group name="Layouts">
-            <item tag="FrameLayout"/>
-            <item tag="LinearLayout"
-                  title="LinearLayout (Horizontal)"
-                  icon="CordovaIcons.Palette.LinearLayout"
-                  tooltip="A Layout that arranges its children in a single row.">
-                <item title="LinearLayout (Vertical)"
-                      icon="CordovaIcons.Palette.VerticalLinearLayout"
-                      tooltip="A Layout that arranges its children in a single column.">
-                    <creation>
-                        <![CDATA[
-            <LinearLayout
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
-            </LinearLayout>
-        ]]>
-                    </creation>
-                </item>
-            </item>
-            <item tag="TableLayout"/>
-            <item tag="TableRow"/>
-            <item tag="GridLayout"/>
-            <item tag="RelativeLayout"/>
+        <group name="Containers &amp; Semantic Structure">
+            <item tag="div"/>
+            <item tag="header"/>
+            <item tag="footer"/>
+            <item tag="article"/>
+            <item tag="section"/>
+            <item tag="aside"/>
+            <item tag="hr"/>
         </group>
-        -->
-        <group name="Widgets">
-            <item tag="span" title="Text"/>
-
-            <item tag="Button" title="Button">
-                <item title="Submit Button">
-                    <creation>
-                        <![CDATA[
-                            <div class="ui-btn ui-input-btn ui-shadow">
-                                Submit
-                                <input type="submit" data-enhanced="true" value="Submit"></input>
-                            </div>
-                        ]]>
-                    </creation>
-                </item>
-                <item title="Reset Button">
-                    <creation>
-                        <![CDATA[
-                            <div class="ui-btn ui-input-btn ui-shadow">
-                                Reset
-                                <input type="reset" data-enhanced="true" value="Reset"></input>
-                            </div>
-                        ]]>
-                    </creation>
-                </item>
-            </item>
-            <!--
-            <item tag="RadioButton"/>
-            <item tag="CheckBox"/>
-            <item tag="Switch"/>
-            <item tag="ToggleButton"/>
-            <item tag="ImageButton"/>
-            <item tag="ImageView"/>
-            <item tag="ProgressBar"
-                  title="ProgressBar (Large)">
-                <creation>
-                    <![CDATA[
-              <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-              />
-            ]]>
-                </creation>
-                <item title="ProgressBar (Normal)">
-                    <creation>
-                        <![CDATA[
-              <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="ProgressBar (Small)">
-                    <creation>
-                        <![CDATA[
-              <ProgressBar
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="ProgressBar (Horizontal)"
-                      resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-              />
-            ]]>
-                    </creation>
-                </item>
-            </item>
-            <item tag="SeekBar"/>
-            <item tag="RatingBar"/>
-            <item tag="Spinner"/>
-            <item tag="WebView"/>
-            -->
+        <group name="Texts">
+            <item tag="p"/>
+            <item tag="address"/>
+            <item tag="blockquote"/>
+            <item tag="q"/>
+            <item tag="cite"/>
+            <item tag="details"/>
+            <item tag="legend"/>
+            <item tag="summary"/>
+            <item tag="span"/>
+            <item tag="abbr"/>
+            <item tag="b"/>
+            <item tag="strong"/>
+            <item tag="i"/>
+            <item tag="em"/>
+            <item tag="u"/>
+            <item tag="s"/>
+            <item tag="del"/>
+            <item tag="ins"/>
+            <item tag="sup"/>
+            <item tag="sub"/>
+            <item tag="small"/>
+            <item tag="mark"/>
+            <item tag="pre"/>
+            <item tag="code"/>
+            <item tag="kbd"/>
+            <item tag="sample"/>
+            <item tag="output"/>
+            <item tag="var"/>
         </group>
-
-        <group name="Text Fields">
-            <item tag="EditText"
-                  title="Plain Text">
-                <item title="Person Name" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="Name"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Password" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Password (Numeric)" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberPassword"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="E-mail" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Phone" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Postal Address">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Multiline Text">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Time" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Date" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Number" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Number (Signed)" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-                <item title="Number (Decimal)" resize="horizontal">
-                    <creation>
-                        <![CDATA[
-              <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-              />
-            ]]>
-                    </creation>
-                </item>
-            </item>
+        <group name="Headings">
+            <item tag="hgroup"/>
+            <item tag="h1"/>
+            <item tag="h2"/>
+            <item tag="h3"/>
+            <item tag="h4"/>
+            <item tag="h5"/>
+            <item tag="h6"/>
         </group>
-
-        <group name="Containers">
-            <item tag="RadioGroup"/>
-            <item tag="ListView"/>
-            <item tag="GridView"/>
-            <item tag="ExpandableListView"/>
-            <item tag="ScrollView"/>
-            <item tag="HorizontalScrollView"/>
-            <item tag="SearchView"/>
-            <item tag="TabHost"/>
-            <item tag="SlidingDrawer"/>
-            <item tag="Gallery"/>
-            <item tag="VideoView"/>
-            <item tag="TwoLineListItem"/>
-            <item tag="DialerFilter"/>
+        <group name="Lists">
+            <item tag="ol"/>
+            <item tag="ul"/>
+            <item tag="li"/>
+            <item tag="dl"/>
+            <item tag="dt"/>
+            <item tag="dd"/>
+            <item tag="dfn"/>
         </group>
-        <group name="Date &amp; Time">
-            <item tag="TextClock"/>
-            <item tag="AnalogClock"/>
-            <item tag="DigitalClock"/>
-            <item tag="Chronometer"/>
-            <item tag="DatePicker"/>
-            <item tag="TimePicker"/>
-            <item tag="CalendarView"/>
+        <group name="Tables">
+            <item tag="table"/>
+            <item tag="colgroup"/>
+            <item tag="col"/>
+            <item tag="thead"/>
+            <item tag="th"/>
+            <item tag="tbody"/>
+            <item tag="tr"/>
+            <item tag="td"/>
+            <item tag="tfoot"/>
+            <item tag="caption"/>
         </group>
-        <group name="Expert">
-            <item tag="Space"/>
-            <item tag="CheckedTextView"/>
-            <item tag="QuickContactBadge"/>
-            <item tag="ExtractEditText"/>
-            <item tag="AutoCompleteTextView"/>
-            <item tag="MultiAutoCompleteTextView"/>
-            <item tag="NumberPicker"/>
-            <item tag="ZoomButton"/>
-            <item tag="ZoomControls"/>
-            <item tag="MediaController"/>
-            <item tag="GestureOverlayView"/>
-            <item tag="SurfaceView"/>
-            <item tag="TextureView"/>
-            <item tag="StackView"/>
-            <item tag="ViewStub"/>
-            <item tag="ViewAnimator"/>
-            <item tag="ViewFlipper"/>
-            <item tag="ViewSwitcher"/>
-            <item tag="ImageSwitcher"/>
-            <item tag="TextSwitcher"/>
-            <item tag="AdapterViewFlipper"/>
+        <group name="Navigation">
+            <item tag="nav"/>
+            <item tag="menu"/>
+            <item tag="command"/>
+            <item tag="a"/>
         </group>
-        -->
+        <group name="Forms">
+            <item tag="form"/>
+            <item tag="fieldset"/>
+            <item tag="label"/>
+            <item tag="input"/>
+            <item tag="textarea"/>
+            <item tag="select"/>
+            <item tag="optgroup"/>
+            <item tag="option"/>
+            <item tag="datalist"/>
+            <item tag="map"/>
+            <item tag="area"/>
+            <item tag="button"/>
+            <item tag="keygen"/>
+        </group>
+        <group name="Media">
+            <item tag="img"/>
+            <item tag="figure"/>
+            <item tag="figcaption"/>
+            <item tag="audio"/>
+            <item tag="video"/>
+            <item tag="source"/>
+            <item tag="track"/>
+            <item tag="canvas"/>
+        </group>
+        <group name="Other">
+            <item tag="time"/>
+            <item tag="meter"/>
+            <item tag="progress"/>
+        </group>
+        <group name="External Content">
+            <item tag="iframe"/>
+            <item tag="object"/>
+            <item tag="param"/>
+            <item tag="embed"/>
+            <item tag="noscript"/>
+        </group>
+        <group name="Ruby Texts">
+            <item tag="ruby"/>
+            <item tag="rp"/>
+            <item tag="rt"/>
+        </group>
     </palette>
 
 </meta-model>
