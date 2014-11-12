@@ -711,6 +711,28 @@
         </creation>
     </meta>
 
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="dialog">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Dialog Box" icon="CordovaIcons.Palette.StackView"
+                 tooltip="A dialog box or window"/>
+
+        <properties
+                inplace="text"
+                important="text"
+                normal="open"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <dialog open>Dialog Box Text</dialog>
+            ]]>
+        </creation>
+    </meta>
+
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
           layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
           tag="div">
@@ -1867,6 +1889,28 @@
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="main">
+
+        <presentation title=" - &quot;%text%&quot;"/>
+
+        <palette title="Main Content" icon="CordovaIcons.Palette.ViewStub"
+                 tooltip="The main content"/>
+
+        <properties
+                inplace=""
+                important=""
+                normal=""
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <main></main>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           tag="map">
 
         <presentation title=" - &quot;%name%&quot;"/>
@@ -1934,6 +1978,28 @@
                     <li>Menu Item 1</li>
                     <li>Menu Item 2</li>
                 </menu>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="menuitem">
+
+        <presentation title=" - &quot;%label%&quot;"/>
+
+        <palette title="Context Menu Item" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="An item of a custom context menu"/>
+
+        <properties
+                inplace=""
+                important="command"
+                normal="checked default disabled icon label radiogroup type"
+                expert=""
+                />
+
+        <creation>
+            <![CDATA[
+                <menuitem label="Menu Item"></menuitem>
             ]]>
         </creation>
     </meta>
@@ -2861,6 +2927,7 @@
     <palette>
         <group name="Containers &amp; Semantic Structure">
             <item tag="div"/>
+            <item tag="main"/>
             <item tag="header"/>
             <item tag="footer"/>
             <item tag="article"/>
@@ -2929,10 +2996,11 @@
             <item tag="caption"/>
         </group>
         <group name="Navigation">
+            <item tag="a"/>
             <item tag="nav"/>
             <item tag="menu"/>
+            <item tag="menuitem"/>
             <item tag="command"/>
-            <item tag="a"/>
         </group>
         <group name="Forms">
             <item tag="form"/>
@@ -2963,6 +3031,7 @@
             <item tag="time"/>
             <item tag="meter"/>
             <item tag="progress"/>
+            <item tag="dialog"/>
         </group>
         <group name="External Content">
             <item tag="iframe"/>
