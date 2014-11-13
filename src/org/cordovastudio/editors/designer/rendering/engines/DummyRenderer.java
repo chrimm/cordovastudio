@@ -16,13 +16,12 @@
 
 package org.cordovastudio.editors.designer.rendering.engines;
 
-import com.intellij.psi.xml.XmlFile;
 import com.intellij.util.ui.UIUtil;
+import org.cordovastudio.devices.Device;
 import org.cordovastudio.editors.designer.model.ViewInfo;
 import org.cordovastudio.editors.designer.rendering.*;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static org.cordovastudio.editors.designer.rendering.Result.Status.SUCCESS;
@@ -51,7 +50,7 @@ public class DummyRenderer extends RenderingEngine {
      * first rendering.
      */
     @Override
-    public RenderSession createSession(RenderParams params) throws RenderingException {
+    public RenderSession createSession(RenderParams params, Device device) throws RenderingException {
         ViewInfo rootViewInfo = new ViewInfo("DummyRootViewInfo", null, 0, 0, 640, 960);
         BufferedImage image = UIUtil.createImage(640, 960, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
