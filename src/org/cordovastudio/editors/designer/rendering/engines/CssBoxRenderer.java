@@ -110,6 +110,7 @@ public class CssBoxRenderer extends RenderingEngine {
         domAnalyzer.addStyleSheet(null, CSSNorm.stdStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the standard style sheet
         domAnalyzer.addStyleSheet(null, CSSNorm.userStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the additional style sheet
         domAnalyzer.addStyleSheet(null, CSSNorm.formsStyleSheet(), DOMAnalyzer.Origin.AGENT); //render form fields using css
+        domAnalyzer.addStyleSheet(null, CSSNorm.html5StdStyleSheet(), DOMAnalyzer.Origin.AGENT);
 
         //TODO: getting styles takes quite a long time, can we omit this?
         domAnalyzer.getStyleSheets();
