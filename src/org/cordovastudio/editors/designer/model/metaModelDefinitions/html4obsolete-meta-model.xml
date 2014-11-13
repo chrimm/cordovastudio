@@ -78,7 +78,7 @@
 
         <presentation title=" - &quot;%text%&quot;"/>
 
-        <palette title="Centering Block" icon="CordovaIcons.Palette.Dummy"/>
+        <palette title="Centering Block" icon="CordovaIcons.Palette.TextView"/>
 
         <properties
                 inplace="text"

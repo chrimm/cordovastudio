@@ -262,6 +262,11 @@ public class RadModelBuilder {
 
                     String name = tag.getName();
 
+                    /* If this component is set to be not shown in component tree, do not continue and simply return null */
+                    if(!component.getMetaModel().isShownInComponentTree()) {
+                        return null;
+                    }
+
                     if (myMetaManager.getModelByTag(name) != component.getMetaModel()) {
                         component = null;
                     }
@@ -325,6 +330,11 @@ public class RadModelBuilder {
 
                         //metaModel = myMetaManager.getModelByTag("unknown");
                         //assert metaModel != null;
+                    }
+
+                    /* Check whether this Component shall be added to Component Tree */
+                    if(!metaModel.isShownInComponentTree()) {
+                        return null;
                     }
 
                     component = RadComponentOperations.createComponent(tag, metaModel);

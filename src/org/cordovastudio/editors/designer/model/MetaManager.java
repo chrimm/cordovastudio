@@ -116,6 +116,16 @@ public abstract class MetaManager extends ModelLoader {
 
         MetaModel meta = createModel(model, tag, htmlClass, htmlType);
 
+        String showInComponentTree = element.getAttributeValue("showInComponentTree");
+        if(showInComponentTree != null) {
+            meta.setShownInComponentTree(Boolean.parseBoolean(showInComponentTree));
+        }
+
+        String deprecated = element.getAttributeValue("obsolete");
+        if(deprecated != null) {
+            meta.setDeprecated(Boolean.parseBoolean(deprecated));
+        }
+
         String layout = element.getAttributeValue("layout");
         if (layout != null) {
             meta.setLayout((Class<RadLayout>) classLoader.loadClass(layout));

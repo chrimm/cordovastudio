@@ -48,6 +48,8 @@ public class MetaModel {
     private Icon myIcon;
     private String myCreation;
     private boolean myDelete = true;
+    private boolean myShowInComponentTree = true;
+    private boolean myIsDeprecated = false;
     private List<String> myInplaceProperties = Collections.emptyList();
     private List<String> myTopProperties = Collections.emptyList();
     private List<String> myNormalProperties = Collections.emptyList();
@@ -146,6 +148,22 @@ public class MetaModel {
     public void setPaletteItem(@NotNull DefaultPaletteItem paletteItem) {
         myPaletteItem = paletteItem;
         myPaletteItem.setMetaModel(this);
+    }
+
+    public boolean isShownInComponentTree() {
+        return myShowInComponentTree;
+    }
+
+    public void setShownInComponentTree(boolean showInComponentTree) {
+        this.myShowInComponentTree = showInComponentTree;
+    }
+
+    public boolean isDeprecated() {
+        return myIsDeprecated;
+    }
+
+    public void setDeprecated(boolean isDeprecated) {
+        this.myIsDeprecated = isDeprecated;
     }
 
     public List<MetaModel> getMorphingModels() {

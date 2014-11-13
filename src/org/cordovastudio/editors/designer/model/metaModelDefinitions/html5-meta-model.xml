@@ -914,7 +914,7 @@
 
         <presentation title=" - &quot;%text%&quot;"/>
 
-        <palette title="Footer" icon="CordovaIcons.Palette.Dummy"
+        <palette title="Footer" icon="CordovaIcons.Palette.ViewStub"
                  tooltip="The footer for the section it applies to"/>
 
         <properties
@@ -1079,11 +1079,12 @@
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
           tag="header">
 
         <presentation title=" - &quot;%text%&quot;"/>
 
-        <palette title="Header" icon="CordovaIcons.Palette.TextView"
+        <palette title="Header" icon="CordovaIcons.Palette.ViewStub"
                  tooltip="The header of a section"/>
 
         <properties
