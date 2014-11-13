@@ -112,7 +112,7 @@ public class TableColumn extends BlockBox {
      * Creates a copy of the column
      */
     public TableColumn copyBox() {
-        TableColumn ret = new TableColumn((HtmlTag) tag, g, ctx);
+        TableColumn ret = new TableColumn((HtmlTag) element, g, ctx);
         ret.copyValues(this);
         return ret;
     }
@@ -272,7 +272,7 @@ public class TableColumn extends BlockBox {
     //====================================================================================
 
     protected void loadAttributes() {
-        String spanStr = ((HtmlTag) tag).getAttributeValue("span");
+        String spanStr = ((HtmlTag) element).getAttributeValue("span");
         try {
             if (!"".equals(spanStr))
                 span = Integer.parseInt(spanStr);
@@ -281,7 +281,7 @@ public class TableColumn extends BlockBox {
         } catch (NumberFormatException e) {
             log.warn("Invalid span value: " + spanStr);
         }
-        setSpecifiedWidth(((HtmlTag) tag).getAttributeValue("width"));
+        setSpecifiedWidth(((HtmlTag) element).getAttributeValue("width"));
     }
 
     /**

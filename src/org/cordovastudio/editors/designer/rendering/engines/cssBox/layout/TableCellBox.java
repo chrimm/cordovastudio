@@ -429,12 +429,12 @@ public class TableCellBox extends BlockBox {
      */
     protected void loadAttributes() {
         try {
-            if (!"".equals(((HtmlTag) tag).getAttributeValue("colspan")))
-                colspan = Integer.parseInt(((HtmlTag) tag).getAttributeValue("colspan"));
+            if (!"".equals(((HtmlTag) element).getAttributeValue("colspan")))
+                colspan = Integer.parseInt(((HtmlTag) element).getAttributeValue("colspan"));
             else
                 colspan = 1;
-            if (!"".equals(((HtmlTag) tag).getAttributeValue("rowspan")))
-                rowspan = Integer.parseInt(((HtmlTag) tag).getAttributeValue("rowspan"));
+            if (!"".equals(((HtmlTag) element).getAttributeValue("rowspan")))
+                rowspan = Integer.parseInt(((HtmlTag) element).getAttributeValue("rowspan"));
             else
                 rowspan = 1;
         } catch (NumberFormatException e) {

@@ -91,7 +91,7 @@ public class TableBox extends BlockBox {
      * Create a new table from a block box
      */
     public TableBox(BlockBox src) {
-        super((HtmlTag) src.tag, src.g, src.ctx);
+        super((HtmlTag) src.element, src.g, src.ctx);
         copyValues(src);
         isblock = true;
     }

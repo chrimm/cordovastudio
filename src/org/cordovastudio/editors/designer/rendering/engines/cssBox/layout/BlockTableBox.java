@@ -240,7 +240,7 @@ public class BlockTableBox extends BlockBox
      */
     private void organizeContent()
     {
-        table = new TableBox((HtmlTag)tag, g, ctx);
+        table = new TableBox((HtmlTag)element, g, ctx);
         table.adoptParent(this);
         table.setStyle(style);
         
