@@ -282,7 +282,7 @@ abstract public class Box {
             return;
         }
 
-        viewInfo.setMeasurementInfo(bounds.x, bounds.y, bounds.width, bounds.height);
+        viewInfo.setMeasurementInfo(bounds.x, bounds.y, bounds.x + bounds.width, bounds.y + bounds.height);
     }
 
     /**
