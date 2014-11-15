@@ -378,6 +378,7 @@ abstract public class ElementBox extends Box {
      */
     public void setStyle(NodeData s) {
         style = s;
+
         loadBasicStyle();
     }
 

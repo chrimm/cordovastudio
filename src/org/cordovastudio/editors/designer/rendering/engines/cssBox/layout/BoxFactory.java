@@ -305,12 +305,12 @@ public class BoxFactory {
      * @author Christoffer T. Timm <kontakt@christoffertimm.de>
      */
     private ViewInfo createViewInfo(Box newbox) {
-        ViewInfo viewInfo = new ViewInfo(((HtmlTag)newbox.getElement()).getName(), newbox.getElement(), 0, 0, 0, 0);
+        ViewInfo viewInfo = new ViewInfo(((HtmlTag) newbox.getElement()).getName(), newbox.getElement(), 0, 0, 0, 0);
         viewInfo.setChildren(new ArrayList<>());
 
-        if(newbox instanceof BlockBox) {
+        if (newbox instanceof BlockBox) {
             LengthSet margins = ((BlockBox) newbox).getMargin();
-            if(margins == null) {
+            if (margins == null) {
                 viewInfo.setExtendedInfo(0, 0, 0, 0, 0);
             } else {
                 viewInfo.setExtendedInfo(((BlockBox) newbox).getFirstInlineBoxBaseline(), margins.left, margins.top, margins.right, margins.bottom);
@@ -819,7 +819,7 @@ public class BoxFactory {
      * @return the new element
      */
     public HtmlTag createAnonymousElement(String name, String display) {
-        return (HtmlTag)elementFactory.createHTMLTagFromText("<"+name+" class=\"Xanonymous\" style=\"display:"+display+"\">");
+        return (HtmlTag) elementFactory.createHTMLTagFromText("<" + name + " class=\"Xanonymous\" style=\"display:" + display + "\">");
         /*
         HtmlTag div = new HtmlTagImpl();
         div.setName(name);
