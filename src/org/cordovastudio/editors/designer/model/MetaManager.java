@@ -324,14 +324,36 @@ public abstract class MetaManager extends ModelLoader {
          * Load global properties into lists
          */
         List<Property> inplaceProperties = new ArrayList<>();
-        List<Property> topProperties = myGlobalTopProperties;
-        List<Property> importantProperties = myGlobalImportantProperties;
-        List<Property> normalProperties = myGlobalNormalProperties;
-        List<Property> expertProperties = myGlobalExpertProperties;
-        List<Property> deprecatedProperties = myGlobalDeprecatedProperties;
+        List<Property> topProperties = new ArrayList<>(myGlobalTopProperties);
+        List<Property> importantProperties = new ArrayList<>(myGlobalImportantProperties);
+        List<Property> normalProperties = new ArrayList<>(myGlobalNormalProperties);
+        List<Property> expertProperties = new ArrayList<>(myGlobalExpertProperties);
+        List<Property> deprecatedProperties = new ArrayList<>(myGlobalDeprecatedProperties);
 
-        //TODO: if global properties already include a local property, the global property should be overridden by the local one,
-        //i.e.: check for existence in list before adding and delete existing entry if necessary.
+        // TODO: Should there really be a full specification of inplace properties?
+        // For example the "text" property is available for many HTML5 tags and is inplace AND important property.
+        // So what about specifying just the important entry fully and let inplace be just a (space separated) list of
+        // property names. For example:
+        //
+        //  <properties inplace="text text2">
+        //      <important>
+        //          <property name="text" displayName="Text" type="String/>
+        //          <property name="text2" displayName="Text" type="String/>
+        //      </important>
+        //  </properties>
+        //
+        // instead of:
+        //
+        //  <properties>
+        //      <inplace>
+        //          <property name="text" displayName="Text" type="String/>
+        //          <property name="text2" displayName="Text" type="String/>
+        //      </inplace>
+        //      <important>
+        //          <property name="text" displayName="Text" type="String/>
+        //          <property name="text2" displayName="Text" type="String/>
+        //      </important>
+        //  </properties>
 
         /*
          * Load inplace properties
@@ -345,7 +367,12 @@ public abstract class MetaManager extends ModelLoader {
                 AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
-                inplaceProperties.add(property);
+                /* See comment below */
+                if(inplaceProperties.contains(property)) {
+                    inplaceProperties.set(inplaceProperties.indexOf(property), property);
+                } else {
+                    inplaceProperties.add(property);
+                }
             }
         }
 
@@ -361,7 +388,33 @@ public abstract class MetaManager extends ModelLoader {
                 AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
-                topProperties.add(property);
+                /*
+                 * At first sight, this looks ridiculously. But hey, don't misjudge it so hast'ly!
+                 * If you take closer look into implementation of List.contains() and List.indexOf() as well as
+                 * Property.equals(), you'll see that contains() and indexOf() use the equals() Method of the property,
+                 * which in turn will compare properties only by its name (and its parent).
+                 * Thus the following implementation will find for example a Property "propName" having type A and
+                 * replaces it with another one having the same name "propName", but not necessarily the same type A,
+                 * so it could be overwritten with a property having type B.
+                 *
+                 * If this property already exists in any other property list, remove it there and add it here, thus it
+                 * is possible to up- or downgrade the property's importance.
+                 *
+                 * (Same comment applies for every other property list, but will not be repeated there.)
+                 */
+                if(topProperties.contains(property)) {
+                    topProperties.set(topProperties.indexOf(property), property);
+                } else if (importantProperties.contains(property)) {
+                    importantProperties.remove(property);
+                } else if (normalProperties.contains(property)) {
+                    normalProperties.remove(property);
+                } else if (expertProperties.contains(property)) {
+                    expertProperties.remove(property);
+                } else if (deprecatedProperties.contains(property)) {
+                    deprecatedProperties.remove(property);
+                } else {
+                    topProperties.add(property);
+                }
             }
         }
 
@@ -377,7 +430,19 @@ public abstract class MetaManager extends ModelLoader {
                 AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
-                importantProperties.add(property);
+                if(importantProperties.contains(property)) {
+                    importantProperties.set(importantProperties.indexOf(property), property);
+                } else if (topProperties.contains(property)) {
+                    topProperties.remove(property);
+                } else if (normalProperties.contains(property)) {
+                    normalProperties.remove(property);
+                } else if (expertProperties.contains(property)) {
+                    expertProperties.remove(property);
+                } else if (deprecatedProperties.contains(property)) {
+                    deprecatedProperties.remove(property);
+                } else {
+                    importantProperties.add(property);
+                }
             }
         }
 
@@ -393,7 +458,19 @@ public abstract class MetaManager extends ModelLoader {
                 AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
-                normalProperties.add(property);
+                if(normalProperties.contains(property)) {
+                    normalProperties.set(normalProperties.indexOf(property), property);
+                } else if (importantProperties.contains(property)) {
+                    importantProperties.remove(property);
+                } else if (topProperties.contains(property)) {
+                    topProperties.remove(property);
+                } else if (expertProperties.contains(property)) {
+                    expertProperties.remove(property);
+                } else if (deprecatedProperties.contains(property)) {
+                    deprecatedProperties.remove(property);
+                } else {
+                    normalProperties.add(property);
+                }
             }
         }
 
@@ -409,7 +486,19 @@ public abstract class MetaManager extends ModelLoader {
                 AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
-                expertProperties.add(property);
+                if(expertProperties.contains(property)) {
+                    expertProperties.set(expertProperties.indexOf(property), property);
+                } else if (importantProperties.contains(property)) {
+                    importantProperties.remove(property);
+                } else if (normalProperties.contains(property)) {
+                    normalProperties.remove(property);
+                } else if (topProperties.contains(property)) {
+                    topProperties.remove(property);
+                } else if (deprecatedProperties.contains(property)) {
+                    deprecatedProperties.remove(property);
+                } else {
+                    expertProperties.add(property);
+                }
             }
         }
 
@@ -425,7 +514,19 @@ public abstract class MetaManager extends ModelLoader {
                 AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
-                deprecatedProperties.add(property);
+                if(deprecatedProperties.contains(property)) {
+                    deprecatedProperties.set(deprecatedProperties.indexOf(property), property);
+                } else if (importantProperties.contains(property)) {
+                    importantProperties.remove(property);
+                } else if (normalProperties.contains(property)) {
+                    normalProperties.remove(property);
+                } else if (expertProperties.contains(property)) {
+                    expertProperties.remove(property);
+                } else if (topProperties.contains(property)) {
+                    topProperties.remove(property);
+                } else {
+                    deprecatedProperties.add(property);
+                }
             }
         }
 

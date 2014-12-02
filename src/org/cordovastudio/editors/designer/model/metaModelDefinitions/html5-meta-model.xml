@@ -34,7 +34,11 @@
 
         <palette title="Device" icon="CordovaIcons.Palette.DeviceScreen"/>
 
-        <properties expert="manifest"/>
+        <properties>
+            <expert>
+                <property name="manifest" displayName="Manifest" type="String"/>
+            </expert>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
@@ -112,11 +116,12 @@
         <palette title="Hyperlink (Anchor)" icon="CordovaIcons.Palette.Dummy"
                  tooltip="A clickable hyperlink to an internal or external target"/>
 
-        <properties
-                inplace="text"
-                important="text href title"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+                <property name="href" displayName="Link Target" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -133,11 +138,12 @@
         <palette title="Abbreviation" icon="CordovaIcons.Palette.Dummy"
                  tooltip="An explanation for an abbreviation"/>
 
-        <properties
-                inplace="text"
-                important="text title"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+                <property name="title" displayName="Title" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -154,11 +160,11 @@
         <palette title="Address" icon="CordovaIcons.Palette.Dummy"
                  tooltip="A part of text being marked up as an address or other contact information"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -179,11 +185,11 @@
         <palette title="Article" icon="CordovaIcons.Palette.Dummy"
                  tooltip="An article consisting of multiple sections, headers, paragraphs, etc."/>
 
-        <properties
-                inplace="text"
-                important="text"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -208,11 +214,11 @@
         <palette title="Aside" icon="CordovaIcons.Palette.Dummy"
                  tooltip="An area containing tangential content."/>
 
-        <properties
-                inplace="text"
-                important="text"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -229,11 +235,15 @@
         <palette title="Audio Stream" icon="CordovaIcons.Palette.Dummy"
                  tooltip="An audio stream"/>
 
-        <properties
-                inplace=""
-                important="src"
-                expert="media type"
-                />
+        <properties>
+            <important>
+                <property name="src" displayName="Source" type="String"/>
+            </important>
+            <expert>
+                <property name="media" displayName="Media Selector" type="String"/>
+                <property name="type" displayName="Type" type="String"/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -252,12 +262,11 @@
         <palette title="Bold Text" icon="CordovaIcons.Palette.TextView"
                  tooltip="A part of text, typically offset in bold"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -274,12 +283,11 @@
         <palette title="Bi-directional Text (isolated)" icon="CordovaIcons.Palette.TextView"
                  tooltip="A part of text, isolated from its surroundings for the purposes of bidirectional text formatting"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -296,12 +304,16 @@
         <palette title="Bi-directional Text" icon="CordovaIcons.Palette.TextView"
                  tooltip="A part of bi-directional text, that has a direction, overriding the surrounding direction"/>
 
-        <properties
-                inplace="text"
-                important="dir text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+                <property name="dir" displayName="Reading Direction" type="Enum">
+                    <enum-item name="ltr" displayName="Left-to-Right"/>
+                    <enum-item name="rtl" displayName="Right-to-Left"/>
+                    <enum-item name="auto" displayName="Auto"/>
+                </property>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -318,12 +330,14 @@
         <palette title="Blockquote" icon="CordovaIcons.Palette.TextView"
                  tooltip="A block of quoted text"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal="cite"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <normal>
+                <property name="cite" displayName="Citation Source" type="String"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -340,12 +354,35 @@
         <palette title="Submit Button" icon="CordovaIcons.Palette.Button"
                  tooltip="A button to submit a form"/>
 
-        <properties
-                inplace="value"
-                important="value name"
-                normal="disabled autofocus type"
-                expert="form formaction formenctype formmethod formtarget formnovalidate"
-                />
+        <properties inplace="value">
+            <important>
+                <property name="value" displayName="Value" type="String"/>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                </property>
+            </normal>
+            <expert>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="formaction" displayName="Form Action" type="String"/>
+                <property name="formenctype" displayName="Form MIME Type" type="Enum">
+                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
+                    <enum-item name="text/plain" displayName="text/plain"/>
+                </property>
+                <property name="formmethod" displayName="Form HTTP Method" type="Enum">
+                    <enum-item name="get" displayName="GET"/>
+                    <enum-item name="post" displayName="POST"/>
+                </property>
+                <property name="formnovalidate" displayName="No Validation" type="Empty"/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -363,12 +400,35 @@
         <palette title="Reset Button" icon="CordovaIcons.Palette.Button"
                  tooltip="A button to reset the form"/>
 
-        <properties
-                inplace="value"
-                important="value name"
-                normal="disabled autofocus type"
-                expert="form formaction formenctype formmethod formtarget formnovalidate"
-                />
+        <properties inplace="value">
+            <important>
+                <property name="value" displayName="Value" type="String"/>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                </property>
+            </normal>
+            <expert>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="formaction" displayName="Form Action" type="String"/>
+                <property name="formenctype" displayName="Form MIME Type" type="Enum">
+                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
+                    <enum-item name="text/plain" displayName="text/plain"/>
+                </property>
+                <property name="formmethod" displayName="Form HTTP Method" type="Enum">
+                    <enum-item name="get" displayName="GET"/>
+                    <enum-item name="post" displayName="POST"/>
+                </property>
+                <property name="formnovalidate" displayName="No Validation" type="Empty"/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -386,12 +446,35 @@
         <palette title="Generic Button" icon="CordovaIcons.Palette.Button"
                  tooltip="A button without any special functionality"/>
 
-        <properties
-                inplace="value"
-                important="value name"
-                normal="disabled autofocus type"
-                expert="form formaction formenctype formmethod formtarget formnovalidate"
-                />
+        <properties inplace="value">
+            <important>
+                <property name="value" displayName="Value" type="String"/>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                </property>
+            </normal>
+            <expert>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="formaction" displayName="Form Action" type="String"/>
+                <property name="formenctype" displayName="Form MIME Type" type="Enum">
+                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
+                    <enum-item name="text/plain" displayName="text/plain"/>
+                </property>
+                <property name="formmethod" displayName="Form HTTP Method" type="Enum">
+                    <enum-item name="get" displayName="GET"/>
+                    <enum-item name="post" displayName="POST"/>
+                </property>
+                <property name="formnovalidate" displayName="No Validation" type="Empty"/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -408,12 +491,12 @@
         <palette title="Canvas" icon="CordovaIcons.Palette.View"
                  tooltip="An area for dynamic graphics"/>
 
-        <properties
-                inplace=""
-                important="height width"
-                normal=""
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="height" displayName="Height" type="Float"/>
+                <property name="width" displayName="Width" type="Float"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -430,12 +513,11 @@
         <palette title="Caption" icon="CordovaIcons.Palette.TextView"
                  tooltip="The title for a table"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -452,12 +534,11 @@
         <palette title="Cited Work" icon="CordovaIcons.Palette.TextView"
                  tooltip="The cited title of a work"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -474,12 +555,11 @@
         <palette title="Code Fragment" icon="CordovaIcons.Palette.TextView"
                  tooltip="A fragment of code, typically styled in monospaced font"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -496,12 +576,11 @@
         <palette title="Column" icon="CordovaIcons.Palette.TableLayout"
                  tooltip="A column of a table"/>
 
-        <properties
-                inplace=""
-                important=""
-                normal="span"
-                expert=""
-                />
+        <properties>
+            <normal>
+                <property name="span" displayName="Column Span" type="Integer"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -518,12 +597,11 @@
         <palette title="Column Group" icon="CordovaIcons.Palette.TableLayout"
                  tooltip="A group of table columns"/>
 
-        <properties
-                inplace=""
-                important=""
-                normal="span"
-                expert=""
-                />
+        <properties>
+            <normal>
+                <property name="span" displayName="Column Span" type="Integer"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -542,12 +620,20 @@
         <palette title="Generic Command" icon="CordovaIcons.Palette.Button"
                  tooltip="A command with an associated action"/>
 
-        <properties
-                inplace="label"
-                important="label"
-                normal="type icon disabled"
-                expert=""
-                />
+        <properties inplace="label">
+            <important>
+                <property name="label" displayName="Label" type="String"/>
+            </important>
+            <normal>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="checkbox" displayName="Checkbox"/>
+                    <enum-item name="command" displayName="Simple Command"/>
+                </property>
+                <property name="icon" displayName="Icon" type="String"/>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -565,12 +651,22 @@
         <palette title="Radio Command" icon="CordovaIcons.Palette.RadioButton"
                  tooltip="A selection of one item from a list of items"/>
 
-        <properties
-                inplace="label"
-                important="label"
-                normal="type icon disabled checked radiogroup"
-                expert=""
-                />
+        <properties inplace="label">
+            <important>
+                <property name="label" displayName="Label" type="String"/>
+            </important>
+            <normal>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="checkbox" displayName="Checkbox"/>
+                    <enum-item name="command" displayName="Simple Command"/>
+                </property>
+                <property name="checked" displayName="Checked" type="Empty"/>
+                <property name="radiogroup" displayName="Radio Group" type="String"/>
+                <property name="icon" displayName="Icon" type="String"/>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -588,12 +684,21 @@
         <palette title="Checkbox Command" icon="CordovaIcons.Palette.CheckBox"
                  tooltip="A state or option that can be toggled"/>
 
-        <properties
-                inplace="label"
-                important="label"
-                normal="type icon disabled checked"
-                expert=""
-                />
+        <properties inplace="label">
+            <important>
+                <property name="label" displayName="Label" type="String"/>
+            </important>
+            <normal>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="checkbox" displayName="Checkbox"/>
+                    <enum-item name="command" displayName="Simple Command"/>
+                </property>
+                <property name="checked" displayName="Checked" type="Empty"/>
+                <property name="icon" displayName="Icon" type="String"/>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -609,13 +714,6 @@
 
         <palette title="Datalist" icon="CordovaIcons.Palette.ListView"
                  tooltip="A set of option elements that represent predefined options for other controls"/>
-
-        <properties
-                inplace=""
-                important=""
-                normal=""
-                expert=""
-                />
 
         <creation>
             <![CDATA[
@@ -634,12 +732,11 @@
         <palette title="Description" icon="CordovaIcons.Palette.TextView"
                  tooltip="The description part of a term-description pair"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -656,12 +753,16 @@
         <palette title="Deleted Text" icon="CordovaIcons.Palette.TextView"
                  tooltip="A part of text, marked up as deleted (i.e. typically striked through)"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal="cite datetime"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <normal>
+                <property name="cite" displayName="Citation Source" type="String"/>
+                <!--TODO: Maybe implement DateTime type? -->
+                <property name="datetime" displayName="Date/Time" type="String"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -678,12 +779,14 @@
         <palette title="Details" icon="CordovaIcons.Palette.TextView"
                  tooltip="A hideable area containing detail information"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal="open"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <normal>
+                <property name="open" displayName="Open" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -700,12 +803,11 @@
         <palette title="Defining Instance" icon="CordovaIcons.Palette.TextView"
                  tooltip="Represents the defining instance of a term"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -722,12 +824,14 @@
         <palette title="Dialog Box" icon="CordovaIcons.Palette.StackView"
                  tooltip="A dialog box or window"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal="open"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <normal>
+                <property name="open" displayName="Open" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -758,12 +862,11 @@
         <palette title="Description List" icon="CordovaIcons.Palette.TextView"
                  tooltip="A list of term-description pairs"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -783,12 +886,11 @@
         <palette title="Term" icon="CordovaIcons.Palette.TextView"
                  tooltip="The term or name part of a term-description pair"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -806,12 +908,11 @@
         <palette title="Emphasis" icon="CordovaIcons.Palette.TextView"
                  tooltip="A span of text with emphatic stress, typically styled italic"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -828,12 +929,16 @@
         <palette title="Embedded Content" icon="CordovaIcons.Palette.TextureView"
                  tooltip="An integration point for external content"/>
 
-        <properties
-                inplace=""
-                important="src"
-                normal="type height width"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="src" displayName="Source" type="String"/>
+            </important>
+            <normal>
+                <property name="type" displayName="MIME Type" type="String"/>
+                <property name="height" displayName="Height" type="Float"/>
+                <property name="width" displayName="Width" type="Float"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -850,12 +955,15 @@
         <palette title="Fieldset" icon="CordovaIcons.Palette.FrameLayout"
                  tooltip="A set of form controls grouped under a common name"/>
 
-        <properties
-                inplace=""
-                important="name"
-                normal="disabled form"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -872,12 +980,11 @@
         <palette title="Figure Caption" icon="CordovaIcons.Palette.TextView"
                  tooltip="A caption or legend for a figure"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -891,13 +998,6 @@
 
         <palette title="Figure" icon="CordovaIcons.Palette.ImageView"
                  tooltip="A unit of content, optionally with a caption, that is self-contained, that is typically referenced as a single unit from the main flow of the document"/>
-
-        <properties
-                inplace=""
-                important=""
-                normal=""
-                expert=""
-                />
 
         <creation>
             <![CDATA[
@@ -917,12 +1017,11 @@
         <palette title="Footer" icon="CordovaIcons.Palette.ViewStub"
                  tooltip="The footer for the section it applies to"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1087,10 +1186,14 @@
         <palette title="Header" icon="CordovaIcons.Palette.ViewStub"
                  tooltip="The header of a section"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties>
+            <!--<inplace>
+                <property name="text" displayName="Text" type="string"/>
+            </inplace>-->
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
