@@ -1,5 +1,6 @@
 /*
  * Copyright 2000-2010 JetBrains s.r.o.
+ * (Original as of org.jetbrains.android.dom.attrs.AttributeDefinition)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,63 +26,63 @@ import java.util.*;
  * @author yole
  */
 public class AttributeDefinition {
-  private final String myName;
-  private final Set<AttributeFormat> myFormats = EnumSet.noneOf(AttributeFormat.class);
-  private final List<String> myValues = new ArrayList<String>();
-  private final Map<String, String> myStyleable2DocValue = new HashMap<String, String>();
-  private String myGlobalDocValue;
+    private final String myName;
+    private final Set<AttributeFormat> myFormats = EnumSet.noneOf(AttributeFormat.class);
+    private final List<String> myValues = new ArrayList<String>();
+    private final Map<String, String> myStyleable2DocValue = new HashMap<String, String>();
+    private String myGlobalDocValue;
 
-  public AttributeDefinition(@NotNull String name) {
-    myName = name;
-  }
-
-  public AttributeDefinition(@NotNull String name, @NotNull Collection<AttributeFormat> formats) {
-    myName = name;
-    myFormats.addAll(formats);
-  }
-
-  public void addValue(@NotNull String name) {
-    myValues.add(name);
-  }
-
-  @NotNull
-  public String getName() {
-    return myName;
-  }
-
-  @NotNull
-  public Set<AttributeFormat> getFormats() {
-    return Collections.unmodifiableSet(myFormats);
-  }
-
-  public void addFormats(@NotNull Collection<AttributeFormat> format) {
-    myFormats.addAll(format);
-  }
-
-  @NotNull
-  public String[] getValues() {
-    return ArrayUtil.toStringArray(myValues);
-  }
-
-  @Nullable
-  public String getDocValue(@Nullable String parentStyleable) {
-    if (parentStyleable == null || !myStyleable2DocValue.containsKey(parentStyleable)) {
-      return myGlobalDocValue;
+    public AttributeDefinition(@NotNull String name) {
+        myName = name;
     }
-    return myStyleable2DocValue.get(parentStyleable);
-  }
 
-  public void addDocValue(@NotNull String docValue, @Nullable String parentStyleable) {
-    if (parentStyleable == null || myGlobalDocValue == null) {
-      myGlobalDocValue = docValue;
+    public AttributeDefinition(@NotNull String name, @NotNull Collection<AttributeFormat> formats) {
+        myName = name;
+        myFormats.addAll(formats);
     }
-    if (parentStyleable != null) {
-      myStyleable2DocValue.put(parentStyleable, docValue);
-    }
-  }
 
-  @Override
-  public String toString() {
-    return myName + " [" + myFormats + ']';
-  }
+    public void addValue(@NotNull String name) {
+        myValues.add(name);
+    }
+
+    @NotNull
+    public String getName() {
+        return myName;
+    }
+
+    @NotNull
+    public Set<AttributeFormat> getFormats() {
+        return Collections.unmodifiableSet(myFormats);
+    }
+
+    public void addFormats(@NotNull Collection<AttributeFormat> format) {
+        myFormats.addAll(format);
+    }
+
+    @NotNull
+    public String[] getValues() {
+        return ArrayUtil.toStringArray(myValues);
+    }
+
+    @Nullable
+    public String getDocValue(@Nullable String parentStyleable) {
+        if (parentStyleable == null || !myStyleable2DocValue.containsKey(parentStyleable)) {
+            return myGlobalDocValue;
+        }
+        return myStyleable2DocValue.get(parentStyleable);
+    }
+
+    public void addDocValue(@NotNull String docValue, @Nullable String parentStyleable) {
+        if (parentStyleable == null || myGlobalDocValue == null) {
+            myGlobalDocValue = docValue;
+        }
+        if (parentStyleable != null) {
+            myStyleable2DocValue.put(parentStyleable, docValue);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return myName + " [" + myFormats + ']';
+    }
 }

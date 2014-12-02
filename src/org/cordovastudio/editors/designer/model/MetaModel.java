@@ -30,8 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Alexander Lobas
@@ -50,12 +49,12 @@ public class MetaModel {
     private boolean myDelete = true;
     private boolean myShowInComponentTree = true;
     private boolean myIsDeprecated = false;
-    private List<String> myInplaceProperties = Collections.emptyList();
-    private List<String> myTopProperties = Collections.emptyList();
-    private List<String> myNormalProperties = Collections.emptyList();
-    private List<String> myImportantProperties = Collections.emptyList();
-    private List<String> myExpertProperties = Collections.emptyList();
-    private List<String> myDeprecatedProperties = Collections.emptyList();
+    private Map<String, Property> myInplaceProperties = Collections.emptyMap();
+    private Map<String, Property> myTopProperties = Collections.emptyMap();
+    private Map<String, Property> myNormalProperties = Collections.emptyMap();
+    private Map<String, Property> myImportantProperties = Collections.emptyMap();
+    private Map<String, Property> myExpertProperties = Collections.emptyMap();
+    private Map<String, Property> myDeprecatedProperties = Collections.emptyMap();
     private List<MetaModel> myMorphingModels = Collections.emptyList();
 
     public MetaModel(Class<RadComponent> model, @NotNull String tag, @Nullable String htmlClass, @Nullable String htmlType) {
@@ -174,48 +173,106 @@ public class MetaModel {
         myMorphingModels = morphingModels;
     }
 
-    public List<String> getInplaceProperties() {
-        return myInplaceProperties;
+    public List<Property> getInplaceProperties() {
+        return new ArrayList<>(myInplaceProperties.values());
     }
 
-    public void setInplaceProperties(List<String> inplaceProperties) {
-        myInplaceProperties = inplaceProperties;
+    public void setInplaceProperties(List<Property> inplaceProperties) {
+        myInplaceProperties = new HashMap<>(inplaceProperties.size());
+        for (Property property : inplaceProperties) {
+            myInplaceProperties.put(property.getName(), property);
+        }
     }
 
-    public List<String> getTopProperties() {
-        return myTopProperties;
+    public List<Property> getTopProperties() {
+        return new ArrayList<>(myTopProperties.values());
     }
 
-    public void setTopProperties(List<String> topProperties) {
-        myTopProperties = topProperties;
+    public void setTopProperties(List<Property> topProperties) {
+        myTopProperties = new HashMap<>(topProperties.size());
+        for (Property property : topProperties) {
+            myTopProperties.put(property.getName(), property);
+        }
     }
 
-    public void setNormalProperties(List<String> normalProperties) {
-        myNormalProperties = normalProperties;
+    public List<Property> getNormalProperties() {
+        return new ArrayList<>(myNormalProperties.values());
+    }
+
+    public void setNormalProperties(List<Property> normalProperties) {
+        myNormalProperties = new HashMap<>(normalProperties.size());
+        for (Property property : normalProperties) {
+            myNormalProperties.put(property.getName(), property);
+        }
+    }
+
+    public List<Property> getImportantProperties() {
+        return new ArrayList<>(myImportantProperties.values());
     }
 
     public boolean isImportantProperty(String name) {
-        return myImportantProperties.contains(name);
+        return myImportantProperties.containsKey(name);
     }
 
-    public void setImportantProperties(List<String> importantProperties) {
-        myImportantProperties = importantProperties;
+    public void setImportantProperties(List<Property> importantProperties) {
+        myImportantProperties = new HashMap<>(importantProperties.size());
+        for (Property property : importantProperties) {
+            myImportantProperties.put(property.getName(), property);
+        }
+    }
+
+    public List<Property> getExpertProperties() {
+        return new ArrayList<>(myExpertProperties.values());
     }
 
     public boolean isExpertProperty(String name) {
-        return myExpertProperties.contains(name);
+        return myExpertProperties.containsKey(name);
     }
 
-    public void setExpertProperties(List<String> expertProperties) {
-        myExpertProperties = expertProperties;
+    public void setExpertProperties(List<Property> expertProperties) {
+        myExpertProperties = new HashMap<>(expertProperties.size());
+        for (Property property : expertProperties) {
+            myExpertProperties.put(property.getName(), property);
+        }
+    }
+
+    public List<Property> getDeprecatedProperties() {
+        return new ArrayList<>(myDeprecatedProperties.values());
     }
 
     public boolean isDeprecatedProperty(String name) {
-        return myDeprecatedProperties.contains(name);
+        return myDeprecatedProperties.containsKey(name);
     }
 
-    public void setDeprecatedProperties(List<String> deprecatedProperties) {
-        myDeprecatedProperties = deprecatedProperties;
+    public void setDeprecatedProperties(List<Property> deprecatedProperties) {
+        myDeprecatedProperties = new HashMap<>(deprecatedProperties.size());
+        for (Property property : deprecatedProperties) {
+            myDeprecatedProperties.put(property.getName(), property);
+        }
+    }
+
+    public List<Property> getAllProperties() {
+        return getAllProperties(true);
+    }
+
+    public List<Property> getAllProperties(boolean includeDeprecatedProperties) {
+        List<Property> allProperties = new ArrayList<>(
+                myTopProperties.size()
+                        + myImportantProperties.size()
+                        + myNormalProperties.size()
+                        + myExpertProperties.size()
+                        + myDeprecatedProperties.size()
+        );
+
+        allProperties.addAll(myTopProperties.values());
+        allProperties.addAll(myImportantProperties.values());
+        allProperties.addAll(myNormalProperties.values());
+        allProperties.addAll(myExpertProperties.values());
+
+        if(includeDeprecatedProperties)
+            allProperties.addAll(myDeprecatedProperties.values());
+
+        return allProperties;
     }
 
     public void decorate0(Property property, String name) {
@@ -235,10 +292,10 @@ public class MetaModel {
     public Property decorateWithOverride(Property property) {
         String name = property.getName();
 
-        if (myNormalProperties.contains(name) ||
-                myImportantProperties.contains(name) ||
-                myExpertProperties.contains(name) ||
-                myDeprecatedProperties.contains(name)) {
+        if (myNormalProperties.containsKey(name) ||
+                myImportantProperties.containsKey(name) ||
+                myExpertProperties.containsKey(name) ||
+                myDeprecatedProperties.containsKey(name)) {
             property = property.createForNewPresentation();
             decorate(property, name);
         }

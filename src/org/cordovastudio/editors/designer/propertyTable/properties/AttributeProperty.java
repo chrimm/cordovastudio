@@ -76,7 +76,7 @@ public class AttributeProperty extends PropertyWithNamespace implements IXmlAttr
   }
 
   @Override
-  protected String getAttributeName() {
+  public String getAttributeName() {
     return myDefinition.getName();
   }
 
@@ -130,8 +130,9 @@ public class AttributeProperty extends PropertyWithNamespace implements IXmlAttr
           }
         }
         else {
-          String namespace = getNamespace(component, true);
-          component.getTag().setAttribute(myDefinition.getName(), namespace, (String)value);
+          //String namespace = getNamespace(component, true);
+          //component.getTag().setAttribute(myDefinition.getName(), namespace, (String)value);
+            component.getTag().setAttribute(myDefinition.getName(), (String)value);
         }
       }
     });
@@ -151,7 +152,8 @@ public class AttributeProperty extends PropertyWithNamespace implements IXmlAttr
 
   @Nullable
   private XmlAttribute getAttribute(RadViewComponent component) {
-    return component.getTag().getAttribute(myDefinition.getName(), getNamespace(component, false));
+    //return component.getTag().getAttribute(myDefinition.getName(), getNamespace(component, false));
+      return component.getTag().getAttribute(myDefinition.getName());
   }
 
   @Override

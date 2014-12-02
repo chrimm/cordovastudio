@@ -7,6 +7,7 @@
  *  – Added support for models that are distinguished by class and/or type instead of tag-only
  *  – Added support for multiple meta model definition files
  *  – Added support for meta model definition files lacking palette definitions
+ *  – Added support for global properties in meta model definition files
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,41 +25,66 @@
  */
 package org.cordovastudio.editors.designer.model;
 
+import com.intellij.designer.model.Property;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
+import org.cordovastudio.dom.AttributeDefinition;
+import org.cordovastudio.dom.AttributeFormat;
 import org.cordovastudio.editors.designer.palette.DefaultPaletteItem;
 import org.cordovastudio.editors.designer.palette.PaletteGroup;
 import org.cordovastudio.editors.designer.palette.PaletteItem;
 import org.cordovastudio.editors.designer.palette.VariationPaletteItem;
-import org.jdom.Attribute;
+import org.cordovastudio.editors.designer.propertyTable.properties.AttributeProperty;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Alexander Lobas
  */
 public abstract class MetaManager extends ModelLoader {
-    private static final String META = "meta";
-    private static final String PALETTE = "palette";
-    private static final String GROUP = "group";
-    private static final String NAME = "name";
-    private static final String ITEM = "item";
-    private static final String TAG = "tag";
-    private static final String CLASS = "class";
-    private static final String TYPE = "type";
-    private static final String WRAP_IN = "wrap-in";
+    protected static final String META = "meta";
+    protected static final String PALETTE = "palette";
+    protected static final String GROUP = "group";
+    protected static final String NAME = "name";
+    protected static final String DISPLAY_NAME = "displayName";
+    protected static final String ITEM = "item";
+    protected static final String TAG = "tag";
+    protected static final String CLASS = "class";
+    protected static final String TYPE = "type";
+    protected static final String WRAP_IN = "wrap-in";
+    protected static final String PROPERTY = "property";
+    protected static final String PROPERTIES = "properties";
+    protected static final String GLOBAL_PROPERTIES = "global-properties";
+    protected static final String INPLACE = "inplace";
+    protected static final String TOP = "top";
+    protected static final String IMPORTANT = "important";
+    protected static final String NORMAL = "normal";
+    protected static final String EXPERT = "expert";
+    protected static final String DEPRECATED = "deprecated";
+
+    protected static final String MORPHING = "morphing";
+    protected static final String SHOW_IN_COMPONENT_TREE = "showInComponentTree";
+    protected static final String OBSOLETE = "obsolete";
+    protected static final String LAYOUT = "layout";
+    protected static final String DELETE = "delete";
+    protected static final String PRESENTATION = "presentation";
+    protected static final String TITLE = "title";
+    protected static final String ICON = "icon";
+    protected static final String CREATION = "creation";
 
     private final TagModelMap myTag2Model = new TagModelMap();
-    private final List<PaletteGroup> myPaletteGroups = new ArrayList<PaletteGroup>();
-    private final List<MetaModel> myWrapModels = new ArrayList<MetaModel>();
+    private final List<PaletteGroup> myPaletteGroups = new ArrayList<>();
+    private final List<MetaModel> myWrapModels = new ArrayList<>();
+    private final List<Property> myGlobalTopProperties = new ArrayList<>();
+    private final List<Property> myGlobalImportantProperties = new ArrayList<>();
+    private final List<Property> myGlobalNormalProperties = new ArrayList<>();
+    private final List<Property> myGlobalExpertProperties = new ArrayList<>();
+    private final List<Property> myGlobalDeprecatedProperties = new ArrayList<>();
 
-    private Map<Object, Object> myCache = new HashMap<Object, Object>();
+    private Map<Object, Object> myCache = new HashMap<>();
 
     protected MetaManager(Project project) {
         super(project);
@@ -68,7 +94,14 @@ public abstract class MetaManager extends ModelLoader {
     protected void loadDocument(Element rootElement) throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        Map<MetaModel, List<String>> modelToMorphing = new HashMap<MetaModel, List<String>>();
+        Map<MetaModel, List<String>> modelToMorphing = new HashMap<>();
+
+        /*
+        Element globalPropertiesElement = rootElement.getChild(GLOBAL_PROPERTIES);
+        if(globalPropertiesElement != null) {
+            loadGlobalProperties(globalPropertiesElement);
+        }
+        */
 
         for (Element element : rootElement.getChildren(META)) {
             loadModel(classLoader, element, modelToMorphing);
@@ -90,7 +123,7 @@ public abstract class MetaManager extends ModelLoader {
 
         for (Map.Entry<MetaModel, List<String>> entry : modelToMorphing.entrySet()) {
             MetaModel meta = entry.getKey();
-            List<MetaModel> morphingModels = new ArrayList<MetaModel>();
+            List<MetaModel> morphingModels = new ArrayList<>();
 
             for (String tag : entry.getValue()) {
                 MetaModel morphingModel = myTag2Model.get(tag);
@@ -101,6 +134,102 @@ public abstract class MetaManager extends ModelLoader {
 
             if (!morphingModels.isEmpty()) {
                 meta.setMorphingModels(morphingModels);
+            }
+        }
+    }
+
+    /**
+     * Loads global properties
+     *
+     * @param globalPropertiesElement
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    protected void loadGlobalProperties(Element globalPropertiesElement) {
+        /*
+         * Load global top properties
+         */
+        Element globalTopPropertiesElement = globalPropertiesElement.getChild(TOP);
+        if(globalTopPropertiesElement != null) {
+            for (Element element : globalTopPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                property.setImportant(true);
+
+                myGlobalTopProperties.add(property);
+            }
+        }
+
+        /*
+         * Load global important properties
+         */
+        Element globalImportantPropertiesElement = globalPropertiesElement.getChild(IMPORTANT);
+        if(globalImportantPropertiesElement != null) {
+            for (Element element : globalImportantPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                property.setImportant(true);
+
+                myGlobalImportantProperties.add(property);
+            }
+        }
+
+        /*
+         * Load global normal properties
+         */
+        Element globalNormalPropertiesElement = globalPropertiesElement.getChild(NORMAL);
+        if(globalNormalPropertiesElement != null) {
+            for (Element element : globalNormalPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                myGlobalNormalProperties.add(property);
+            }
+        }
+
+        /*
+         * Load  global expert properties
+         */
+        Element globalExpertPropertiesElement = globalPropertiesElement.getChild(EXPERT);
+        if(globalExpertPropertiesElement != null) {
+            for (Element element : globalExpertPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                property.setExpert(true);
+
+                myGlobalExpertProperties.add(property);
+            }
+        }
+
+        /*
+         * Load global deprecated properties
+         */
+        Element globalDeprecatedPropertiesElement = globalPropertiesElement.getChild(DEPRECATED);
+        if(globalDeprecatedPropertiesElement != null) {
+            for (Element element : globalDeprecatedPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                property.setDeprecated(true);
+
+                myGlobalDeprecatedProperties.add(property);
             }
         }
     }
@@ -116,47 +245,47 @@ public abstract class MetaManager extends ModelLoader {
 
         MetaModel meta = createModel(model, tag, htmlClass, htmlType);
 
-        String showInComponentTree = element.getAttributeValue("showInComponentTree");
+        String showInComponentTree = element.getAttributeValue(SHOW_IN_COMPONENT_TREE);
         if(showInComponentTree != null) {
             meta.setShownInComponentTree(Boolean.parseBoolean(showInComponentTree));
         }
 
-        String deprecated = element.getAttributeValue("obsolete");
+        String deprecated = element.getAttributeValue(OBSOLETE);
         if(deprecated != null) {
             meta.setDeprecated(Boolean.parseBoolean(deprecated));
         }
 
-        String layout = element.getAttributeValue("layout");
+        String layout = element.getAttributeValue(LAYOUT);
         if (layout != null) {
             meta.setLayout((Class<RadLayout>) classLoader.loadClass(layout));
         }
 
-        String delete = element.getAttributeValue("delete");
+        String delete = element.getAttributeValue(DELETE);
         if (delete != null) {
             meta.setDelete(Boolean.parseBoolean(delete));
         }
 
-        Element presentation = element.getChild("presentation");
+        Element presentation = element.getChild(PRESENTATION);
         if (presentation != null) {
-            meta.setPresentation(presentation.getAttributeValue("title"), presentation.getAttributeValue("icon"));
+            meta.setPresentation(presentation.getAttributeValue(TITLE), presentation.getAttributeValue(ICON));
         }
 
-        Element palette = element.getChild("palette");
+        Element palette = element.getChild(PALETTE);
         if (palette != null) {
             meta.setPaletteItem(createPaletteItem(palette));
         }
 
-        Element creation = element.getChild("creation");
+        Element creation = element.getChild(CREATION);
         if (creation != null) {
             meta.setCreation(creation.getTextTrim());
         }
 
-        Element properties = element.getChild("properties");
+        Element properties = element.getChild(PROPERTIES);
         if (properties != null) {
             loadProperties(meta, properties);
         }
 
-        Element morphing = element.getChild("morphing");
+        Element morphing = element.getChild(MORPHING);
         if (morphing != null) {
             modelToMorphing.put(meta, StringUtil.split(morphing.getAttribute("to").getValue(), " "));
         }
@@ -190,36 +319,125 @@ public abstract class MetaManager extends ModelLoader {
         return new PaletteGroup(name);
     }
 
-    protected void loadProperties(MetaModel meta, Element properties) throws Exception {
-        Attribute inplace = properties.getAttribute("inplace");
-        if (inplace != null) {
-            meta.setInplaceProperties(StringUtil.split(inplace.getValue(), " "));
+    protected void loadProperties(MetaModel meta, Element propertiesElement) throws Exception {
+        /*
+         * Load global properties into lists
+         */
+        List<Property> inplaceProperties = new ArrayList<>();
+        List<Property> topProperties = myGlobalTopProperties;
+        List<Property> importantProperties = myGlobalImportantProperties;
+        List<Property> normalProperties = myGlobalNormalProperties;
+        List<Property> expertProperties = myGlobalExpertProperties;
+        List<Property> deprecatedProperties = myGlobalDeprecatedProperties;
+
+        //TODO: if global properties already include a local property, the global property should be overridden by the local one,
+        //i.e.: check for existence in list before adding and delete existing entry if necessary.
+
+        /*
+         * Load inplace properties
+         */
+        Element inplacePropertiesElement = propertiesElement.getChild(INPLACE);
+        if(inplacePropertiesElement != null) {
+            for (Element element : inplacePropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                inplaceProperties.add(property);
+            }
         }
 
-        Attribute top = properties.getAttribute("top");
-        if (top != null) {
-            meta.setTopProperties(StringUtil.split(top.getValue(), " "));
+        /*
+         * Load top properties
+         */
+        Element topPropertiesElement = propertiesElement.getChild(TOP);
+        if(topPropertiesElement != null) {
+            for (Element element : topPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                topProperties.add(property);
+            }
         }
 
-        Attribute normal = properties.getAttribute("normal");
-        if (normal != null) {
-            meta.setNormalProperties(StringUtil.split(normal.getValue(), " "));
+        /*
+         * Load important properties
+         */
+        Element importantPropertiesElement = propertiesElement.getChild(IMPORTANT);
+        if(importantPropertiesElement != null) {
+            for (Element element : importantPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                importantProperties.add(property);
+            }
         }
 
-        Attribute important = properties.getAttribute("important");
-        if (important != null) {
-            meta.setImportantProperties(StringUtil.split(important.getValue(), " "));
+        /*
+         * Load normal properties
+         */
+        Element normalPropertiesElement = propertiesElement.getChild(NORMAL);
+        if(normalPropertiesElement != null) {
+            for (Element element : normalPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                normalProperties.add(property);
+            }
         }
 
-        Attribute expert = properties.getAttribute("expert");
-        if (expert != null) {
-            meta.setExpertProperties(StringUtil.split(expert.getValue(), " "));
+        /*
+         * Load expert properties
+         */
+        Element expertPropertiesElement = propertiesElement.getChild(EXPERT);
+        if(expertPropertiesElement != null) {
+            for (Element element : expertPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                expertProperties.add(property);
+            }
         }
 
-        Attribute deprecated = properties.getAttribute("deprecated");
-        if (deprecated != null) {
-            meta.setDeprecatedProperties(StringUtil.split(deprecated.getValue(), " "));
+        /*
+         * Load deprecated properties
+         */
+        Element deprecatedPropertiesElement = propertiesElement.getChild(DEPRECATED);
+        if(deprecatedPropertiesElement != null) {
+            for (Element element : deprecatedPropertiesElement.getChildren(PROPERTY)) {
+                String name = element.getAttributeValue(NAME);
+                String displayName = element.getAttributeValue(DISPLAY_NAME);
+                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
+                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                        Collections.singletonList(type)));
+
+                deprecatedProperties.add(property);
+            }
         }
+
+        /*
+         * Write lists into meta model
+         */
+        meta.setInplaceProperties(inplaceProperties);
+        meta.setTopProperties(topProperties);
+        meta.setImportantProperties(importantProperties);
+        meta.setNormalProperties(normalProperties);
+        meta.setExpertProperties(expertProperties);
+        meta.setDeprecatedProperties(deprecatedProperties);
     }
 
     protected void loadOther(MetaModel meta, Element element) throws Exception {

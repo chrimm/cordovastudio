@@ -135,12 +135,6 @@ public final class CordovaTreeDecorator implements TreeComponentDecorator {
             renderer.append(fullTitle.toString(), valueStyle);
         }
 
-        //DBEUG
-
-        renderer.append(" ["+(int)component.getBounds().getWidth()+"x"+(int)component.getBounds().getHeight()+"]");
-
-        //DEBUG END
-
         if (full) {
             Icon icon = metaModel.getIcon();
 

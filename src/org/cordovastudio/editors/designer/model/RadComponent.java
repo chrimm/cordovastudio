@@ -378,19 +378,20 @@ public abstract class RadComponent extends PropertiesContainer {
   }
 
   public List<Property> getInplaceProperties() throws Exception {
-    List<Property> properties = new ArrayList<Property>();
 
     if (myMetaModel != null) {
+     return myMetaModel.getInplaceProperties();
+        /*
       List<Property> allProperties = getProperties();
       for (String name : myMetaModel.getInplaceProperties()) {
         Property property = PropertyTable.findProperty(allProperties, name);
         if (property != null) {
           properties.add(property);
         }
-      }
+      }*/
+    } else {
+        return new ArrayList<>();
     }
-
-    return properties;
   }
 
   @SuppressWarnings("unchecked")

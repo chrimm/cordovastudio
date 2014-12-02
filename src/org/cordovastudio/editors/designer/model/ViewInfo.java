@@ -16,6 +16,8 @@
 
 package org.cordovastudio.editors.designer.model;
 
+import com.intellij.designer.model.Property;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class ViewInfo {
     private int mTop;
     private int mBottom;
     private List<ViewInfo> mChildren = Collections.emptyList();
+    private List<Property> mProperties = Collections.emptyList();
     private final Object mViewObject;
     private final Object mLayoutParamsObject;
 
@@ -42,12 +45,13 @@ public class ViewInfo {
     private int mBottomMargin = Integer.MIN_VALUE;
 
     public ViewInfo(String name, Object cookie, int left, int top, int right, int bottom) {
-        this(name, cookie, left, top, right, bottom, null /*viewObject*/,
+        this(name, cookie, left, top, right, bottom,
+                null /*viewObject*/,
                 null /*layoutParamsObject*/);
     }
 
     public ViewInfo(String name, Object cookie, int left, int top, int right, int bottom,
-                    Object viewObject, Object layoutParamsObject) {
+                     Object viewObject, Object layoutParamsObject) {
         mName = name;
         mCookie = cookie;
         mLeft = left;

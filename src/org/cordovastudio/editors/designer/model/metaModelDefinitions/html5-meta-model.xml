@@ -2926,6 +2926,40 @@
         </creation>
     </meta>
 
+    <!-- ============ Global Properties ============ -->
+
+    <global-properties>
+        <top>
+            <property name="id" displayName="ID" type="String"/>
+        </top>
+        <important>
+            <property name="class" displayName="Class" type="String"/>
+            <property name="style" displayName="Style" type="KeyValueList">
+                <delimiters keyValueDelimiter=":" listItemDelimiter=";"/>
+            </property>
+        </important>
+        <normal>
+            <property name="title" displayName="Title" type="String"/>
+            <property name="hidden" displayName="Hidden" type="Empty"/>
+            <property name="tabindex" displayName="Tab Index" type="Integer"/>
+        </normal>
+        <expert>
+            <property name="accesskey" displayName="Access Key" type="String"/>
+
+            <property name="contenteditable" displayName="Content Editable" type="Boolean"/>
+            <property name="dir" displayName="Reading Direction" type="Enum">
+                <enum-item name="ltr" displayName="Left-to-Right"/>
+                <enum-item name="rtl" displayName="Right-to-Left"/>
+                <enum-item name="auto" displayName="Auto"/>
+            </property>
+            <property name="draggable" displayName="Draggable" type="Boolean"/>
+            <property name="dropzone" displayName="Drop Zone" type="String"/>
+            <property name="lang" displayName="Language" type="String"/>
+            <property name="translate" displayName="Translate" type="Boolean"/>
+            <property name="spellcheck" displayName="Spell Checking" type="Boolean"/>
+        </expert>
+    </global-properties>
+
     <!-- ================= Palette ================= -->
 
     <palette>

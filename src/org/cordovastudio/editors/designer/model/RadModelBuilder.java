@@ -371,6 +371,19 @@ public class RadModelBuilder {
             if (parent != null && parent != component) {
                 parent.add(component, null);
 
+                if (loadProperties) {
+                    // Load properties on a component *after* assigning parents, since that affects
+                    // the computation of available attributes (due to layout params)
+                    try {
+                        component.setProperties(component.getMetaModel().getAllProperties());
+                    }
+                    catch (Throwable e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (isMerge) {
+                    myMergeComponentMap.put(tag, component);
+                }
             }
         }
 
