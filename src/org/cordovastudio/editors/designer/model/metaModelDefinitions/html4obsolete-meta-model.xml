@@ -33,10 +33,11 @@
 
         <palette title="Acronym" icon="CordovaIcons.Palette.TextView"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -47,11 +48,29 @@
 
         <palette title="Java Applet" icon="CordovaIcons.Palette.TextureView"/>
 
-        <properties
-                important="name"
-                normal="align alt archive code codeBase height object vspace width"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="align" displayName="Align" type="Enum">
+                    <enum-item name="left" displayName="Left"/>
+                    <enum-item name="right" displayName="Right"/>
+                    <enum-item name="top" displayName="Top"/>
+                    <enum-item name="bottom" displayName="Bottom"/>
+                    <enum-item name="middle" displayName="Middle"/>
+                    <enum-item name="baseline" displayName="Baseline"/>
+                </property>
+                <property name="alt" displayName="Alternative Text" type="String"/>
+                <property name="archive" displayName="Archive" type="String"/>
+                <property name="code" displayName="Code" type="String"/>
+                <property name="codeBase" displayName="Code Base" type="String"/>
+                <property name="height" displayName="Height" type="Integer"/>
+                <property name="width" displayName="Width" type="Integer"/>
+                <property name="vspace" displayName="Vertical Space" type="Integer"/>
+                <property name="object" displayName="Object" type="String"/>
+            </normal>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -67,9 +86,11 @@
 
         <palette title="Big Text" icon="CordovaIcons.Palette.TextView"/>
 
-        <properties
-                inplace="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -80,10 +101,11 @@
 
         <palette title="Centering Block" icon="CordovaIcons.Palette.TextView"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -94,9 +116,11 @@
 
         <palette title="Directory" icon="CordovaIcons.Palette.ListView"/>
 
-        <properties
-                normal="compact"
-                />
+        <properties>
+            <normal>
+                <property name="compact" displayName="Compact Style" type="Empty"/>
+            </normal>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -107,11 +131,16 @@
 
         <palette title="Font Style Override" icon="CordovaIcons.Palette.TextView"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal="color face size"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <normal>
+                <property name="color" displayName="Color" type="Color"/>
+                <property name="face" displayName="Font Face" type="String"/>
+                <property name="size" displayName="Font Size" type="Integer"/>
+            </normal>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -122,11 +151,32 @@
 
         <palette title="Frame" icon="CordovaIcons.Palette.FrameLayout"/>
 
-        <properties
-                important="name src"
-                normal="frameborder framesize marginheight marginwidth noresize scrolling"
-                expert="longdesc"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="src" displayName="Source" type="String"/>
+            </important>
+            <normal>
+                <property name="frameborder" displayName="Frame Border Visibility" type="Enum">
+                    <enum-item name="0" displayName="Hide Frame Borders"/>
+                    <enum-item name="1" displayName="Show Frame Borders"/>
+                </property>
+                <property name="marginheight" displayName="Margin Height" type="Integer"/>
+                <property name="marginwidth" displayName="Margin Width" type="Integer"/>
+                <property name="noresize" displayName="Prohibit Resizing" type="Empty"/>
+                <property name="scrolling" displayName="Scrollbar Mode" type="Enum">
+                    <enum-item name="yes" displayName="Show Scollbars"/>
+                    <enum-item name="no" displayName="Hide Scrollbars"/>
+                    <enum-item name="auto" displayName="Auto"/>
+                </property>
+            </normal>
+            <expert>
+                <property name="longdesc" displayName="Link to Long Description" type="String"
+                          tooltip="Specifies a link to a long description of the frame. This description should
+                                   supplement the short description provided using the title attribute, and may be
+                                   particularly useful for non-visual user agents."/>
+            </expert>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -135,9 +185,12 @@
 
         <palette title="Frameset" icon="CordovaIcons.Palette.GridLayout"/>
 
-        <properties
-                normal="cols rows"
-                />
+        <properties>
+            <normal>
+                <property name="cols" displayName="Columns" type="Integer"/>
+                <property name="rows" displayName="Rows" type="Integer"/>
+            </normal>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -157,10 +210,11 @@
 
         <palette title="Striked Text" icon="CordovaIcons.Palette.TextView"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
@@ -171,9 +225,10 @@
 
         <palette title="Teletype Text" icon="CordovaIcons.Palette.TextView"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
     </meta>
 </meta-model>
