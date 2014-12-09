@@ -1057,14 +1057,20 @@
             </normal>
             <expert>
                 <property name="enctype" displayName="Encoding MIME Type" type="Enum">
-                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="application/x-www-form-urlencoded"
+                               displayName="application/x-www-form-urlencoded"/>
                     <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
                     <enum-item name="text/plain" displayName="text/plain"/>
                 </property>
                 <property name="accept-charset" displayName="Accepted Charset" type="String"
-                          tooltip="Specifies the character encodings used for form submission."
-                          javadoc="An ordered set of unique space-separated tokens, each of which must be a valid
-                                   character encoding name that specifies an ASCII-compatible character encoding."/>
+                          tooltip="Specifies the character encodings used for form submission.">
+                    <javadoc>
+                        <![CDATA[
+                            <b>Value:</b> An ordered set of unique space-separated tokens, each of which must be a valid
+                            character encoding name that specifies an ASCII-compatible character encoding.
+                        ]]>
+                    </javadoc>
+                </property>
             </expert>
         </properties>
 
@@ -1796,9 +1802,14 @@
                 <property name="form" displayName="Associated Form" type="String"/>
                 <property name="autofocus" displayName="Auto Focus" type="Empty"/>
                 <property name="accept" displayName="Accepted File Types" type="String"
-                          tooltip="Provides the UA with a hint of what file types the server is able to accept."
-                          javadoc="Provides the UA with a hint of what file types the server is able to accept.<br/>
-                                   <b>Value:</b> A set of comma-separated strings, each of which is a valid MIME type, with no parameters."/>
+                          tooltip="Provides the UA with a hint of what file types the server is able to accept.">
+                    <javadoc>
+                        <![CDATA[
+                            Provides the UA with a hint of what file types the server is able to accept.<br/>
+                           <b>Value:</b> A set of comma-separated strings, each of which is a valid MIME type, with no parameters.
+                        ]]>
+                    </javadoc>
+                </property>
                 <property name="required" displayName="Required" type="Empty"/>
                 <property name="multiple" displayName="Multi Select" type="Empty"/>
             </normal>
@@ -3569,9 +3580,9 @@
             <important>
                 <property name="value" displayName="Value" type="Float"/>
             </important>
-                <normal>
-                    <property name="max" displayName="Maximum" type="Float"/>
-                </normal>
+            <normal>
+                <property name="max" displayName="Maximum" type="Float"/>
+            </normal>
         </properties>
 
         <creation>
