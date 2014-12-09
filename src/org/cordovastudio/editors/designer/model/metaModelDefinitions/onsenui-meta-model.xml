@@ -20,5 +20,70 @@
 
     <!-- ============ Onsen UI Widgets ============ -->
 
+    <!-- ~~~~~~~~~~~~~~~~ Switch ~~~~~~~~~~~~~~~~~~ -->
 
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="label"
+          class="switch">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Switch" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A simple switch with on/off states"/>
+
+        <creation>
+            <![CDATA[
+                <label class="switch">
+                    <input type="checkbox" class="switch__input">
+                    <div class="switch__toggle"></div>
+                </label>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="checkbox"
+          class="switch__input">
+
+        <presentation title=" - &quot;%name%&quot;"/>
+
+        <palette title="Switch State" icon="CordovaIcons.Palette.CheckBox"/>
+
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+            </normal>
+        </properties>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div">
+
+        <palette title="Container" icon="CordovaIcons.Palette.Space"
+                 tooltip="A generic container for flow content that by itself does not represent anything"/>
+
+        <creation>
+            <![CDATA[
+                <div></div>
+            ]]>
+        </creation>
+    </meta>
+
+    <!-- ============ Onsen UI Palette ============ -->
+
+    <palette>
+        <group name="Onsen UI Widgets">
+            <item tag="label" class="switch"/>
+        </group>
+    </palette>
 </meta-model>
