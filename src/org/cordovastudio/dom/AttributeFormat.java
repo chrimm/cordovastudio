@@ -19,5 +19,5 @@ package org.cordovastudio.dom;
  * @author yole
  */
 public enum AttributeFormat {
-    Reference, String, Color, Dimension, Boolean, Integer, Float, Fraction, Enum, Flag, Empty, KeyValueList
+    Reference, String, Color, Dimension, Boolean, Integer, Float, Fraction, Enum, Flag, Empty, KeyValueList, OnOff
 }

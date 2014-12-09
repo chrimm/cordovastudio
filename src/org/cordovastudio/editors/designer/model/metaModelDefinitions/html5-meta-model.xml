@@ -372,7 +372,8 @@
                 <property name="form" displayName="Associated Form" type="String"/>
                 <property name="formaction" displayName="Form Action" type="String"/>
                 <property name="formenctype" displayName="Form MIME Type" type="Enum">
-                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="application/x-www-form-urlencoded"
+                               displayName="application/x-www-form-urlencoded"/>
                     <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
                     <enum-item name="text/plain" displayName="text/plain"/>
                 </property>
@@ -418,7 +419,8 @@
                 <property name="form" displayName="Associated Form" type="String"/>
                 <property name="formaction" displayName="Form Action" type="String"/>
                 <property name="formenctype" displayName="Form MIME Type" type="Enum">
-                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="application/x-www-form-urlencoded"
+                               displayName="application/x-www-form-urlencoded"/>
                     <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
                     <enum-item name="text/plain" displayName="text/plain"/>
                 </property>
@@ -464,7 +466,8 @@
                 <property name="form" displayName="Associated Form" type="String"/>
                 <property name="formaction" displayName="Form Action" type="String"/>
                 <property name="formenctype" displayName="Form MIME Type" type="Enum">
-                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="application/x-www-form-urlencoded"
+                               displayName="application/x-www-form-urlencoded"/>
                     <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
                     <enum-item name="text/plain" displayName="text/plain"/>
                 </property>
@@ -493,8 +496,8 @@
 
         <properties>
             <important>
-                <property name="height" displayName="Height" type="Float"/>
-                <property name="width" displayName="Width" type="Float"/>
+                <property name="height" displayName="Height" type="Integer"/>
+                <property name="width" displayName="Width" type="Integer"/>
             </important>
         </properties>
 
@@ -935,8 +938,8 @@
             </important>
             <normal>
                 <property name="type" displayName="MIME Type" type="String"/>
-                <property name="height" displayName="Height" type="Float"/>
-                <property name="width" displayName="Width" type="Float"/>
+                <property name="height" displayName="Height" type="Integer"/>
+                <property name="width" displayName="Width" type="Integer"/>
             </normal>
         </properties>
 
@@ -1038,12 +1041,32 @@
         <palette title="Form" icon="CordovaIcons.Palette.Dummy"
                  tooltip="The footer for the section it applies to"/>
 
-        <properties
-                inplace=""
-                important="action method name"
-                normal="novalidate target autocomplete"
-                expert="enctype accept-charset"
-                />
+        <properties>
+            <important>
+                <property name="action" displayName="Form Action" type="String"/>
+                <property name="method" displayName="Form HTTP Method" type="Enum">
+                    <enum-item name="get" displayName="GET"/>
+                    <enum-item name="post" displayName="POST"/>
+                </property>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="novalidate" displayName="No Validation" type="Empty"/>
+                <property name="target" displayName="Target" type="String"/>
+                <property name="autocomplete" displayName="Auto Complete" type="OnOff"/>
+            </normal>
+            <expert>
+                <property name="enctype" displayName="Encoding MIME Type" type="Enum">
+                    <enum-item name="application/x-www-form-urlencoded" displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
+                    <enum-item name="text/plain" displayName="text/plain"/>
+                </property>
+                <property name="accept-charset" displayName="Accepted Charset" type="String"
+                          tooltip="Specifies the character encodings used for form submission."
+                          javadoc="An ordered set of unique space-separated tokens, each of which must be a valid
+                                   character encoding name that specifies an ASCII-compatible character encoding."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1065,10 +1088,11 @@
         <palette title="Headline (Level 1)" icon="CordovaIcons.Palette.TextView"
                  tooltip="Displays a level 1 header"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1085,10 +1109,11 @@
         <palette title="Headline (Level 2)" icon="CordovaIcons.Palette.TextView"
                  tooltip="Displays a level 2 header"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1105,10 +1130,11 @@
         <palette title="Headline (Level 3)" icon="CordovaIcons.Palette.TextView"
                  tooltip="Displays a level 3 header"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1125,10 +1151,11 @@
         <palette title="Headline (Level 4)" icon="CordovaIcons.Palette.TextView"
                  tooltip="Displays a level 4 header"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1145,10 +1172,11 @@
         <palette title="Headline (Level 5)" icon="CordovaIcons.Palette.TextView"
                  tooltip="Displays a level 5 header"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1165,10 +1193,11 @@
         <palette title="Headline (Level 6)" icon="CordovaIcons.Palette.TextView"
                  tooltip="Displays a level 6 header"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1186,10 +1215,7 @@
         <palette title="Header" icon="CordovaIcons.Palette.ViewStub"
                  tooltip="The header of a section"/>
 
-        <properties>
-            <!--<inplace>
-                <property name="text" displayName="Text" type="string"/>
-            </inplace>-->
+        <properties inplace="text">
             <important>
                 <property name="text" displayName="Text" type="String"/>
             </important>
@@ -1236,10 +1262,11 @@
         <palette title="Italic Text" icon="CordovaIcons.Palette.TextView"
                  tooltip="A span of text offset from its surrounding content without conveying any extra emphasis or importance, and for which the conventional typographic presentation is italic text"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1254,12 +1281,21 @@
         <palette title="Nested Content" icon="CordovaIcons.Palette.TextView"
                  tooltip="A new nested browsing context"/>
 
-        <properties
-                inplace=""
-                important="src name"
-                normal="height width seamless"
-                expert="srcdoc sandbox"
-                />
+        <properties>
+            <important>
+                <property name="src" displayName="Source" type="String"/>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="height" displayName="Height" type="Integer"/>
+                <property name="width" displayName="Widht" type="Integer"/>
+                <property name="seamless" displayName="Seamless" type="Empty"/>
+            </normal>
+            <expert>
+                <property name="srcdoc" displayName="Content" type="String"/>
+                <property name="sandbox" displayName="Sandbox Restrictions" type="String"/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1276,12 +1312,21 @@
         <palette title="Image" icon="CordovaIcons.Palette.ImageView"
                  tooltip="An image from a local or a remote location"/>
 
-        <properties
-                inplace=""
-                important="src"
-                normal="alt height width"
-                expert="usemap ismap"
-                />
+        <properties>
+            <important>
+                <property name="src" displayName="Source" type="String"/>
+            </important>
+            <normal>
+                <property name="alt" displayName="Alternative Text" type="String"/>
+                <property name="height" displayName="Height" type="Integer"/>
+                <property name="width" displayName="Width" type="Integer"/>
+            </normal>
+            <expert>
+                <property name="usemap" displayName="Map" type="String"
+                          tooltip="A hash-name reference to a map element with which to associate the image."/>
+                <property name="ismap" displayName="Is Map" type="Empty"/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1298,12 +1343,56 @@
         <palette title="Text Input Field" icon="CordovaIcons.Palette.EditText"
                  tooltip="A one-line plain text edit control"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form maxlength readonly size autocomplete autofocus required placeholder"
-                expert="list pattern dirname"
-                />
+        <properties inplace="placeholder">
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="maxlength" displayName="Max Length" type="Integer"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="size" displayName="Size" type="Integer"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="placeholder" displayName="Placeholder Text" type="String"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+                <property name="pattern" displayName="Pattern" type="String"
+                          tooltip="Specifies a regular expression against which a UA is meant to check the value of the control represented by its element."/>
+                <property name="dirname" displayName="Directionality" type="String"
+                          tooltip="Enables submission of a value for the directionality of the element, and gives the name of the field that contains that value."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1321,12 +1410,56 @@
         <palette title="Password Input Field" icon="CordovaIcons.Palette.EditText"
                  tooltip="A one-line plain-text edit control for entering a password"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form maxlength readonly size autocomplete autofocus required placeholder"
-                expert="list pattern dirname"
-                />
+        <properties inplace="placeholder">
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="maxlength" displayName="Max Length" type="Integer"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="size" displayName="Size" type="Integer"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="placeholder" displayName="Placeholder Text" type="String"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+                <property name="pattern" displayName="Pattern" type="String"
+                          tooltip="Specifies a regular expression against which a UA is meant to check the value of the control represented by its element."/>
+                <property name="dirname" displayName="Directionality" type="String"
+                          tooltip="Enables submission of a value for the directionality of the element, and gives the name of the field that contains that value."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1344,12 +1477,44 @@
         <palette title="Checkbox" icon="CordovaIcons.Palette.CheckBox"
                  tooltip="A state or option that can be toggled"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form maxlength readonly size autocomplete autofocus required placeholder"
-                expert="list pattern dirname"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1367,12 +1532,44 @@
         <palette title="Radio Button" icon="CordovaIcons.Palette.RadioButton"
                  tooltip="A selection of one item from a list of items"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form size autofocus required"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1390,12 +1587,42 @@
         <palette title="Generic Button" icon="CordovaIcons.Palette.Button"
                  tooltip="A button with no additional semantics"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1413,12 +1640,58 @@
         <palette title="Submit Button" icon="CordovaIcons.Palette.Button"
                  tooltip="A button for submitting a form"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus"
-                expert="formaction formenctype formmethod formtarget formnovalidate"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+            </normal>
+            <expert>
+                <property name="formaction" displayName="Form Action" type="String"/>
+                <property name="formenctype" displayName="Form MIME Type" type="Enum">
+                    <enum-item name="application/x-www-form-urlencoded"
+                               displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
+                    <enum-item name="text/plain" displayName="text/plain"/>
+                </property>
+                <property name="formmethod" displayName="Form HTTP Method" type="Enum">
+                    <enum-item name="get" displayName="GET"/>
+                    <enum-item name="post" displayName="POST"/>
+                </property>
+                <property name="formnovalidate" displayName="No Validation" type="Empty"/>
+                <property name="formtarget" displayName="Form Target" type="String"
+                          tooltip="A browsing context name or keyword that represents the target of the control."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1436,12 +1709,42 @@
         <palette title="Reset Button" icon="CordovaIcons.Palette.Button"
                  tooltip="A button for resetting a form"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1452,19 +1755,54 @@
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           tag="input"
-          type="reset">
+          type="file">
 
         <presentation title=" - &quot;%name%&quot;"/>
 
         <palette title="File Selection Field" icon="CordovaIcons.Palette.Dummy"
                  tooltip="An input control to select one or multiple files (e.g. for uploading purposes)"/>
 
-        <properties
-                inplace=""
-                important="name type"
-                normal="disabled form autofocus accept required multiple"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="accept" displayName="Accepted File Types" type="String"
+                          tooltip="Provides the UA with a hint of what file types the server is able to accept."
+                          javadoc="Provides the UA with a hint of what file types the server is able to accept.<br/>
+                                   <b>Value:</b> A set of comma-separated strings, each of which is a valid MIME type, with no parameters."/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="multiple" displayName="Multi Select" type="Empty"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1482,12 +1820,41 @@
         <palette title="Hidden Field" icon="CordovaIcons.Palette.Dummy"
                  tooltip="A hidden field that is not intended to be examined or manipulated by the user"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1505,12 +1872,61 @@
         <palette title="Image(-coordinates) Input Control" icon="CordovaIcons.Palette.ImageButton"
                  tooltip="An image from which the UA enables a user to interactively select a pair of coordinates and submit the form, or alternatively a button from which the user can submit the form"/>
 
-        <properties
-                inplace=""
-                important="name type alt src"
-                normal="disabled form autofocus height width"
-                expert="formaction formenctype formmethod formtarget formnovalidate"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="alt" displayName="Alternative Text" type="String"/>
+                <property name="src" displayName="Source" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="height" displayName="Height" type="Integer"/>
+                <property name="width" displayName="Width" type="Integer"/>
+            </normal>
+            <expert>
+                <property name="formaction" displayName="Form Action" type="String"/>
+                <property name="formenctype" displayName="Form MIME Type" type="Enum">
+                    <enum-item name="application/x-www-form-urlencoded"
+                               displayName="application/x-www-form-urlencoded"/>
+                    <enum-item name="multipart/form-data" displayName="multipart/form-data"/>
+                    <enum-item name="text/plain" displayName="text/plain"/>
+                </property>
+                <property name="formmethod" displayName="Form HTTP Method" type="Enum">
+                    <enum-item name="get" displayName="GET"/>
+                    <enum-item name="post" displayName="POST"/>
+                </property>
+                <property name="formnovalidate" displayName="No Validation" type="Empty"/>
+                <property name="formtarget" displayName="Form Target" type="String"
+                          tooltip="A browsing context name or keyword that represents the target of the control."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1528,12 +1944,86 @@
         <palette title="Date/Time Input Control" icon="CordovaIcons.Palette.DatePicker"
                  tooltip="A control for setting the element’s value to a string representing a global date and time (with timezone information)"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="String"
+                          tooltip="The expected lower bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected lower bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>A valid date-time as defined in [RFC 3339], with these additional qualifications:<br>
+                            <ul>
+                            <li>the literal letters T and Z in the date/time syntax must always be uppercase</li>
+                            <li>the date-fullyear production is instead defined as four or more digits representing a number greater than 0</li>
+                            </ul>
+                            <p>
+                            Examples:<br>
+                            <code>1990-12-31T23:59:60Z</code><br>
+                            <code>1996-12-19T16:39:57-08:00</code>
+                       ]]>
+                    </javadoc>
+                </property>
+                <property name="max" displayName="Maximum" type="String"
+                          tooltip="The expected upper bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected upper bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>A valid date-time as defined in [RFC 3339], with these additional qualifications:<br>
+                            <ul>
+                            <li>the literal letters T and Z in the date/time syntax must always be uppercase</li>
+                            <li>the date-fullyear production is instead defined as four or more digits representing a number greater than 0</li>
+                            </ul>
+                            <p>
+                            Examples:<br>
+                            <code>1990-12-31T23:59:60Z</code><br>
+                            <code>1996-12-19T16:39:57-08:00</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="step" displayName="Step Size" type="Float"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1551,35 +2041,88 @@
         <palette title="Date/Time Input Control" icon="CordovaIcons.Palette.DatePicker"
                  tooltip="A control for setting the element’s value to a string representing a global date and time (without timezone information)"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
-
-        <creation>
-            <![CDATA[
-                <input type="datetime-local" value="" name="datetime"/>
-            ]]>
-        </creation>
-    </meta>
-
-    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          tag="input"
-          type="datetime-local">
-
-        <presentation title=" - &quot;%name%&quot;"/>
-
-        <palette title="Date/Time Input Control" icon="CordovaIcons.Palette.DatePicker"
-                 tooltip="A control for setting the element’s value to a string representing a global date and time (without timezone information)"/>
-
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="String"
+                          tooltip="The expected lower bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected lower bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>A date.</li>
+                            <li>The literal string <code>T</code></li>.
+                            <li>A time.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1985-04-12T23:20:50.52</code><br>
+                            <code>1996-12-19T16:39:57</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="max" displayName="Maximum" type="String"
+                          tooltip="The expected upper bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected upper bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>A date.</li>
+                            <li>The literal string <code>T</code></li>.
+                            <li>A time.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1985-04-12T23:20:50.52</code><br>
+                            <code>1996-12-19T16:39:57</code>
+                        ]]>"/>
+                    </javadoc>
+                </property>
+                <property name="step" displayName="Step Size" type="Float"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1597,12 +2140,76 @@
         <palette title="Date Input Control" icon="CordovaIcons.Palette.CalendarView"
                  tooltip="A control for setting the element’s value to a string representing a date"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="String"
+                          tooltip="The expected lower bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected lower bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>A valid full-date as defined in [RFC 3339], with the additional qualification that the year component is four or more digits representing a number greater than 0.
+                            <p>
+                            Example:<br>
+                            <code>1996-12-19</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="max" displayName="Maximum" type="String"
+                          tooltip="The expected upper bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected upper bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>A valid full-date as defined in [RFC 3339], with the additional qualification that the year component is four or more digits representing a number greater than 0.
+                            <p>
+                            Example:<br>
+                            <code>1996-12-19</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="step" displayName="Step Size" type="Float"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1620,12 +2227,103 @@
         <palette title="Month Input Control" icon="CordovaIcons.Palette.CalendarView"
                  tooltip="A control for setting the element’s value to a string representing a month"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"
+                          tooltip="A string representing a month.">
+                    <javadoc>
+                        <![CDATA[
+                            A string representing a month.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>Four or more digits representing a number greater than 0.</li>
+                            <li>The literal string "-".</li>
+                            <li>Two digits, representing the month month, in the range 1 ≤ month, ≤ 12.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1996-12</code>
+                        ]]>
+                    </javadoc>
+                </property>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="String"
+                          tooltip="The expected lower bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected lower bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>Four or more digits representing a number greater than 0.</li>
+                            <li>The literal string "-".</li>
+                            <li>Two digits, representing the month month, in the range 1 ≤ month, ≤ 12.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1996-12</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="max" displayName="Maximum" type="String"
+                          tooltip="The expected upper bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected upper bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>Four or more digits representing a number greater than 0.</li>
+                            <li>The literal string "-".</li>
+                            <li>Two digits, representing the month month, in the range 1 ≤ month, ≤ 12.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1996-12</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="step" displayName="Step Size" type="Float"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1636,19 +2334,98 @@
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           tag="input"
-          type="month">
+          type="time">
 
         <presentation title=" - &quot;%name%&quot;"/>
 
         <palette title="Time Input Control" icon="CordovaIcons.Palette.TimePicker"
                  tooltip="A control for setting the element’s value to a string representing a time (with no timezone information)"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"
+                          tooltip="A string representing a time (with no timezone information).">
+                    <javadoc>
+                        <![CDATA[
+                            A string representing a time (with no timezone information).<br>
+                            <p>
+                            <b>Value:</b>A valid partial-time as defined in [RFC 3339].
+                            <p>
+                            Examples:<br>
+                            <code>23:20:50.52</code><br>
+                            <code>17:39:57</code>
+                        ]]>
+                    </javadoc>
+                </property>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="String"
+                          tooltip="The expected lower bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected lower bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>A valid partial-time as defined in [RFC 3339].
+                            <p>
+                            Examples:<br>
+                            <code>23:20:50.52</code><br>
+                            <code>17:39:57</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="max" displayName="Maximum" type="String"
+                          tooltip="The expected upper bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected upper bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>A valid partial-time as defined in [RFC 3339].
+                            <p>
+                            Examples:<br>
+                            <code>23:20:50.52</code><br>
+                            <code>17:39:57</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="step" displayName="Step Size" type="Float"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1666,12 +2443,103 @@
         <palette title="Week Input Control" icon="CordovaIcons.Palette.CalendarView"
                  tooltip="A control for setting the element’s value to a string representing a week"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"
+                          tooltip="A string representing a week.">
+                    <javadoc>
+                        <![CDATA[
+                            A string representing a week.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>Four or more digits representing year year, where year > 0.</li>
+                            <li>The literal string "-W".</li>
+                            <li>Two digits, representing the week week, in the range 1 ≤ week ≤ maxweek, where maxweek is either 52 or 53, depending on the particular year.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1996-W16</code>
+                        ]]>
+                    </javadoc>
+                </property>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="String"
+                          tooltip="The expected lower bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected lower bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>Four or more digits representing year year, where year > 0.</li>
+                            <li>The literal string "-W".</li>
+                            <li>Two digits, representing the week week, in the range 1 ≤ week ≤ maxweek, where maxweek is either 52 or 53, depending on the particular year.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1996-W16</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="max" displayName="Maximum" type="String"
+                          tooltip="The expected upper bound for the element’s value.">
+                    <javadoc>
+                        <![CDATA[
+                            The expected upper bound for the element’s value.<br>
+                            <p>
+                            <b>Value:</b>The following parts, in exactly the following order:
+                            <ol>
+                            <li>Four or more digits representing year year, where year > 0.</li>
+                            <li>The literal string "-W".</li>
+                            <li>Two digits, representing the week week, in the range 1 ≤ week ≤ maxweek, where maxweek is either 52 or 53, depending on the particular year.</li>
+                            </ol>
+                            <p>
+                            Example:<br>
+                            <code>1996-W16</code>
+                        ]]>
+                    </javadoc>
+                </property>
+                <property name="step" displayName="Step Size" type="Float"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1689,12 +2557,55 @@
         <palette title="Number Input Control" icon="CordovaIcons.Palette.NumberPicker"
                  tooltip="A control for setting the element’s value to a string representing a week"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required placeholder"
-                expert="list"
-                />
+        <properties inplace="placeholder">
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="Flaot"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="Float"
+                          tooltip="The expected lower bound for the element’s value."/>
+                <property name="max" displayName="Maximum" type="Float"
+                          tooltip="The expected upper bound for the element’s value."/>
+                <property name="step" displayName="Step Size" type="Float"/>
+                <property name="placeholder" displayName="Placeholder Text" type="String"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1712,12 +2623,54 @@
         <palette title="Number-range Input Control" icon="CordovaIcons.Palette.Dummy"
                  tooltip="An imprecise control for setting the element’s value to a string representing a number"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete min max step readonly required"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="Flaot"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="Float"
+                          tooltip="The expected lower bound for the element’s value."/>
+                <property name="max" displayName="Maximum" type="Float"
+                          tooltip="The expected upper bound for the element’s value."/>
+                <property name="step" displayName="Step Size" type="Float"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1735,12 +2688,55 @@
         <palette title="Email Input Control" icon="CordovaIcons.Palette.Dummy"
                  tooltip="A control for editing a list of e-mail addresses given in the element’s value"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size multiple"
-                expert="list pattern"
-                />
+        <properties inplace="placeholder">
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="maxlength" displayName="Max Length" type="Integer"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="size" displayName="Size" type="Integer"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="placeholder" displayName="Placeholder Text" type="String"/>
+                <property name="multiple" displayName="Multiple Addresses" type="Empty"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+                <property name="pattern" displayName="Pattern" type="String"
+                          tooltip="Specifies a regular expression against which a UA is meant to check the value of the control represented by its element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1758,12 +2754,54 @@
         <palette title="URL Input Control" icon="CordovaIcons.Palette.WebView"
                  tooltip="A control for editing an absolute URL given in the element’s value"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size"
-                expert="list pattern"
-                />
+        <properties inplace="placeholder">
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="maxlength" displayName="Max Length" type="Integer"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="size" displayName="Size" type="Integer"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="placeholder" displayName="Placeholder Text" type="String"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+                <property name="pattern" displayName="Pattern" type="String"
+                          tooltip="Specifies a regular expression against which a UA is meant to check the value of the control represented by its element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1781,12 +2819,56 @@
         <palette title="Search Input Control" icon="CordovaIcons.Palette.SearchView"
                  tooltip="A one-line plain-text edit control for entering one or more search terms"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size"
-                expert="list pattern dirname"
-                />
+        <properties inplace="placeholder">
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="maxlength" displayName="Max Length" type="Integer"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="size" displayName="Size" type="Integer"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="placeholder" displayName="Placeholder Text" type="String"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+                <property name="pattern" displayName="Pattern" type="String"
+                          tooltip="Specifies a regular expression against which a UA is meant to check the value of the control represented by its element."/>
+                <property name="dirname" displayName="Directionality" type="String"
+                          tooltip="Enables submission of a value for the directionality of the element, and gives the name of the field that contains that value."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1804,12 +2886,54 @@
         <palette title="Phone Number Input Control" icon="CordovaIcons.Palette.DialerFilter"
                  tooltip="A one-line plain-text edit control for entering a telephone number"/>
 
-        <properties
-                inplace="placeholder"
-                important="name type value"
-                normal="disabled form autofocus autocomplete maxlength step readonly required placeholder size"
-                expert="list pattern"
-                />
+        <properties inplace="placeholder">
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="maxlength" displayName="Max Length" type="Integer"/>
+                <property name="readonly" displayName="Read-only" type="Empty"/>
+                <property name="size" displayName="Size" type="Integer"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="required" displayName="Required" type="Empty"/>
+                <property name="placeholder" displayName="Placeholder Text" type="String"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+                <property name="pattern" displayName="Pattern" type="String"
+                          tooltip="Specifies a regular expression against which a UA is meant to check the value of the control represented by its element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1827,12 +2951,47 @@
         <palette title="Color Selection Control" icon="CordovaIcons.Palette.SurfaceView"
                  tooltip="A color-well control, for setting the element’s value to a string representing a simple color"/>
 
-        <properties
-                inplace=""
-                important="name type value"
-                normal="disabled form autofocus autocomplete"
-                expert="list"
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="text" displayName="Text Box"/>
+                    <enum-item name="password" displayName="Password Input"/>
+                    <enum-item name="email" displayName="E-Mail Input"/>
+                    <enum-item name="url" displayName="URL Input"/>
+                    <enum-item name="search" displayName="Search Field"/>
+                    <enum-item name="checkbox" displayName="Check Box"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                    <enum-item name="button" displayName="Standard Button"/>
+                    <enum-item name="submit" displayName="Submit Button"/>
+                    <enum-item name="reset" displayName="Reset Button"/>
+                    <enum-item name="image" displayName="Image Button"/>
+                    <enum-item name="file" displayName="File Chooser"/>
+                    <enum-item name="color" displayName="Color Chooser"/>
+                    <enum-item name="datetime" displayName="Date/Time Chooser (w/o time zone)"/>
+                    <enum-item name="datetime-local" displayName="Date/Time Chooser (w/ Time Zone)"/>
+                    <enum-item name="date" displayName="Date Chooser"/>
+                    <enum-item name="month" displayName="Month Chooser"/>
+                    <enum-item name="week" displayName="Week Chooser"/>
+                    <enum-item name="time" displayName="Time Chooser"/>
+                    <enum-item name="number" displayName="Numeric Input (single)"/>
+                    <enum-item name="range" displayName="Numeric Input (range)"/>
+                    <enum-item name="tel" displayName="Phone Number Input"/>
+                    <enum-item name="hidden" displayName="(Hidden Value)"/>
+                </property>
+                <property name="value" displayName="Value" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+                <property name="autocomplete" displayName="Enable Auto Completion" type="OnOff"/>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+            </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1849,12 +3008,38 @@
         <palette title="Inserted Text" icon="CordovaIcons.Palette.TextView"
                  tooltip="A range of text that has been inserted (added) to a document"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal="cite datetime"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <normal>
+                <property name="cite" displayName="Citation Source" type="String"
+                          tooltip="The address of a document that explains why the text was added."/>
+                <property name="datetime" displayName="Date/Time" type="String"
+                          tooltip="The date and time when the text was added.">
+                    <javadoc>
+                        <![CDATA[
+                            The date and time when the text was added.
+                            <p>
+                            <b>Value:</b>A valid date-time as defined in [RFC 3339], with these additional qualifications:
+                            <ul>
+                            <li>the literal letters T and Z in the date/time syntax must always be uppercase</li>
+                            <li>the date-fullyear production is instead defined as four or more digits representing a number greater than 0</li>
+                            </ul>
+                            <p>
+                            <b>Examples:</b><br>
+                            <code>1990-12-31T23:59:60Z</code><br>
+                            <code>1996-12-19T16:39:57-08:00</code>
+                            <p>
+                            <b>Value:</b>A valid full-date as defined in [RFC 3339], with the additional qualification that the year component is four or more digits representing a number greater than 0.
+                            <p>
+                            <b>Example:</b><br>
+                            <code>1996-12-19</code>
+                        ]]>
+                    </javadoc>
+                </property>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1871,12 +3056,11 @@
         <palette title="Keyboard Typed Text" icon="CordovaIcons.Palette.TextView"
                  tooltip="A range of text that is marked up as a example for typed text, typically set in monospaced font"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1893,12 +3077,22 @@
         <palette title="Key-pair Generator Control" icon="CordovaIcons.Palette.Dummy"
                  tooltip="A control for generating a public-private key pair and for submitting the public key from that key pair"/>
 
-        <properties
-                inplace=""
-                important="name"
-                normal="challenge keytype autofocus disabled form"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+            <normal>
+                <property name="challenge" displayName="Challenge" type="String"
+                          tooltip="A challenge string that is submitted along with the public key."/>
+                <property name="keytype" displayName="Key Type" type="Enum"
+                          tooltip="The type of key generated.">
+                    <enum-item name="rsa" displayName="RSA"/>
+                </property>
+                <property name="autofocus" displayName="Auto Focus" type="Empty"/>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1915,12 +3109,15 @@
         <palette title="Label" icon="CordovaIcons.Palette.TextView"
                  tooltip="A caption for a form control"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal="for form"
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <normal>
+                <property name="for" displayName="Label for" type="String"/>
+                <property name="form" displayName="Associated Form" type="String"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1937,12 +3134,11 @@
         <palette title="Legend" icon="CordovaIcons.Palette.TextView"
                  tooltip="A title or explanatory caption for the rest of the contents of the legend element’s parent element"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -1959,34 +3155,14 @@
         <palette title="List Item" icon="CordovaIcons.Palette.TwoLineListItem"
                  tooltip="A list item of either an ordered or an unordered list"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert="value"
-                />
-
-        <creation>
-            <![CDATA[
-                <li>List Item</li>
-            ]]>
-        </creation>
-    </meta>
-
-    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
-          tag="li">
-
-        <presentation title=" - &quot;%text%&quot;"/>
-
-        <palette title="List Item" icon="CordovaIcons.Palette.TwoLineListItem"
-                 tooltip="A list item of either an ordered or an unordered list or a menu"/>
-
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert="value"
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+            <expert>
+                <property name="value" displayName="Value" type="String"/>
+            </expert>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -2003,13 +3179,6 @@
         <palette title="Main Content" icon="CordovaIcons.Palette.ViewStub"
                  tooltip="The main content"/>
 
-        <properties
-                inplace=""
-                important=""
-                normal=""
-                expert=""
-                />
-
         <creation>
             <![CDATA[
                 <main></main>
@@ -2025,12 +3194,11 @@
         <palette title="Image Map (map part)" icon="CordovaIcons.Palette.ImageView"
                  tooltip="In conjunction with any area element descendants, defines an image map"/>
 
-        <properties
-                inplace=""
-                important="name"
-                normal=""
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="name" displayName="Name" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -2050,12 +3218,11 @@
         <palette title="Marked (highlighted) Text" icon="CordovaIcons.Palette.Dummy"
                  tooltip="A run of text in one document marked or highlighted for reference purposes"/>
 
-        <properties
-                inplace="text"
-                important=""
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -2072,12 +3239,15 @@
         <palette title="Menu" icon="CordovaIcons.Palette.TabHost"
                  tooltip="A list of menu items"/>
 
-        <properties
-                inplace=""
-                important="label type"
-                normal=""
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="label" displayName="Label" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="toolbar" displayName="Toolbar"/>
+                    <enum-item name="context" displayName="Context Menu"/>
+                </property>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -2097,16 +3267,28 @@
         <palette title="Context Menu Item" icon="CordovaIcons.Palette.Dummy"
                  tooltip="An item of a custom context menu"/>
 
-        <properties
-                inplace=""
-                important="command"
-                normal="checked default disabled icon label radiogroup type"
-                expert=""
-                />
+        <properties>
+            <important>
+                <property name="label" displayName="Label" type="String"/>
+                <property name="command" displayName="Command" type="String"/>
+            </important>
+            <normal>
+                <property name="checked" displayName="Checked" type="Empty"/>
+                <property name="default" displayName="Default" type="Empty"/>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+                <property name="icon" displayName="Icon" type="String"/>
+                <property name="radiogroup" displayName="Radio Group" type="String"/>
+                <property name="type" displayName="Type" type="Enum">
+                    <enum-item name="command" displayName="Command"/>
+                    <enum-item name="checkbox" displayName="Checkbox"/>
+                    <enum-item name="radio" displayName="Radio Button"/>
+                </property>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
-                <menuitem label="Menu Item"></menuitem>
+                <menuitem label="Menu Item" type="command"></menuitem>
             ]]>
         </creation>
     </meta>
@@ -2117,12 +3299,16 @@
         <palette title="Scalar Gauge" icon="CordovaIcons.Palette.Dummy"
                  tooltip="A scalar gauge providing a measurement within a known range, or a fractional value"/>
 
-        <properties
-                inplace=""
-                important=""
-                normal="value min max low high optimum"
-                expert=""
-                />
+        <properties>
+            <normal>
+                <property name="value" displayName="Value" type="Float"/>
+                <property name="min" displayName="Minimum" type="Float"/>
+                <property name="max" displayName="Maximum" type="Float"/>
+                <property name="low" displayName="Low" type="Float"/>
+                <property name="high" displayName="High" type="Float"/>
+                <property name="optimum" displayName="Optimum" type="Float"/>
+            </normal>
+        </properties>
 
         <creation>
             <![CDATA[
@@ -2136,13 +3322,6 @@
 
         <palette title="Navigation" icon="CordovaIcons.Palette.ListView"
                  tooltip="A section of a document that links to other documents or to parts within the document itself; that is, a section of navigation links"/>
-
-        <properties
-                inplace=""
-                important=""
-                normal=""
-                expert=""
-                />
 
         <creation>
             <![CDATA[
@@ -2161,12 +3340,11 @@
         <palette title="Fallback Content for Scripts" icon="CordovaIcons.Palette.TextView"
                  tooltip="A part of text to be presented whenever the surrounding scripted control is not supported by the user's browsing/rendering engine"/>
 
-        <properties
-                inplace="text"
-                important="text"
-                normal=""
-                expert=""
-                />
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Text" type="String"/>
+            </important>
+        </properties>
 
         <creation>
             <![CDATA[
