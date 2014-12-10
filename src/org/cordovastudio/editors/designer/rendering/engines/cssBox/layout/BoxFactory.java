@@ -735,9 +735,15 @@ public class BoxFactory {
                     } else if (c instanceof TermString) {
                         //Text txt = tag.getOwnerDocument().createTextNode(((TermString) c).getValue());
                         //pelem.appendChild(txt);
+
+                        /*
                         XmlText txt = new XmlTextImpl();
-                        txt.insertText(((TermString) c).getValue(), 0);
                         pelem.add(txt);
+                        txt.insertText(((TermString) c).getValue(), 0);
+                        */
+
+                        pelem.add(elementFactory.createDisplayText(((TermString) c).getValue()));
+
                     } else if (c instanceof TermURI) {
                     } else if (c instanceof TermFunction) {
                         TermFunction f = (TermFunction) c;
