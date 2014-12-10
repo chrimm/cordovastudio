@@ -2596,7 +2596,7 @@
                     <enum-item name="tel" displayName="Phone Number Input"/>
                     <enum-item name="hidden" displayName="(Hidden Value)"/>
                 </property>
-                <property name="value" displayName="Value" type="Flaot"/>
+                <property name="value" displayName="Value" type="Float"/>
             </important>
             <normal>
                 <property name="disabled" displayName="Disabled" type="Empty"/>
@@ -2662,7 +2662,7 @@
                     <enum-item name="tel" displayName="Phone Number Input"/>
                     <enum-item name="hidden" displayName="(Hidden Value)"/>
                 </property>
-                <property name="value" displayName="Value" type="Flaot"/>
+                <property name="value" displayName="Value" type="Float"/>
             </important>
             <normal>
                 <property name="disabled" displayName="Disabled" type="Empty"/>
