@@ -44,16 +44,31 @@
     <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
           tag="input"
           type="checkbox"
-          class="switch__input">
+          class="switch__input"
+          showInComponentTree="false"/>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div"
+          class="switch__toggle"
+          showInComponentTree="false"/>
+
+    <!-- ~~~~~~~~~~~~~~~~~ Range ~~~~~~~~~~~~~~~~~~ -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="input"
+          type="range"
+          class="range">
 
         <presentation title=" - &quot;%name%&quot;"/>
 
-        <palette title="Switch State" icon="CordovaIcons.Palette.CheckBox"/>
+        <palette title="Range" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="A Range Slider"/>
 
         <properties>
             <important>
                 <property name="name" displayName="Name" type="String"/>
-                <property name="value" displayName="Value" type="String"/>
+                <property name="value" displayName="Value" type="Float"/>
             </important>
             <normal>
                 <property name="disabled" displayName="Disabled" type="Empty"/>
@@ -61,20 +76,389 @@
                 <property name="readonly" displayName="Read-only" type="Empty"/>
                 <property name="autofocus" displayName="Auto Focus" type="Empty"/>
                 <property name="required" displayName="Required" type="Empty"/>
+                <property name="min" displayName="Minimum" type="Float"
+                          tooltip="The expected lower bound for the element’s value."/>
+                <property name="max" displayName="Maximum" type="Float"
+                          tooltip="The expected upper bound for the element’s value."/>
+                <property name="step" displayName="Step Size" type="Float"/>
             </normal>
+            <expert>
+                <property name="list" displayName="Associated Datalist" type="String"
+                          tooltip="The value of the id attribute on the datalist with which to associate the element."/>
+            </expert>
         </properties>
+
+        <creation>
+            <![CDATA[
+                <input type="range" value="" class="range"/>
+            ]]>
+        </creation>
+    </meta>
+
+    <!-- ~~~~~~~~~~~~ Navigation Bar ~~~~~~~~~~~~~~ -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div"
+          class="navigation-bar">
+
+        <palette title="Navigation Bar" icon="CordovaIcons.Palette.Space"
+                 tooltip="A Navigation Bar"/>
+
+        <creation>
+            <![CDATA[
+                <div class="navigation-bar">
+                    <div class="navigation-bar__left">Back</div>
+                    <div class="navigation-bar__center">Navigation Bar</div>
+                    <div class="navigation-bar__right">Edit</div>
+                </div>
+            ]]>
+        </creation>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
           layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
-          tag="div">
+          tag="div"
+          class="navigation-bar navigation-bar--transparent">
 
-        <palette title="Container" icon="CordovaIcons.Palette.Space"
-                 tooltip="A generic container for flow content that by itself does not represent anything"/>
+        <palette title="Navigation Bar (Transparent)" icon="CordovaIcons.Palette.Space"
+                 tooltip="A Navigation Bar without Background"/>
 
         <creation>
             <![CDATA[
-                <div></div>
+                <div class="navigation-bar navigation-bar--transparent">
+                    <div class="navigation-bar__left">
+                        <span class="toolbar-button--quiet navigation-bar__line-height">Back</span>
+                    </div>
+                    <div class="navigation-bar__center">Navigation Bar</div>
+                    <div class="navigation-bar__right">
+                        <span class="toolbar-button--quiet navigation-bar__line-height">Edit</span>
+                    </div>
+                </div>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div"
+          class="navigation-bar__center">
+
+        <palette title="Navigation Bar Caption" icon="CordovaIcons.Palette.TextView"
+                 tooltip="The (centered) Caption of a Navigation Bar"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="span"
+          class="navigation-bar__left">
+
+        <palette title="Left Navigation Bar Area" icon="CordovaIcons.Palette.Container"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="span"
+          class="navigation-bar__right">
+
+        <palette title="Right Navigation Bar Area" icon="CordovaIcons.Palette.Container"/>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="span"
+          class="toolbar-button--quiet navigation-bar__line-height">
+
+        <palette title="Navigation Bar Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A Button in a Navigation Bar without any Outline"/>
+
+        <creation>
+            <![CDATA[
+                <span class="toolbar-button--quiet navigation-bar__line-height">Label</span>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="span"
+          class="toolbar-button--quiet navigation-bar__line-height">
+
+        <palette title="Outlined Navigation Bar Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A Button in a Navigation Bar with Outline"/>
+
+        <creation>
+            <![CDATA[
+                <span class="toolbar-button--outline navigation-bar__line-height">Label</span>
+            ]]>
+        </creation>
+    </meta>
+
+    <!-- ~~~~~~~~~~~ Bottom Tool Bar ~~~~~~~~~~~~~~ -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div"
+          class="bottom-bar">
+
+        <palette title="Bottom Tool Bar" icon="CordovaIcons.Palette.Space"
+                 tooltip="A Tool Bar at the Bottom of the Screen"/>
+
+        <creation>
+            <![CDATA[
+                <div class="bottom-bar">
+                    <div class="bottom-bar__line-height" style="text-align:center">Bottom Toolbar</div>
+                </div>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div"
+          class="bottom-bar__line-height">
+
+        <palette title="Bottom Tool Bar Content Area" icon="CordovaIcons.Palette.Container"/>
+    </meta>
+
+    <!-- ~~~~~~~~~~~~~~ Button Bar ~~~~~~~~~~~~~~~~ -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div"
+          class="button-bar">
+
+        <palette title="Button Bar" icon="CordovaIcons.Palette.Button"
+                 tooltip="A Group of vertical Buttons"/>
+
+        <creation>
+            <![CDATA[
+                <div class="button-bar" style="width:200px;margin:7px 50px;">
+                    <div class="button-bar__item">
+                        <button class="button-bar__button">One</button>
+                    </div>
+
+                    <div class="button-bar__item">
+                        <button class="button-bar__button">Two</button>
+                    </div>
+                </div>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="div"
+          class="button-bar__item">
+
+        <palette title="Button Bar Item" icon="CordovaIcons.Palette.Button"
+                 tooltip="A Button in a Button Bar"/>
+
+        <creation>
+            <![CDATA[
+                <div class="button-bar__item">
+                    <button class="button-bar__button">One</button>
+                </div>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button-bar__button"
+          showInComponentTree="false"/>
+
+    <!-- ~~~~~~~~~~~~~~~~ Buttons ~~~~~~~~~~~~~~~~~ -->
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+                 layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+                 tag="button"
+                 class="button">
+
+        <palette title="Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A Button"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                    <button class="button">Button</button>
+                ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button--outline">
+
+        <palette title="Outlined Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="An outlined Button"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <button class="button--outline">Button</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button--light">
+
+        <palette title="Light Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A Button with a light border"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <button class="button--light">Button</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button--quiet">
+
+        <palette title="Quiet Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="An quiet Button (without Border)"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <button class="button--quiet">Button</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button--cta">
+
+        <palette title="Call-to-Action Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="A Button, emphasized to be a Call-to-Action"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <button class="button--cta">Button</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button--large">
+
+        <palette title="Large Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="An oversized Button, having the full width available"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <button class="button--large">Button</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button--large--quiet">
+
+        <palette title="Large Quiet Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="An oversized Button, having the full width available, without any border"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <button class="button--large--quiet">Button</button>
+            ]]>
+        </creation>
+    </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
+          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          tag="button"
+          class="button--large--cta">
+
+        <palette title="Large CTA Button" icon="CordovaIcons.Palette.Button"
+                 tooltip="An oversized Call-to-Action Button, having the full width available"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+            <normal>
+                <property name="disabled" displayName="Disabled" type="Empty"/>
+            </normal>
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <button class="button--large--cta">Button</button>
             ]]>
         </creation>
     </meta>
