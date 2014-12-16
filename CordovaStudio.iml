@@ -9,10 +9,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="guava-18.0" level="project" />
     <orderEntry type="library" exported="" name="antlr-runtime-3.5.2" level="project" />
     <orderEntry type="library" exported="" name="nekohtml-1.9.21" level="project" />
     <orderEntry type="library" exported="" name="slf4j-api-1.7.7" level="project" />
-    <orderEntry type="library" exported="" name="slf4j-simple-1.7.7" level="project" />
   </component>
 </module>
-
