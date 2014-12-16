@@ -22,6 +22,7 @@ import com.intellij.designer.propertyTable.editors.BooleanEditor;
 import com.intellij.designer.propertyTable.renderers.BooleanRenderer;
 import com.intellij.designer.propertyTable.renderers.LabelPropertyRenderer;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.util.KeyValue;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.xml.XmlAttribute;
 import org.cordovastudio.dom.AttributeDefinition;
@@ -49,8 +50,8 @@ public class FlagProperty extends PropertyWithNamespace implements IPropertyDeco
         super(null, name);
         myDefinition = definition;
 
-        for (String option : definition.getValues()) {
-            myOptions.add(new OptionProperty(this, option, option));
+        for (KeyValue<String, String> option : definition.getValues()) {
+            myOptions.add(new OptionProperty(this, option.getKey(), option.getKey()));
         }
     }
 

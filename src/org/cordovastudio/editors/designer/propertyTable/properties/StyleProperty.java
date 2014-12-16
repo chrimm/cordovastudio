@@ -39,7 +39,7 @@ import java.util.Collections;
 public class StyleProperty extends Property<RadViewComponent> implements IXmlAttributeLocator {
   public static final ResourceType[] STYLE_TYPES = new ResourceType[]{ResourceType.STYLE};
 
-  private final PropertyRenderer myRenderer = new ResourceRenderer(Collections.<AttributeFormat>emptySet());
+  private final PropertyRenderer myRenderer = new ResourceRenderer(Collections.<AttributeFormat>emptySet(), getName());
   private final PropertyEditor myEditor = new ResourceEditor(STYLE_TYPES, Collections.<AttributeFormat>emptySet(), null);
   private final String myJavadocText = JavadocParser.build("style", "A reference to a custom style");
 

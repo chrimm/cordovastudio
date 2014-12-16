@@ -29,7 +29,7 @@ import java.util.EnumSet;
  * @author Alexander Lobas
  */
 public class CompoundDimensionProperty extends CompoundProperty {
-  private ResourceRenderer myRenderer = new ResourceRenderer(EnumSet.of(AttributeFormat.Dimension)) {
+  private ResourceRenderer myRenderer = new ResourceRenderer(EnumSet.of(AttributeFormat.Dimension), getName()) {
     @Override
     protected void formatValue(RadComponent component, String value) {
       myColoredComponent.append("[");

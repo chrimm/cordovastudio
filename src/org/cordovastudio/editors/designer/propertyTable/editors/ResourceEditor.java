@@ -55,6 +55,7 @@ import java.util.Set;
  * @author Alexander Lobas
  */
 public class ResourceEditor extends PropertyEditor {
+    private final String myPropertyName;
     private final ResourceType[] myTypes;
     protected ComponentWithBrowseButton myEditor;
     protected RadComponent myRootComponent;
@@ -63,17 +64,30 @@ public class ResourceEditor extends PropertyEditor {
     private final Border myCheckBoxBorder = new JTextField().getBorder();
     private boolean myIgnoreCheckBoxValue;
     private String myBooleanResourceValue;
+    private AttributeFormat myBooleanFormat = null;
     private final boolean myIsDimension;
 
-    public ResourceEditor(Set<AttributeFormat> formats) {
-        this(convertTypes(formats), formats);
+    public ResourceEditor(Set<AttributeFormat> formats, String propertyName) {
+        this(convertTypes(formats), formats, propertyName);
     }
 
-    public ResourceEditor(@Nullable ResourceType[] types, Set<AttributeFormat> formats) {
+    public ResourceEditor(@Nullable ResourceType[] types, Set<AttributeFormat> formats, String propertyName) {
         myTypes = types;
         myIsDimension = formats.contains(AttributeFormat.Dimension);
+        myPropertyName = propertyName;
 
-        if (formats.contains(AttributeFormat.Boolean)) {
+        if (formats.contains(AttributeFormat.Boolean)
+                || formats.contains(AttributeFormat.OnOff)
+                || formats.contains(AttributeFormat.Empty)) {
+
+            for(AttributeFormat format : formats) {
+                if (formats.contains(AttributeFormat.Boolean)
+                        || formats.contains(AttributeFormat.OnOff)
+                        || formats.contains(AttributeFormat.Empty)) {
+                    myBooleanFormat = format;
+                    break;
+                }
+            }
             myCheckBox = new JCheckBox();
             myEditor = new ComponentWithBrowseButton<JCheckBox>(myCheckBox, null) {
                 @Override
@@ -210,7 +224,9 @@ public class ResourceEditor extends PropertyEditor {
 
             try {
                 myIgnoreCheckBoxValue = true;
-                myCheckBox.setSelected(Boolean.parseBoolean(value));
+                myCheckBox.setSelected(value.equalsIgnoreCase("true")   // Boolean Properties (e.g. foo="true" or foo="false")
+                        || value.equalsIgnoreCase("on")                 // OnOff Properties (e.g. foo="on" or foo="off")
+                        || value.equalsIgnoreCase(myPropertyName));     // Empty Properties (e.g. foo="foo" or not existent)
             } finally {
                 myIgnoreCheckBoxValue = false;
             }
@@ -244,7 +260,16 @@ public class ResourceEditor extends PropertyEditor {
     public Object getValue() {
         JTextField text = getComboText();
         if (text == null) {
-            return myBooleanResourceValue == null ? Boolean.toString(myCheckBox.isSelected()) : myBooleanResourceValue;
+            boolean checked = myBooleanResourceValue == null ? myCheckBox.isSelected() : Boolean.parseBoolean(myBooleanResourceValue);
+
+            switch(myBooleanFormat) {
+                case Boolean:
+                    return Boolean.toString(checked);
+                case OnOff:
+                    return (checked) ? "on" : "off";
+                case Empty:
+                    return (checked) ? myPropertyName : null;
+            }
         }
         String value = text.getText();
         if (value == StringsComboEditor.UNSET || StringUtil.isEmpty(value)) {

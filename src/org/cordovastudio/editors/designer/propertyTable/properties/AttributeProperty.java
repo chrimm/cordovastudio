@@ -86,15 +86,15 @@ public class AttributeProperty extends PropertyWithNamespace implements IXmlAttr
     }
 
     protected PropertyRenderer createResourceRenderer(AttributeDefinition definition, Set<AttributeFormat> formats) {
-        return new ResourceRenderer(formats);
+        return new ResourceRenderer(formats, definition.getName());
     }
 
     protected PropertyEditor createResourceEditor(AttributeDefinition definition, Set<AttributeFormat> formats) {
         String type = DomUtil.SPECIAL_RESOURCE_TYPES.get(definition.getName());
         if (type == null) {
-            return new ResourceEditor(formats);
+            return new ResourceEditor(formats, definition.getName());
         }
-        return new ResourceEditor(new ResourceType[]{ResourceType.getEnum(type)}, formats);
+        return new ResourceEditor(new ResourceType[]{ResourceType.getEnum(type)}, formats, definition.getName());
     }
 
     @Override

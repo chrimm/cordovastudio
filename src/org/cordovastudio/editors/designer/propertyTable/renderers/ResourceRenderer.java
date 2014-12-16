@@ -18,22 +18,17 @@ package org.cordovastudio.editors.designer.propertyTable.renderers;
 import com.intellij.designer.model.PropertiesContainer;
 import com.intellij.designer.model.PropertyContext;
 import com.intellij.designer.propertyTable.renderers.BooleanRenderer;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.ArrayUtil;
 import org.cordovastudio.dom.AttributeFormat;
 import org.cordovastudio.editors.designer.model.RadComponent;
-import org.cordovastudio.editors.designer.model.RadModelBuilder;
-import org.cordovastudio.modules.CordovaFacet;
-import org.cordovastudio.utils.CordovaStudioUtils;
 import org.cordovastudio.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,11 +40,17 @@ public class ResourceRenderer extends AbstractResourceRenderer<String> {
 
   private BooleanRenderer myBooleanRenderer;
   private final Set<AttributeFormat> myFormats;
+  private final String myProperyName;
 
-  public ResourceRenderer(Set<AttributeFormat> formats) {
-    if (formats.contains(AttributeFormat.Boolean)) {
+  public ResourceRenderer(Set<AttributeFormat> formats, String propertyName) {
+    myProperyName = propertyName;
+
+    if (formats.contains(AttributeFormat.Boolean)
+            || formats.contains(AttributeFormat.Empty)
+            || formats.contains(AttributeFormat.OnOff)) {
       myBooleanRenderer = new BooleanRenderer();
     }
+
     myFormats = formats;
   }
 
@@ -61,8 +62,8 @@ public class ResourceRenderer extends AbstractResourceRenderer<String> {
                                  boolean selected,
                                  boolean hasFocus) {
     String value = (String)object;
-    if (myBooleanRenderer != null && (StringUtil.isEmpty(value) || "false".equals(value) || "true".equals(value))) {
-      return myBooleanRenderer.getComponent(container, context, "true".equals(value), selected, hasFocus);
+    if (myBooleanRenderer != null && (StringUtil.isEmpty(value) || "false".equalsIgnoreCase(value) || "true".equals(value) || "on".equalsIgnoreCase(value) || "off".equalsIgnoreCase(value) || myProperyName.equalsIgnoreCase(value))) {
+      return myBooleanRenderer.getComponent(container, context, ("true".equalsIgnoreCase(value) || "on".equalsIgnoreCase(value) || myProperyName.equalsIgnoreCase(value)), selected, hasFocus);
     }
 
     return super.getComponent(container, context, object, selected, hasFocus);
