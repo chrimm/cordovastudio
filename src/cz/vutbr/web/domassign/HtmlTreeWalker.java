@@ -18,6 +18,7 @@ package cz.vutbr.web.domassign;
 
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.xml.XmlComment;
 import com.intellij.psi.xml.XmlDocument;
 
 /**
@@ -73,12 +74,12 @@ public class HtmlTreeWalker {
         if (currentElement == null)
             return null;
 
-        PsiElement tag = currentElement.getParent();
+        PsiElement node = currentElement.getParent();
 
-        if (tag != null)
-            currentElement = tag;
+        if (node != null)
+            currentElement = node;
 
-        return tag;
+        return node;
 
     }
 
@@ -90,28 +91,49 @@ public class HtmlTreeWalker {
         if (currentElement == null)
             return null;
 
-        PsiElement tag = currentElement.getFirstChild();
+        PsiElement[] children = currentElement.getChildren();
 
-        if (tag != null)
-            currentElement = tag;
+        PsiElement node = null;
 
-        return tag;
+        for(PsiElement child : children) {
+           if(!(child instanceof XmlComment)) {
+               node = child;
+               break;
+           }
+        }
+        //PsiElement node = currentElement.getFirstChild();
+
+
+        if (node != null)
+            currentElement = node;
+
+        return node;
     }
 
     /**
-     * Return the last child Node from the current nod. If result is not null, set the current Node.
+     * Return the last child Node from the current node. If result is not null, set the current Node.
      */
     public PsiElement lastChild() {
 
         if (currentElement == null)
             return null;
 
-        PsiElement tag = currentElement.getLastChild();
+        PsiElement[] children = currentElement.getChildren();
 
-        if (tag != null)
-            currentElement = tag;
+        PsiElement node = null;
 
-        return tag;
+        for(int i = children.length - 1; i >= 0; i--) {
+            if(!(children[i] instanceof XmlComment)) {
+                node = children[i];
+                break;
+            }
+        }
+        //PsiElement node = currentElement.getLastChild();
+
+        if (node != null)
+            currentElement = node;
+
+        return node;
     }
 
     /**
@@ -123,6 +145,13 @@ public class HtmlTreeWalker {
             return null;
 
         PsiElement node = currentElement.getPrevSibling();
+
+        /* Skip comment siblings */
+        while(node instanceof XmlComment) {
+            node = node.getPrevSibling();
+        }
+
+        //PsiElement node = currentElement.getPrevSibling();
 
         if (node != null)
             currentElement = node;
@@ -138,12 +167,19 @@ public class HtmlTreeWalker {
         if (currentElement == null)
             return null;
 
-        PsiElement tag = currentElement.getNextSibling();
+        PsiElement node = currentElement.getNextSibling();
 
-        if (tag != null)
-            currentElement = tag;
+        /* Skip comment siblings */
+        while(node instanceof XmlComment) {
+            node = node.getNextSibling();
+        }
 
-        return tag;
+        //PsiElement node = currentElement.getNextSibling();
+
+        if (node != null)
+            currentElement = node;
+
+        return node;
     }
 
     /**
@@ -196,6 +232,59 @@ public class HtmlTreeWalker {
         if (currentElement == null)
             return null;
 
+        PsiElement result = firstChild();
+
+        if(result != null)
+            return result;
+
+        result = nextSibling();
+
+        if(result != null)
+            return result;
+
+        PsiElement parent = currentElement.getParent();
+
+        while (parent != null && !(parent instanceof XmlDocument)) {
+            result = parent.getNextSibling();
+
+            while(result instanceof XmlComment) {
+                result = result.getNextSibling();
+            }
+
+            if (result != null) {
+                currentElement = result;
+                return result;
+            } else {
+                parent = (PsiElement) parent.getParent();
+            }
+        }
+
+/*
+        PsiElement parent = currentElement.getParent();
+
+        while (parent != null && !(parent instanceof XmlDocument)) {
+
+            PsiElement[] siblings = parent.getParent().getChildren();
+
+            for(int i = parent.getStartOffsetInParent() + 1; i < siblings.length; i++) {
+                if(!(siblings[i] instanceof XmlComment)) {
+                    result = siblings[i];
+                    break;
+                }
+            }
+
+            //result = parent.getNextSibling();
+
+            if (result != null) {
+                currentElement = result;
+                return result;
+            } else {
+                parent = (PsiElement) parent.getParent();
+            }
+        }
+*/
+
+        /*
         PsiElement result = currentElement.getFirstChild();
 
         if (result != null) {
@@ -222,6 +311,8 @@ public class HtmlTreeWalker {
                 parent = (PsiElement) parent.getParent();
             }
         }
+
+        */
 
         // end , return null
         return null;

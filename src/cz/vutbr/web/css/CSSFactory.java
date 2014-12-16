@@ -581,7 +581,7 @@ public final class CSSFactory {
             return tag.getName().equalsIgnoreCase("link")
                     && !"".equals(tag.getAttributeValue("rel"))
                     && (tag.getAttributeValue("rel").toLowerCase().contains("stylesheet"))
-                    && ("".equals(tag.getAttributeValue("type")) || "text/css".equalsIgnoreCase(tag.getAttributeValue("type")))
+                    && (tag.getAttribute("type") == null || "".equals(tag.getAttributeValue("type")) || "text/css".equalsIgnoreCase(tag.getAttributeValue("type")))
                     && isAllowedMedia(tag, media);
         }
 

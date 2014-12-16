@@ -106,13 +106,16 @@ public class CssBoxRenderer extends RenderingEngine {
                 in another way.
          */
 
+
         domAnalyzer.attributesToStyles(); //convert the HTML presentation attributes to inline styles
         domAnalyzer.addStyleSheet(null, CSSNorm.stdStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the standard style sheet
         domAnalyzer.addStyleSheet(null, CSSNorm.userStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the additional style sheet
         domAnalyzer.addStyleSheet(null, CSSNorm.formsStyleSheet(), DOMAnalyzer.Origin.AGENT); //render form fields using css
         domAnalyzer.addStyleSheet(null, CSSNorm.html5StdStyleSheet(), DOMAnalyzer.Origin.AGENT);
 
-        //TODO: getting styles takes quite a long time, can we omit this?
+
+        //TODO: getting styles takes quite a long time, can we omit or shorten this?
+        // May be by buffering after the first load or something?
         domAnalyzer.getStyleSheets();
 
         XmlElementFactory factory = XmlElementFactory.getInstance((Project)params.getProjectKey());

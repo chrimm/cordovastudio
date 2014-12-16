@@ -15,11 +15,11 @@
  */
 package org.cordovastudio.utils;
 
+import com.google.common.io.Files;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
-import org.apache.xerces.jaxp.DocumentBuilderImpl;
+import com.intellij.psi.xml.XmlText;
 import org.cordovastudio.GlobalConstants;
-import com.google.common.io.Files;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.*;
@@ -30,10 +30,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
-import static org.cordovastudio.GlobalConstants.*;
 import static com.google.common.base.Charsets.*;
+import static org.cordovastudio.GlobalConstants.*;
 
 /** XML Utilities */
 public class XmlUtils {
@@ -585,6 +588,15 @@ public class XmlUtils {
         } else {
             return Integer.toString((int) value);
         }
+    }
+
+    public static boolean isComment(@NotNull XmlText xmlText) {
+        return isComment(xmlText.getText());
+    }
+
+    public static boolean isComment(@NotNull String xmlText) {
+        String trimmedText = xmlText.trim();
+        return trimmedText.startsWith(XML_COMMENT_BEGIN) && trimmedText.endsWith(XML_COMMENT_END);
     }
 
     public static class ValueHelper {

@@ -240,6 +240,10 @@ public class BoxFactory {
 
         boolean istext = false;
         if (subTreeRoot instanceof XmlText) {
+            /* Omit Comments */
+            //if(XmlUtils.isComment((XmlText)subTreeRoot)) {
+            //    return;
+            //}
             newbox = createTextBox((XmlText) subTreeRoot, stat);
             istext = true;
         } else {
