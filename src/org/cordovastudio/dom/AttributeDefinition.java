@@ -16,7 +16,7 @@
  */
 package org.cordovastudio.dom;
 
-import com.intellij.util.ArrayUtil;
+import com.intellij.openapi.util.KeyValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,8 +28,8 @@ import java.util.*;
 public class AttributeDefinition {
     private final String myName;
     private final Set<AttributeFormat> myFormats = EnumSet.noneOf(AttributeFormat.class);
-    private final List<String> myValues = new ArrayList<String>();
-    private final Map<String, String> myStyleable2DocValue = new HashMap<String, String>();
+    private final Vector<KeyValue<String, String>> myValues = new Vector<>();
+    private final Map<String, String> myStyleable2DocValue = new HashMap<>();
     private String myGlobalDocValue;
 
     public AttributeDefinition(@NotNull String name) {
@@ -41,8 +41,8 @@ public class AttributeDefinition {
         myFormats.addAll(formats);
     }
 
-    public void addValue(@NotNull String name) {
-        myValues.add(name);
+    public void addValue(@NotNull String name, @NotNull String displayName) {
+        myValues.add(new KeyValue<>(name, displayName));
     }
 
     @NotNull
@@ -60,8 +60,8 @@ public class AttributeDefinition {
     }
 
     @NotNull
-    public String[] getValues() {
-        return ArrayUtil.toStringArray(myValues);
+    public Vector<KeyValue<String, String>> getValues() {
+        return myValues;
     }
 
     @Nullable

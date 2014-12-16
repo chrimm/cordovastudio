@@ -41,6 +41,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+import static org.cordovastudio.GlobalConstants.*;
+
 /**
  * @author Alexander Lobas
  */
@@ -154,8 +156,14 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
-                        Collections.singletonList(type)));
+                AttributeDefinition definition = new AttributeDefinition(name, Collections.singletonList(type));
+
+                List<Element> enumItems =  element.getChildren(TAG_ENUM);
+                for(Element enumItem : enumItems) {
+                    definition.addValue(enumItem.getAttributeValue(ATTR_NAME), enumItem.getAttributeValue(ATTR_DISPLAYNAME));
+                }
+
+                AttributeProperty property = new AttributeProperty(displayName, definition);
 
                 property.setImportant(true);
 

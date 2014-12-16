@@ -468,6 +468,10 @@
     <palette>
         <group name="Onsen UI Widgets">
             <item tag="label" class="switch"/>
+            <item tag="input" class="range" type="range"/>
+            <item tag="div" class="navigation-bar"/>
+            <item tag="div" class="navigation-bar navigation-bar--transparent"/>
+            <item tag="button" class="button"/>
         </group>
     </palette>
 </meta-model>

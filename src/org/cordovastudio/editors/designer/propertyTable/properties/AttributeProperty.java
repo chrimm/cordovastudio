@@ -35,8 +35,8 @@ import org.cordovastudio.editors.designer.model.ResourceType;
 import org.cordovastudio.editors.designer.propertyTable.IXmlAttributeLocator;
 import org.cordovastudio.editors.designer.propertyTable.JavadocParser;
 import org.cordovastudio.editors.designer.propertyTable.PropertyWithNamespace;
+import org.cordovastudio.editors.designer.propertyTable.editors.EnumComboEditor;
 import org.cordovastudio.editors.designer.propertyTable.editors.ResourceEditor;
-import org.cordovastudio.editors.designer.propertyTable.editors.StringsComboEditor;
 import org.cordovastudio.editors.designer.propertyTable.editors.TextEditorWrapper;
 import org.cordovastudio.editors.designer.propertyTable.renderers.ResourceRenderer;
 import org.jetbrains.annotations.NotNull;
@@ -72,7 +72,7 @@ public class AttributeProperty extends PropertyWithNamespace implements IXmlAttr
             }
             if (formats.contains(AttributeFormat.Enum)) {
                 myRenderer = new LabelPropertyRenderer(null);
-                myEditor = new StringsComboEditor(definition.getValues());
+                myEditor = new EnumComboEditor(definition.getValues());
                 return;
             }
         }
@@ -92,9 +92,9 @@ public class AttributeProperty extends PropertyWithNamespace implements IXmlAttr
     protected PropertyEditor createResourceEditor(AttributeDefinition definition, Set<AttributeFormat> formats) {
         String type = DomUtil.SPECIAL_RESOURCE_TYPES.get(definition.getName());
         if (type == null) {
-            return new ResourceEditor(formats, definition.getValues());
+            return new ResourceEditor(formats);
         }
-        return new ResourceEditor(new ResourceType[]{ResourceType.getEnum(type)}, formats, definition.getValues());
+        return new ResourceEditor(new ResourceType[]{ResourceType.getEnum(type)}, formats);
     }
 
     @Override

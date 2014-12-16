@@ -93,7 +93,7 @@ public class AttributeDefinitionsImpl implements AttributeDefinitions {
     }
     List<AttributeFormat> parsedFormats;
     List<AttributeFormat> formats = new ArrayList<AttributeFormat>();
-    String format = tag.getAttributeValue(ATTR_FORMAT);
+    String format = tag.getAttributeValue(ATTR_TYPE);
     if (format != null) {
       parsedFormats = parseAttrFormat(format);
       if (parsedFormats != null) formats.addAll(parsedFormats);

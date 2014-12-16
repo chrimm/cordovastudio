@@ -81,19 +81,21 @@ public final class GlobalConstants {
      * Tags
      */
     public static final String VIEW_TAG = "view";
+    public static final String TAG_ENUM = "enum-item";
 
     /*
-     * HTML Tag Attributes
+     * Tag Attributes
      */
     public static final String ATTR_ID = "id";
     public static final String ATTR_NAME = "name";
+    public static final String ATTR_DISPLAYNAME = "displayName";
     public static final String ATTR_CLASS = "class";
     public static final String ATTR_STYLE = "style";
     public static final String ATTR_TITLE = "title";
     public static final String ATTR_TYPE = "type";
 
     /*
-     * Tag values
+     * Tag Values
      */
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
@@ -274,10 +276,6 @@ public final class GlobalConstants {
     public static final String TAG_ATTR = "attr";
     /** @deprecated Old Android artifact. Will be removed. */
     public static final String TAG_DECLARE_STYLEABLE = "declare-styleable";
-    /** @deprecated Old Android artifact. Will be removed. */
-    public static final String ATTR_FORMAT = "format";
-    /** @deprecated Old Android artifact. Will be removed. */
-    public static final String TAG_ENUM = "enum";
     /** @deprecated Old Android artifact. Will be removed. */
     public static final String TAG_FLAG = "flag";
     /** @deprecated Old Android artifact. Will be removed. */
