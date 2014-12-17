@@ -32,6 +32,10 @@ public class CordovaIcons {
         return IconLoader.getIcon(ICON_DIRECTORY + iconFileName);
     }
 
+    public static class Actions {
+        public static final Icon Storyboard = loadIcon("actionsShowStoryboard_16.png"); // 16x16
+    }
+
     public static class Files {
         public  static final Icon CordovaFile = loadIcon("filesCordovaFile_16.png"); //16x16
     }
@@ -81,6 +85,11 @@ public class CordovaIcons {
 
         public static final Icon NormalRender = loadIcon("toolbarNormalRender_16.png"); // 16x16
         public static final Icon ViewportRender = loadIcon("toolbarViewportRender_16.png"); // 16x16
+
+        public static final Icon ZoomActual = loadIcon("toolbarZoomActual_16.png"); // 16x16
+        public static final Icon ZoomFit = loadIcon("toolbarZoomFit_16.png"); // 16x16
+        public static final Icon ZoomIn = loadIcon("toolbarZoomIn_16.png"); // 16x16
+        public static final Icon ZoomOut = loadIcon("toolbarZoomOut_16.png"); // 16x16
     }
 
     public static class Palette {

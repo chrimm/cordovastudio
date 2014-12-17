@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/actions/ShowStoryboardEditorAction.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/annotations/Property.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/annotations/Transient.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/actionsShowStoryboard_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomActual_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomFit_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomIn_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomOut_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/dialogs/wizards/NewTemplateObjectWizard.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/propertyTable/properties/StyleProperty.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/Assoc.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/CordovaStoryboardEditor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/CordovaStoryboardEditorProvider.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/RenderingParameters.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/StoryboardView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/Transform.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/Utilities.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/io/ReflectiveHandler.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/io/XMLReader.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/io/XMLWriter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/macros/Analyser.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/macros/CodeGenerator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/macros/FragmentEntry.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/macros/Instantiation.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/macros/Macros.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/macros/MultiMatch.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/macros/Unifier.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/ActivityState.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/CordovaRootComponent.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/CordovaStoryboardModel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Dimension.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Entry.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/EventDispatcher.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Listener.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Locator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/MenuState.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Point.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Properties.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Selections.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Stack.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/State.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Transition.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/model/Utilities.java" charset="UTF-8" />
   </component>
 </project>

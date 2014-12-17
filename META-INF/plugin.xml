@@ -43,6 +43,7 @@
         <applicationConfigurable instance="org.cordovastudio.configuration.CordovaStudioConfigurationExtension"></applicationConfigurable>
         -->
         <fileEditorProvider implementation="org.cordovastudio.editors.designer.CordovaDesignerEditorProvider"/>
+        <fileEditorProvider implementation="org.cordovastudio.editors.storyboard.CordovaStoryboardEditorProvider" />
         <projectService serviceInterface="org.cordovastudio.editors.designer.model.ViewsMetaManager"
                         serviceImplementation="org.cordovastudio.editors.designer.model.ViewsMetaManager"/>
         <facetType implementation="org.cordovastudio.modules.CordovaFacetType"/>
@@ -75,7 +76,9 @@
     </project-components>
 
     <actions>
-        <!-- Add your actions here -->
+        <action id="Cordova.ShowStoryboardEditor" class="org.cordovastudio.actions.ShowStoryboardEditorAction">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 
 </idea-plugin>
