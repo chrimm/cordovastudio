@@ -709,7 +709,7 @@ public class StoryboardView extends JComponent {
         Map<State, CordovaRootComponent> stateToComponent = getStateComponentAssociation().keyToValue;
         for (State state : stateToComponent.keySet()) {
             CordovaRootComponent root = stateToComponent.get(state);
-            root.setLocation(myTransform.modelToView(myCordovaStoryboardModel.getStateToLocation().get(state)));
+            root.setLocation(/*myTransform.modelToView(myCordovaStoryboardModel.getStateToLocation().get(state))*/new Point(50,50));
             root.setSize(root.getPreferredSize());
         }
 

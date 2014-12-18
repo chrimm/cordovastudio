@@ -59,6 +59,10 @@ public class Utilities {
     }
 
     public static String decapitalize(String propertyName) {
+        if(propertyName != null || propertyName.length() == 0) {
+            return "";
+        }
+
         return Character.toLowerCase(propertyName.charAt(0)) + propertyName.substring(1);
     }
 

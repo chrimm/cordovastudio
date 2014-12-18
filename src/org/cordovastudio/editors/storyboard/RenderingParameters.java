@@ -25,6 +25,7 @@ import org.cordovastudio.devices.Device;
 import org.cordovastudio.devices.State;
 import org.cordovastudio.editors.designer.rendering.renderConfiguration.RenderConfiguration;
 import org.cordovastudio.modules.CordovaFacet;
+import org.cordovastudio.test.DummyDeviceFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -68,7 +69,7 @@ public class RenderingParameters {
 
     private Dimension getDeviceScreenSize1() {
         RenderConfiguration configuration = myConfiguration;
-        Device device = configuration.getDevice();
+        Device device = DummyDeviceFactory.createDummyDevice();//configuration.getDevice();
         if (device == null) {
             return ZERO_SIZE;
         }

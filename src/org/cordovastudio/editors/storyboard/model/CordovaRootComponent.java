@@ -49,7 +49,7 @@ import java.util.List;
 
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public class CordovaRootComponent extends JComponent {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     private final RenderingParameters myRenderingParameters;
     private final PsiFile myLayoutFile;
