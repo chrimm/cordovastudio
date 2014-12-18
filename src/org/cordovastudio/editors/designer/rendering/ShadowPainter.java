@@ -23,6 +23,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+import static org.cordovastudio.branding.artwork.Artwork.Shadows;
+
 public class ShadowPainter {
 
   /**
@@ -305,12 +307,12 @@ public class ShadowPainter {
    */
   @SuppressWarnings("ConstantConditions")
   public static void drawRectangleShadow(Graphics gc, int x, int y, int width, int height) {
-    assert ShadowBottomLeft != null;
-    assert ShadowBottomRight.getWidth(null) == SHADOW_SIZE;
-    assert ShadowBottomRight.getHeight(null) == SHADOW_SIZE;
+    assert Shadows.ShadowBottomLeft != null;
+    assert Shadows.ShadowBottomRight.getWidth(null) == SHADOW_SIZE;
+    assert Shadows.ShadowBottomRight.getHeight(null) == SHADOW_SIZE;
 
-    int blWidth = ShadowBottomLeft.getWidth(null);
-    int trHeight = ShadowTopRight.getHeight(null);
+    int blWidth = Shadows.ShadowBottomLeft.getWidth(null);
+    int trHeight = Shadows.ShadowTopRight.getHeight(null);
     if (width < blWidth) {
       return;
     }
@@ -318,14 +320,14 @@ public class ShadowPainter {
       return;
     }
 
-    UIUtil.drawImage(gc, ShadowBottomLeft, x, y + height, null);
-    UIUtil.drawImage(gc, ShadowBottomRight, x + width, y + height, null);
-    UIUtil.drawImage(gc, ShadowTopRight, x + width, y, null);
-    ImageUtils.drawDipImage(gc, ShadowBottom, x + ShadowBottomLeft.getWidth(null), y + height, x + width,
-                            y + height + ShadowBottom.getHeight(null), 0, 0, ShadowBottom.getWidth(null), ShadowBottom.getHeight(null),
+    UIUtil.drawImage(gc, Shadows.ShadowBottomLeft, x, y + height, null);
+    UIUtil.drawImage(gc, Shadows.ShadowBottomRight, x + width, y + height, null);
+    UIUtil.drawImage(gc, Shadows.ShadowTopRight, x + width, y, null);
+    ImageUtils.drawDipImage(gc, Shadows.ShadowBottom, x + Shadows.ShadowBottomLeft.getWidth(null), y + height, x + width,
+                            y + height + Shadows.ShadowBottom.getHeight(null), 0, 0, Shadows.ShadowBottom.getWidth(null), Shadows.ShadowBottom.getHeight(null),
                             null);
-    ImageUtils.drawDipImage(gc, ShadowRight, x + width, y + ShadowTopRight.getHeight(null), x + width + ShadowRight.getWidth(null),
-                            y + height, 0, 0, ShadowRight.getWidth(null), ShadowRight.getHeight(null), null);
+    ImageUtils.drawDipImage(gc, Shadows.ShadowRight, x + width, y + Shadows.ShadowTopRight.getHeight(null), x + width + Shadows.ShadowRight.getWidth(null),
+                            y + height, 0, 0, Shadows.ShadowRight.getWidth(null), Shadows.ShadowRight.getHeight(null), null);
   }
 
   /**
@@ -342,13 +344,13 @@ public class ShadowPainter {
    */
   @SuppressWarnings("ConstantConditions")
   public static void drawSmallRectangleShadow(Graphics gc, int x, int y, int width, int height) {
-    assert Shadow2BottomLeft != null;
-    assert Shadow2TopRight != null;
-    assert Shadow2BottomRight.getWidth(null) == SMALL_SHADOW_SIZE;
-    assert Shadow2BottomRight.getHeight(null) == SMALL_SHADOW_SIZE;
+    assert Shadows.Shadow2BottomLeft != null;
+    assert Shadows.Shadow2TopRight != null;
+    assert Shadows.Shadow2BottomRight.getWidth(null) == SMALL_SHADOW_SIZE;
+    assert Shadows.Shadow2BottomRight.getHeight(null) == SMALL_SHADOW_SIZE;
 
-    int blWidth = Shadow2BottomLeft.getWidth(null);
-    int trHeight = Shadow2TopRight.getHeight(null);
+    int blWidth = Shadows.Shadow2BottomLeft.getWidth(null);
+    int trHeight = Shadows.Shadow2TopRight.getHeight(null);
     if (width < blWidth) {
       return;
     }
@@ -356,47 +358,13 @@ public class ShadowPainter {
       return;
     }
 
-    UIUtil.drawImage(gc, Shadow2BottomLeft, x, y + height, null);
-    UIUtil.drawImage(gc, Shadow2BottomRight, x + width, y + height, null);
-    UIUtil.drawImage(gc, Shadow2TopRight, x + width, y, null);
-    ImageUtils.drawDipImage(gc, Shadow2Bottom, x + Shadow2BottomLeft.getWidth(null), y + height, x + width,
-                            y + height + Shadow2Bottom.getHeight(null), 0, 0, Shadow2Bottom.getWidth(null), Shadow2Bottom.getHeight(null),
+    UIUtil.drawImage(gc, Shadows.Shadow2BottomLeft, x, y + height, null);
+    UIUtil.drawImage(gc, Shadows.Shadow2BottomRight, x + width, y + height, null);
+    UIUtil.drawImage(gc, Shadows.Shadow2TopRight, x + width, y, null);
+    ImageUtils.drawDipImage(gc, Shadows.Shadow2Bottom, x + Shadows.Shadow2BottomLeft.getWidth(null), y + height, x + width,
+                            y + height + Shadows.Shadow2Bottom.getHeight(null), 0, 0, Shadows.Shadow2Bottom.getWidth(null), Shadows.Shadow2Bottom.getHeight(null),
                             null);
-    ImageUtils.drawDipImage(gc, Shadow2Right, x + width, y + Shadow2TopRight.getHeight(null), x + width + Shadow2Right.getWidth(null),
-                            y + height, 0, 0, Shadow2Right.getWidth(null), Shadow2Right.getHeight(null), null);
+    ImageUtils.drawDipImage(gc, Shadows.Shadow2Right, x + width, y + Shadows.Shadow2TopRight.getHeight(null), x + width + Shadows.Shadow2Right.getWidth(null),
+                            y + height, 0, 0, Shadows.Shadow2Right.getWidth(null), Shadows.Shadow2Right.getHeight(null), null);
   }
-
-  // Shadow graphics. This was generated by creating a drop shadow in
-  // Gimp, using the parameters x offset=10, y offset=10, blur radius=10,
-  // (for the small drop shadows x offset=10, y offset=10, blur radius=10)
-  // color=black, and opacity=51. These values attempt to make a shadow
-  // that is legible both for dark and light themes, on top of the
-  // canvas background (rgb(150,150,150). Darker shadows would tend to
-  // blend into the foreground for a dark holo screen, and lighter shadows
-  // would be hard to spot on the canvas background. If you make adjustments,
-  // make sure to check the shadow with both dark and light themes.
-  //
-  // After making the graphics, I cut out the top right, bottom left
-  // and bottom right corners as 20x20 images, and these are reproduced by
-  // painting them in the corresponding places in the target graphics context.
-  // I then grabbed a single horizontal gradient line from the middle of the
-  // right edge,and a single vertical gradient line from the bottom. These
-  // are then painted scaled/stretched in the target to fill the gaps between
-  // the three corner images.
-  //
-  // Filenames: bl=bottom left, b=bottom, br=bottom right, r=right, tr=top right
-
-  // Normal Drop Shadow
-  private static final Image ShadowBottom = ImageUtils.loadIcon("/icons/shadow-b.png");
-  private static final Image ShadowBottomLeft = ImageUtils.loadIcon("/icons/shadow-bl.png");
-  private static final Image ShadowBottomRight = ImageUtils.loadIcon("/icons/shadow-br.png");
-  private static final Image ShadowRight = ImageUtils.loadIcon("/icons/shadow-r.png");
-  private static final Image ShadowTopRight = ImageUtils.loadIcon("/icons/shadow-tr.png");
-
-  // Small Drop Shadow
-  private static final Image Shadow2Bottom = ImageUtils.loadIcon("/icons/shadow2-b.png");
-  private static final Image Shadow2BottomLeft = ImageUtils.loadIcon("/icons/shadow2-bl.png");
-  private static final Image Shadow2BottomRight = ImageUtils.loadIcon("/icons/shadow2-br.png");
-  private static final Image Shadow2Right = ImageUtils.loadIcon("/icons/shadow2-r.png");
-  private static final Image Shadow2TopRight = ImageUtils.loadIcon("/icons/shadow2-tr.png");
 }

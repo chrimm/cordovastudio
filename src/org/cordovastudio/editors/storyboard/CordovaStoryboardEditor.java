@@ -43,7 +43,6 @@ import org.cordovastudio.editors.designer.rendering.renderConfiguration.RenderCo
 import org.cordovastudio.editors.storyboard.io.XMLReader;
 import org.cordovastudio.editors.storyboard.io.XMLWriter;
 import org.cordovastudio.editors.storyboard.macros.Analyser;
-import org.cordovastudio.editors.storyboard.macros.CodeGenerator;
 import org.cordovastudio.editors.storyboard.model.*;
 import org.cordovastudio.modules.CordovaFacet;
 import org.jetbrains.annotations.NotNull;
@@ -77,10 +76,9 @@ public class CordovaStoryboardEditor implements FileEditor {
     private final UserDataHolderBase myUserDataHolder = new UserDataHolderBase();
     @Nullable
     private RenderingParameters myRenderingParams;
-    private CordovaStoryboardModel myNavigationModel;
+    private CordovaStoryboardModel myStoryboardModel;
     private final VirtualFile myFile;
     private JComponent myComponent;
-    private CodeGenerator myCodeGenerator;
     private boolean myModified;
     private boolean myPendingFileSystemChanges;
     private Analyser myAnalyser;
@@ -107,40 +105,34 @@ public class CordovaStoryboardEditor implements FileEditor {
         if (myRenderingParams != null) {
             RenderConfiguration configuration = myRenderingParams.myConfiguration;
             Module module = configuration.getModule();
-            //myAnalyser = new Analyser(project, module);
-            try {
-                myNavigationModel = read(file);
-                myCodeGenerator = new CodeGenerator(myNavigationModel, module);
-                StoryboardView editor = new StoryboardView(myRenderingParams, myNavigationModel);
-                JBScrollPane scrollPane = new JBScrollPane(editor);
-                scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_UNIT_INCREMENT);
-                JPanel p = new JPanel(new BorderLayout());
+            myAnalyser = new Analyser(project, module);
+            myStoryboardModel = myAnalyser.createModel();
 
-                JComponent controls = createToolbar(editor);
-                p.add(controls, BorderLayout.NORTH);
-                p.add(scrollPane);
-                myComponent = p;
-            } catch (FileReadException e) {
-                myErrorHandler.handleError("Invalid Navigation File", e.getMessage());
-                if (DEBUG) {
-                    e.printStackTrace();
-                }
-            }
+            //myCodeGenerator = new CodeGenerator(myStoryboardModel, module);
+
+            StoryboardView editor = new StoryboardView(myRenderingParams, myStoryboardModel);
+            JBScrollPane scrollPane = new JBScrollPane(editor);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_UNIT_INCREMENT);
+            JPanel p = new JPanel(new BorderLayout());
+
+            JComponent controls = createToolbar(editor);
+            p.add(controls, BorderLayout.NORTH);
+            p.add(scrollPane);
+            myComponent = p;
         }
         myNavigationModelListener = new Listener<CordovaStoryboardModel.Event>() {
             @Override
             public void notify(@NotNull CordovaStoryboardModel.Event event) {
                 if (event.operation == Operation.INSERT && event.operandType == Transition.class) {
-                    ArrayList<Transition> transitions = myNavigationModel.getTransitions();
+                    ArrayList<Transition> transitions = myStoryboardModel.getTransitions();
                     Transition transition = transitions.get(transitions.size() - 1); // todo don't rely on this being the last
-                    myCodeGenerator.implementTransition(transition);
                 }
                 if (event != PROJECT_READ) { // exempt the case when we are updating the model ourselves (because of a file read)
                     myModified = true;
                 }
             }
         };
-        myNavigationModel.getListeners().add(myNavigationModelListener);
+        myStoryboardModel.getListeners().add(myNavigationModelListener);
         myVirtualFileListener = new VirtualFileAdapter() {
             private void somethingChanged(String changeType, @NotNull VirtualFileEvent event) {
                 if (DEBUG) System.out.println("NavigationEditor: fileListener:: " + changeType + ": " + event);
@@ -166,7 +158,7 @@ public class CordovaStoryboardEditor implements FileEditor {
 
     public class ErrorHandler {
         public void handleError(String title, String errorMessage) {
-            myNavigationModel = new CordovaStoryboardModel();
+            myStoryboardModel = new CordovaStoryboardModel();
             {
                 JPanel panel = new JPanel(new BorderLayout());
                 {
@@ -401,7 +393,7 @@ public class CordovaStoryboardEditor implements FileEditor {
 
     private List<State> findDestinationsFor(State source, Set<State> visited) {
         java.util.List<State> result = new ArrayList<State>();
-        for (Transition transition : myNavigationModel.getTransitions()) {
+        for (Transition transition : myStoryboardModel.getTransitions()) {
             if (transition.getSource().getState() == source) {
                 State destination = transition.getDestination().getState();
                 if (!visited.contains(destination)) {
@@ -417,13 +409,11 @@ public class CordovaStoryboardEditor implements FileEditor {
         if (myRenderingParams == null || myRenderingParams.myProject.isDisposed()) {
             return;
         }
-        EventDispatcher<CordovaStoryboardModel.Event> listeners = myNavigationModel.getListeners();
+        EventDispatcher<CordovaStoryboardModel.Event> listeners = myStoryboardModel.getListeners();
         boolean notificationWasEnabled = listeners.isNotificationEnabled();
         listeners.setNotificationEnabled(false);
-        myNavigationModel.clear();
-        myNavigationModel.getTransitions().clear();
-        myAnalyser.deriveAllStatesAndTransitions(myNavigationModel, myRenderingParams.myConfiguration);
-        layoutStatesWithUnsetLocations(myNavigationModel);
+        myAnalyser.updateModel(myStoryboardModel);
+        layoutStatesWithUnsetLocations(myStoryboardModel);
         listeners.setNotificationEnabled(notificationWasEnabled);
 
         myModified = false;
@@ -478,7 +468,7 @@ public class CordovaStoryboardEditor implements FileEditor {
     private void saveFile() throws IOException {
         if (myModified) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream(INITIAL_FILE_BUFFER_SIZE);
-            new XMLWriter(stream).write(myNavigationModel);
+            new XMLWriter(stream).write(myStoryboardModel);
             myFile.setBinaryContent(stream.toByteArray());
             myModified = false;
         }
@@ -492,7 +482,7 @@ public class CordovaStoryboardEditor implements FileEditor {
             LOG.error("Unexpected exception while saving navigation file", e);
         }
 
-        myNavigationModel.getListeners().remove(myNavigationModelListener);
+        myStoryboardModel.getListeners().remove(myNavigationModelListener);
     }
 
     @Nullable

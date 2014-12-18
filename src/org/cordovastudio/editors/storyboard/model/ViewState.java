@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2013 The Android Open Source Project
+ * Copyright (C) 2014 Christoffer T. Timm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * 	http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,28 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.cordovastudio.editors.storyboard.model;
 
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class MenuState extends State {
-    private final String xmlResourceName;
+/**
+ * Created by cti on 18.12.14.
+ */
+public class ViewState extends State {
 
-    public MenuState(@NotNull String xmlResourceName) {
-        this.xmlResourceName = xmlResourceName;
-    }
+    @NotNull
+    private VirtualFile myFile;
 
-    @Nullable
-    @Override
-    public String getClassName() {
-        return null;
+    public ViewState(@NotNull VirtualFile file) {
+        myFile = file;
     }
 
     @NotNull
-    @Override
-    public String getXmlResourceName() {
-        return xmlResourceName;
+    public VirtualFile getFile() {
+        return myFile;
+    }
+
+    public void setFile(@NotNull VirtualFile myFile) {
+        this.myFile = myFile;
     }
 
     @Override
@@ -42,21 +45,18 @@ public class MenuState extends State {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MenuState menuState = (MenuState) o;
+        ViewState that = (ViewState) o;
 
-        if (!xmlResourceName.equals(menuState.xmlResourceName)) return false;
-
-        return true;
+        return myFile.equals(that.getFile());
     }
 
     @Override
     public int hashCode() {
-        return xmlResourceName.hashCode();
+        return myFile.hashCode();
     }
 
     @Override
     public String toString() {
-        return "MenuState{" + xmlResourceName + '}';
+        return "ViewState{" + myFile.getName() + '}';
     }
-
 }

@@ -18,7 +18,6 @@ package org.cordovastudio.editors.storyboard;
 import com.intellij.ide.dnd.DnDEvent;
 import com.intellij.ide.dnd.DnDManager;
 import com.intellij.ide.dnd.DnDTarget;
-import com.intellij.ide.dnd.TransferableWrapper;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -28,8 +27,8 @@ import com.intellij.openapi.ui.JBMenuItem;
 import com.intellij.openapi.ui.JBPopupMenu;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.xml.XmlFileImpl;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.ui.Gray;
 import com.intellij.ui.JBColor;
@@ -38,9 +37,9 @@ import org.cordovastudio.editors.designer.model.ResourceType;
 import org.cordovastudio.editors.designer.rendering.RenderedView;
 import org.cordovastudio.editors.designer.rendering.ShadowPainter;
 import org.cordovastudio.editors.designer.rendering.renderConfiguration.RenderConfiguration;
-import org.cordovastudio.editors.storyboard.macros.Analyser;
 import org.cordovastudio.editors.storyboard.model.*;
 import org.cordovastudio.modules.CordovaFacet;
+import org.cordovastudio.utils.CordovaPsiUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -795,11 +794,13 @@ public class StoryboardView extends JComponent {
     }
 
     private CordovaRootComponent createRootComponentFor(State state) {
-        boolean isMenu = state instanceof MenuState;
         Module module = myRenderingParams.myFacet.getModule();
-        String resourceName = isMenu ? state.getXmlResourceName() : Analyser.getXMLFileName(module, state.getClassName(), true);
-        PsiFile psiFile = getLayoutXmlFile(isMenu, resourceName, myRenderingParams.myConfiguration, myRenderingParams.myProject);
-        CordovaRootComponent result = new CordovaRootComponent(myRenderingParams, psiFile, isMenu);
+        //String resourceName = isMenu ? state.getXmlResourceName() : Analyser.getXMLFileName(module, state.getClassName(), true);
+        //PsiFile psiFile = getLayoutXmlFile(isMenu, resourceName, myRenderingParams.myConfiguration, myRenderingParams.myProject);
+
+        PsiFile psiFile = CordovaPsiUtils.getPsiFileSafely(myRenderingParams.getProject(), ((ViewState)state).getFile());
+
+        CordovaRootComponent result = new CordovaRootComponent(myRenderingParams, psiFile, false);
         result.setScale(myTransform.myScale);
         return result;
     }
@@ -953,45 +954,7 @@ public class StoryboardView extends JComponent {
         }
 
         private void dropOrPrepareToDrop(DnDEvent anEvent, boolean execute) {
-            Object attachedObject = anEvent.getAttachedObject();
-            if (attachedObject instanceof TransferableWrapper) {
-                TransferableWrapper wrapper = (TransferableWrapper) attachedObject;
-                PsiElement[] psiElements = wrapper.getPsiElements();
-                Point dropLoc = anEvent.getPointOn(StoryboardView.this);
-
-                if (psiElements != null) {
-                    for (PsiElement element : psiElements) {
-                        if (element instanceof XmlFileImpl) {
-                            PsiFile containingFile = element.getContainingFile();
-                            PsiDirectory dir = containingFile.getParent();
-                            //TODO: temporarily commented out, as we don't have a ResourceHelper in Cordova Studio
-              /*
-              if (dir != null && dir.getName().equals(GlobalConstants.FD_RES_MENU)) {
-                String resourceName = ResourceHelper.getResourceName(containingFile);
-                State state = new MenuState(resourceName);
-                execute(state, execute);
-              }
-              */
-                        }
-                        if (element instanceof PsiQualifiedNamedElement) {
-                            PsiQualifiedNamedElement namedElement = (PsiQualifiedNamedElement) element;
-                            String qualifiedName = namedElement.getQualifiedName();
-                            if (qualifiedName != null) {
-                                State state = new ActivityState(qualifiedName);
-                                Dimension size = myRenderingParams.getDeviceScreenSizeFor(myTransform);
-                                Point dropLocation = diff(dropLoc, midPoint(size));
-                                myCordovaStoryboardModel.getStateToLocation().put(state, myTransform.viewToModel(snap(dropLocation, MIDDLE_SNAP_GRID)));
-                                execute(state, execute);
-                                dropLoc = Utilities.add(dropLocation, MULTIPLE_DROP_STRIDE);
-                            }
-                        }
-                    }
-                }
-            }
-            if (execute) {
-                revalidate();
-                repaint();
-            }
+            //TODO: reimplement?
         }
 
         @Override

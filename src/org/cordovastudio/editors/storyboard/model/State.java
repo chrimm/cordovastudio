@@ -1,5 +1,11 @@
 /*
  * Copyright (C) 2013 The Android Open Source Project
+ * (Original as of com.android.navigation.State)
+ *
+ * Copyright (C) 2014 Christoffer T. Timm
+ * Changes:
+ *  – Removed fields for Class name and XmlResource
+ *  – Added field for a rendered Image
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +21,19 @@
  */
 package org.cordovastudio.editors.storyboard.model;
 
+import org.cordovastudio.editors.designer.rendering.RenderedImage;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class State {
-    public abstract String getClassName();
+    protected RenderedImage myRenderedImage;
 
-    public abstract String getXmlResourceName();
+    public RenderedImage getRenderedImage() {
+        return myRenderedImage;
+    }
+
+    public void setRenderedImage(RenderedImage myRenderedImage) {
+        this.myRenderedImage = myRenderedImage;
+    }
 
     @Deprecated
     @NotNull

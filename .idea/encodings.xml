@@ -9,6 +9,16 @@
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomFit_16.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomIn_16.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomOut_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow-b.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow-bl.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow-br.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow-r.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow-tr.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-b.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-bl.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-br.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-r.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-tr.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/dialogs/wizards/NewTemplateObjectWizard.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/propertyTable/properties/StyleProperty.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/Assoc.java" charset="UTF-8" />

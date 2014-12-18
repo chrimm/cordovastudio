@@ -80,6 +80,7 @@ public final class GlobalConstants {
     /*
      * Tags
      */
+    public static final String ANCHOR_TAG = "a";
     public static final String VIEW_TAG = "view";
     public static final String TAG_ENUM = "enum-item";
 

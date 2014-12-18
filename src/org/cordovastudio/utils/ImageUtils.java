@@ -22,7 +22,7 @@ import com.intellij.util.JBHiDPIScaledImage;
 import com.intellij.util.RetinaImage;
 import com.intellij.util.ui.UIUtil;
 import org.cordovastudio.branding.CordovaIcons;
-import org.jetbrains.annotations.NonNls;
+import org.cordovastudio.branding.artwork.Artwork;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -551,13 +551,25 @@ public class ImageUtils {
     }
 
     /**
-     * Loads a builtin icon from the Android plugin
+     * Loads a builtin icon
      *
-     * @param path the path relative to the Android plugin root; starts with /icons
+     * @param path the path relative to the {@link org.cordovastudio.branding.CordovaIcons} class
      */
     @NotNull
     public static Image loadIcon(String path) {
         Image image = ImageLoader.loadFromResource(path, CordovaIcons.class);
+        assert image != null : path;
+        return image;
+    }
+
+    /**
+     * Loads a builtin artwork
+     *
+     * @param path the path relative to the {@link org.cordovastudio.branding.artwork.Artwork} class
+     */
+    @NotNull
+    public static Image loadArtwork(String path) {
+        Image image = ImageLoader.loadFromResource(path, Artwork.class);
         assert image != null : path;
         return image;
     }

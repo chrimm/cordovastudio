@@ -132,28 +132,6 @@ public class CordovaStoryboardModel {
         return result;
     }
 
-    public Map<String, ActivityState> getActivities() {
-        Map<String, ActivityState> activities = new HashMap<String, ActivityState>();
-        for (State state : states) {
-            if (state instanceof ActivityState) {
-                ActivityState activityState = (ActivityState) state;
-                activities.put(activityState.getClassName(), activityState);
-            }
-        }
-        return activities;
-    }
-
-    public Map<String, MenuState> getMenus() {
-        Map<String, MenuState> menus = new HashMap<String, MenuState>();
-        for (State state : states) {
-            if (state instanceof MenuState) {
-                MenuState menuState = (MenuState) state;
-                menus.put(menuState.getXmlResourceName(), menuState);
-            }
-        }
-        return menus;
-    }
-
     public void clear() {
         states.clear();
         transitions.clear();
