@@ -15,7 +15,6 @@
  */
 package org.cordovastudio.editors.storyboard.model;
 
-import com.intellij.ui.JBColor;
 import org.cordovastudio.editors.designer.rendering.RenderedView;
 import org.cordovastudio.editors.storyboard.StoryboardView;
 import org.cordovastudio.editors.storyboard.Transform;
@@ -26,11 +25,12 @@ import java.awt.*;
 import java.awt.Point;
 import java.util.Map;
 
+import static org.cordovastudio.branding.Colors.CordovaIceBlue;
 import static org.cordovastudio.editors.storyboard.Utilities.*;
 
 public class Selections {
-    private static final Color SELECTION_COLOR = JBColor.BLUE;
-    private static final int SELECTION_RECTANGLE_LINE_WIDTH = 4;
+    private static final Color SELECTION_COLOR = CordovaIceBlue;
+    private static final int SELECTION_RECTANGLE_LINE_WIDTH = 3;
 
     public static Selection NULL = new EmptySelection();
 
