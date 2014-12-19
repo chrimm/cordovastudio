@@ -28,12 +28,10 @@ import com.intellij.openapi.ui.JBPopupMenu;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.ui.Gray;
 import com.intellij.ui.JBColor;
 import com.intellij.util.ui.UIUtil;
-import org.cordovastudio.editors.designer.model.ResourceType;
 import org.cordovastudio.editors.designer.rendering.RenderedView;
 import org.cordovastudio.editors.designer.rendering.ShadowPainter;
 import org.cordovastudio.editors.designer.rendering.renderConfiguration.RenderConfiguration;
@@ -51,11 +49,12 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
+import static org.cordovastudio.branding.Colors.CordovaDarkGray;
 import static org.cordovastudio.editors.storyboard.Utilities.*;
 
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public class StoryboardView extends JComponent {
-    private static final Logger LOG = Logger.getInstance("#" + StoryboardView.class.getName());
+    private static final Logger LOG = Logger.getInstance(StoryboardView.class);
     public static final org.cordovastudio.editors.storyboard.model.Dimension GAP = new org.cordovastudio.editors.storyboard.model.Dimension(500, 100);
     private static final Color BACKGROUND_COLOR = new JBColor(Gray.get(192), Gray.get(70));
     private static final Color SNAP_GRID_LINE_COLOR_MINOR = new JBColor(Gray.get(180), Gray.get(60));
@@ -77,7 +76,7 @@ public class StoryboardView extends JComponent {
     public static final int LINE_WIDTH = 12;
     private static final Point MULTIPLE_DROP_STRIDE = point(MAJOR_SNAP_GRID);
     private static final String ID_PREFIX = "@+id/";
-    private static final Color TRANSITION_LINE_COLOR = new JBColor(new Color(80, 80, 255), new Color(40, 40, 255));
+    private static final Color TRANSITION_LINE_COLOR = CordovaDarkGray;
     private static final Condition<Component> SCREENS = instanceOf(CordovaRootComponent.class);
     private static final Condition<Component> EDITORS = not(SCREENS);
     private static final boolean DRAW_DESTINATION_RECTANGLES = false;
@@ -100,27 +99,8 @@ public class StoryboardView extends JComponent {
 
     // Configuration
 
-    private boolean showRollover = false;
-    private boolean mDrawGrid = false;
-
-  /*
-  void foo(String layoutFileBaseName) {
-    System.out.println("layoutFileBaseName = " + layoutFileBaseName);
-    Module module = myMyRenderingParams.myFacet.getModule();
-    ConfigurationManager manager = ConfigurationManager.create(module);
-    LocalResourceRepository resources = AppResourceRepository.getAppResources(module, true);
-
-    for (Device device : manager.getDevices()) {
-      com.android.sdklib.devices.State portrait = device.getDefaultState().deepCopy();
-      com.android.sdklib.devices.State landscape = device.getDefaultState().deepCopy();
-      portrait.setOrientation(ScreenOrientation.PORTRAIT);
-      landscape.setOrientation(ScreenOrientation.LANDSCAPE);
-
-      System.out.println("file = " + getMatchingFile(layoutFileBaseName, resources, DeviceConfigHelper.getFolderConfig(portrait)));
-      System.out.println("file = " + getMatchingFile(layoutFileBaseName, resources, DeviceConfigHelper.getFolderConfig(landscape)));
-    }
-  }
-  */
+    private boolean showRollover = true;
+    private boolean mDrawGrid = true;
 
     /* In projects with one module with an CordovaFacet, return that CordovaFacet. */
     @Nullable
@@ -189,6 +169,7 @@ public class StoryboardView extends JComponent {
         }
 
         // Key listeners
+        /*
         {
             Action remove = new AbstractAction() {
                 @Override
@@ -199,7 +180,7 @@ public class StoryboardView extends JComponent {
             };
             registerKeyBinding(KeyEvent.VK_DELETE, "delete", remove);
             registerKeyBinding(KeyEvent.VK_BACK_SPACE, "backspace", remove);
-        }
+        }*/
 
         // Model listener
         {
@@ -709,7 +690,7 @@ public class StoryboardView extends JComponent {
         Map<State, CordovaRootComponent> stateToComponent = getStateComponentAssociation().keyToValue;
         for (State state : stateToComponent.keySet()) {
             CordovaRootComponent root = stateToComponent.get(state);
-            root.setLocation(/*myTransform.modelToView(myCordovaStoryboardModel.getStateToLocation().get(state))*/new Point(50,50));
+            root.setLocation(myTransform.modelToView(myCordovaStoryboardModel.getStateToLocation().get(state))/*new Point(50,50)*/);
             root.setSize(root.getPreferredSize());
         }
 
@@ -773,26 +754,6 @@ public class StoryboardView extends JComponent {
         removeLeftovers(assoc, myCordovaStoryboardModel.getTransitions());
     }
 
-    @Nullable
-    public static PsiFile getLayoutXmlFile(boolean menu, @Nullable String resourceName, RenderConfiguration configuration, Project project) {
-        ResourceType resourceType = menu ? ResourceType.MENU : ResourceType.LAYOUT;
-        PsiManager psiManager = PsiManager.getInstance(project);
-    /* Commented out as we dont have ResourceHelper and ResourceValue in Cordova Studio, can we go without?
-     * We have to load the XML file nonetheless!
-    ResourceResolver resourceResolver = configuration.getResourceResolver();
-    if (resourceResolver == null) {
-      return null;
-    }
-    ResourceValue projectResource = resourceResolver.getProjectResource(resourceType, resourceName);
-    if (projectResource == null) { /// seems to happen when we create a new resource
-      return null;
-    }
-    VirtualFile file = virtualFile(new File(projectResource.getValue()));
-    return file == null ? null : psiManager.findFile(file);
-    */
-        return null;
-    }
-
     private CordovaRootComponent createRootComponentFor(State state) {
         Module module = myRenderingParams.myFacet.getModule();
         //String resourceName = isMenu ? state.getXmlResourceName() : Analyser.getXMLFileName(module, state.getClassName(), true);
@@ -849,39 +810,37 @@ public class StoryboardView extends JComponent {
         Transition transition = getTransitionEditorAssociation().valueToKey.get(component);
         if (component instanceof CordovaRootComponent) {
             CordovaRootComponent CordovaRootComponent = (CordovaRootComponent) component;
-            if (!shiftDown) {
+            //if (!shiftDown) {
                 return new Selections.CordovaRootComponentSelection(myCordovaStoryboardModel, CordovaRootComponent, mouseDownLocation, transition,
                         getStateComponentAssociation().valueToKey.get(CordovaRootComponent),
                         myTransform);
-            } else {
+            //} else {
+                /*
                 RenderedView leaf = getRenderedView(CordovaRootComponent, mouseDownLocation);
                 return new Selections.RelationSelection(myCordovaStoryboardModel, CordovaRootComponent, mouseDownLocation, getNamedParent(leaf), this);
-            }
+                */
+            //}
         } else {
             return new Selections.ComponentSelection<Component>(myCordovaStoryboardModel, component, transition);
         }
     }
 
     private class MyMouseListener extends MouseAdapter {
+
         private void showPopup(MouseEvent e) {
             JPopupMenu menu = new JBPopupMenu();
-            JMenuItem anItem = new JBMenuItem("New Activity...");
-            anItem.addActionListener(new ActionListener() {
+            JMenuItem editItem = new JBMenuItem("Edit");
+            editItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    Project project = myRenderingParams.myProject;
-                    Module module = myRenderingParams.myFacet.getModule();
-                    //TODO: temporarily commented out, because we don't have a NewTemplateObjectWizard in Cordova Studio
-          /*
-          NewTemplateObjectWizard dialog = new NewTemplateObjectWizard(project, module, null, CATEGORY_ACTIVITIES);
-          dialog.show();
-          if (dialog.isOK()) {
-            dialog.createTemplateObject(false);
-          }
-          */
+                    Component child = getComponentAt(e.getPoint());
+                    if (child instanceof CordovaRootComponent) {
+                        CordovaRootComponent CordovaRootComponent = (CordovaRootComponent) child;
+                        CordovaRootComponent.launchLayoutEditor();
+                    }
                 }
             });
-            menu.add(anItem);
+            menu.add(editItem);
             menu.show(e.getComponent(), e.getX(), e.getY());
         }
 

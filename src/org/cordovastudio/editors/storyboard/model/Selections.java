@@ -30,7 +30,7 @@ import static org.cordovastudio.editors.storyboard.Utilities.*;
 
 public class Selections {
     private static final Color SELECTION_COLOR = CordovaIceBlue;
-    private static final int SELECTION_RECTANGLE_LINE_WIDTH = 3;
+    private static final int SELECTION_RECTANGLE_LINE_WIDTH = 4;
 
     public static Selection NULL = new EmptySelection();
 

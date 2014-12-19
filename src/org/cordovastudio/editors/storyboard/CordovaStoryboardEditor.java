@@ -26,22 +26,17 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.*;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.UserDataHolderBase;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.ui.HyperlinkLabel;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.SideBorder;
 import com.intellij.ui.components.JBScrollPane;
-import org.cordovastudio.actions.ShowStoryboardEditorAction;
 import org.cordovastudio.branding.CordovaIcons;
 import org.cordovastudio.editors.designer.rendering.renderConfiguration.RenderConfiguration;
-import org.cordovastudio.editors.storyboard.io.XMLReader;
-import org.cordovastudio.editors.storyboard.io.XMLWriter;
 import org.cordovastudio.editors.storyboard.macros.Analyser;
 import org.cordovastudio.editors.storyboard.model.*;
 import org.cordovastudio.modules.CordovaFacet;
@@ -51,12 +46,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.List;
 
@@ -65,7 +56,7 @@ import static org.cordovastudio.editors.storyboard.model.CordovaStoryboardModel.
 
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public class CordovaStoryboardEditor implements FileEditor {
-    private static final String TOOLBAR = "SoryboardEditorToolbar";
+    private static final String TOOLBAR = "StoryboardEditorToolbar";
     private static final Logger LOG = Logger.getInstance("#" + CordovaStoryboardEditor.class.getName());
     private static final boolean DEBUG = false;
     private static final String NAME = "Storyboard";
@@ -108,7 +99,11 @@ public class CordovaStoryboardEditor implements FileEditor {
             myAnalyser = new Analyser(project, module);
             myStoryboardModel = myAnalyser.createModel();
 
+            // There is now way to edit the App's structure from within Storyboard.
+            // So there is no need for Code Generation as well.
             //myCodeGenerator = new CodeGenerator(myStoryboardModel, module);
+
+            layoutStatesWithUnsetLocations(myStoryboardModel);
 
             StoryboardView editor = new StoryboardView(myRenderingParams, myStoryboardModel);
             JBScrollPane scrollPane = new JBScrollPane(editor);
@@ -214,6 +209,8 @@ public class CordovaStoryboardEditor implements FileEditor {
         panel.setBorder(IdeBorderFactory.createBorder(SideBorder.BOTTOM));
         // the UI below is a temporary hack to show UX / dev. rel
         {
+            /* Maybe better use the Device/Orientation selectors as in Designer editor here?
+
             final String dirName = myFile.getParent().getName();
 
             JPanel combos = new JPanel(new FlowLayout());
@@ -257,20 +254,19 @@ public class CordovaStoryboardEditor implements FileEditor {
                     combos.add(orientationSelector);
                 }
             }
-            panel.add(combos, BorderLayout.CENTER);
+            panel.add(combos, BorderLayout.EAST);
+            */
         }
 
-        {
-            ActionManager actionManager = ActionManager.getInstance();
-            ActionToolbar zoomToolBar = actionManager.createActionToolbar(TOOLBAR, getActions(myDesigner), true);
-            panel.add(zoomToolBar.getComponent(), BorderLayout.WEST);
-            {
-                HyperlinkLabel label = new HyperlinkLabel();
-                label.setHyperlinkTarget("http://tools.android.com/navigation-editor");
-                label.setHyperlinkText(" ", "What's this?", " ");
-                panel.add(label, BorderLayout.EAST);
-            }
-        }
+        ActionManager actionManager = ActionManager.getInstance();
+        ActionToolbar zoomToolBar = actionManager.createActionToolbar(TOOLBAR, getActions(myDesigner), true);
+        panel.add(zoomToolBar.getComponent(), BorderLayout.WEST);
+
+        JPanel title = new JPanel(new FlowLayout());
+        JLabel titleLabel = new JLabel("Storyboard: " + myRenderingParams.getProject().getName(), CordovaIcons.Actions.Storyboard, JLabel.LEFT);
+        titleLabel.setIconTextGap(6);
+        title.add(titleLabel);
+        panel.add(title, BorderLayout.CENTER);
 
         return panel;
     }
@@ -305,18 +301,6 @@ public class CordovaStoryboardEditor implements FileEditor {
         });
 
         return group;
-    }
-
-    private static CordovaStoryboardModel read(VirtualFile file) throws FileReadException {
-        try {
-            InputStream inputStream = file.getInputStream();
-            if (inputStream.available() == 0) {
-                return new CordovaStoryboardModel();
-            }
-            return (CordovaStoryboardModel) new XMLReader(inputStream).read();
-        } catch (Exception e) {
-            throw new FileReadException(e);
-        }
     }
 
     @NotNull
@@ -466,12 +450,13 @@ public class CordovaStoryboardEditor implements FileEditor {
     }
 
     private void saveFile() throws IOException {
+        /* For now, there is no way to edit the App's Structure within Storyboard, so there is no need for saving as well.
         if (myModified) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream(INITIAL_FILE_BUFFER_SIZE);
             new XMLWriter(stream).write(myStoryboardModel);
             myFile.setBinaryContent(stream.toByteArray());
             myModified = false;
-        }
+        }*/
     }
 
     @Override

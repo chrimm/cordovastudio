@@ -117,6 +117,24 @@ public class CordovaStoryboardModel {
         }
     }
 
+    /**
+     * Checks for existence of a transition from {@code source} to {@code destination}.
+     *
+     * @param source Source {@link org.cordovastudio.editors.storyboard.model.State} of the transition
+     * @param destination Destination {@link org.cordovastudio.editors.storyboard.model.State} of the transition
+     * @return {@code true}, if there already exists a transition from {@code source} to {@code destination} in this model.
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    public boolean hasTransition(@NotNull State source, @NotNull State destination) {
+        for(Transition transition : transitions) {
+            if(transition.getSource().getState().equals(source) && transition.getDestination().getState().equals(destination)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean add(Transition transition) {
         boolean result = transitions.add(transition);
         // todo remove this

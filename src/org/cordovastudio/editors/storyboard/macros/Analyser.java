@@ -23,6 +23,7 @@ package org.cordovastudio.editors.storyboard.macros;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
@@ -82,7 +83,7 @@ public class Analyser {
                 return;
 
             State indexState = new ViewState(indexFile);
-            Locator indexStateLocator = new Locator(indexState);
+            Locator indexStateLocator = Locator.of(indexState, StringUtil.capitalize(indexFile.getNameWithoutExtension()));
 
             model.addState(indexState);
 
@@ -108,12 +109,16 @@ public class Analyser {
             if(targetFileOrDirectory != null && targetFileOrDirectory.exists()) {
                 targetFile = (targetFileOrDirectory.isDirectory()) ? findIndexFile(targetFileOrDirectory) : targetFileOrDirectory;
 
-                if(targetFile != null && targetFile.exists()) {
-                    Locator destination = new Locator(new ViewState(targetFile));
+                if(targetFile != null && targetFile.exists() &&
+                        /* Omit transitions, which source and destination states would be the same (self-referenced loops) */
+                        !targetFile.getPath().equals(((ViewState) source.getState()).getFile().getPath())) {
+                    Locator destination = Locator.of(new ViewState(targetFile), StringUtil.capitalize(targetFile.getNameWithoutExtension()));
 
-                    model.add(new Transition("click", source, destination));
-
-                    createTransitions(destination, rootDir, model);
+                    /* Omit already existing transitions to avoid looping */
+                    if(!model.hasTransition(source.getState(), destination.getState())) {
+                        model.add(new Transition("click", source, destination));
+                        createTransitions(destination, rootDir, model);
+                    }
                 }
             }
         }
