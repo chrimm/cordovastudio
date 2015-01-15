@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (C) 2015 Christoffer T. Timm
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ 	http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<meta-model>
+
+    <!--
+     ~ This files contains additional global properties (HTML attributes) for
+     ~ data-binding using GDB (see http.//gdb.thewebdev.guru/)
+     -->
+
+    <global-properties>
+        <normal>
+            <property name="data-bind-to" displayName="Data Binding Source" type="String"
+                      tooltip="A single path to a location in the model"/>
+            <property name="data-gdb-template" displayName="Data Template" type="String"
+                      tooltip="A template composed of a mix of text and open and close delimiters containing a number"/>
+        </normal>
+    </global-properties>
+
+</meta-model>

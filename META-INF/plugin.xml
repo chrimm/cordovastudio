@@ -66,6 +66,11 @@
 
     <project-components>
         <component>
+            <implementation-class>org.cordovastudio.editors.designer.designSurface.preview.PreviewToolWindowManager</implementation-class>
+            <skipForDefaultProject/>
+            <headless-implementation-class></headless-implementation-class>
+        </component>
+        <component>
             <implementation-class>org.cordovastudio.editors.designer.CordovaDesignerToolWindowManager
             </implementation-class>
         </component>
