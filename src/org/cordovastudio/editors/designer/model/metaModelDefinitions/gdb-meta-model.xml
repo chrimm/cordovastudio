@@ -25,7 +25,7 @@
 
     <global-properties>
         <normal>
-            <property name="data-bind-to" displayName="Data Binding Source" type="String"
+            <property name="data-bind-to" displayName="Data Binding Target" type="String"
                       tooltip="A single path to a location in the model"/>
             <property name="data-gdb-template" displayName="Data Template" type="String"
                       tooltip="A template composed of a mix of text and open and close delimiters containing a number"/>
