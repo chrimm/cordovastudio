@@ -26,7 +26,7 @@
           tag="div"
           class="sensor-logging-settings">
 
-        <palette title="Video" icon="CordovaIcons.Palette.Dummy"
+        <palette title="Logging Settings" icon="CordovaIcons.Palette.Dummy"
                  tooltip="The widget to setup Sensor Logging"/>
 
         <properties>
@@ -178,5 +178,169 @@
             ]]>
         </creation>
     </meta>
+
+    <meta model="org.cordovastudio.editors.designer.model.RadViewComponent"
+          tag="div"
+          class="sensor-logging-output">
+
+        <palette title="Logging Output" icon="CordovaIcons.Palette.Dummy"
+                 tooltip="The widget to display logged data"/>
+
+        <properties>
+
+        </properties>
+
+        <creation>
+            <![CDATA[
+                <script type="text/javascript">
+
+                </script>
+                <div class="sensor-logging-settings">
+                    <ul class="list>
+                        <li class="list__item">
+                            Enable Logging?
+                            <label class="switch switch--list-item" for="enable">
+                                <input type="checkbox" class="switch__input" name="enable" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__header">
+                            Sensors
+                        </li>
+                        <li class="list__item">
+                            Accelerometer
+                            <label class="switch switch--list-item" for="accelerometer">
+                                <input type="checkbox" class="switch__input" name="accelerometer" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Battery Status
+                            <label class="switch switch--list-item" for="battery-status">
+                                <input type="checkbox" class="switch__input" name="battery-status" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Compass
+                            <label class="switch switch--list-item" for="compass">
+                                <input type="checkbox" class="switch__input" name="compass" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Connection/Network Status
+                            <label class="switch switch--list-item" for="connection">
+                                <input type="checkbox" class="switch__input" name="connection" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Geolocation
+                            <label class="switch switch--list-item" for="geolocation">
+                                <input type="checkbox" class="switch__input" name="geolocation" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__header">
+                            Events
+                        </li>
+                        <li class="list__item">
+                            Device Ready
+                            <label class="switch switch--list-item" for="event-deviceready">
+                                <input type="checkbox" class="switch__input" name="event-deviceready" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Pause
+                            <label class="switch switch--list-item" for="event-pause">
+                                <input type="checkbox" class="switch__input" name="event-pause" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Resume
+                            <label class="switch switch--list-item" for="event-resume">
+                                <input type="checkbox" class="switch__input" name="event-resume" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Back Button
+                            <label class="switch switch--list-item" for="event-backbutton">
+                                <input type="checkbox" class="switch__input" name="event-backbutton" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Menu Button
+                            <label class="switch switch--list-item" for="event-menubutton">
+                                <input type="checkbox" class="switch__input" name="event-menubutton" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Search Button
+                            <label class="switch switch--list-item" for="event-searchbutton">
+                                <input type="checkbox" class="switch__input" name="event-searchbutton" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Start Call Button
+                            <label class="switch switch--list-item" for="event-startcallbutton">
+                                <input type="checkbox" class="switch__input" name="event-startcallbutton" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            End Call Button
+                            <label class="switch switch--list-item" for="event-endcallbutton">
+                                <input type="checkbox" class="switch__input" name="event-endcallbutton" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Volume Down Button
+                            <label class="switch switch--list-item" for="event-volumedownbutton">
+                                <input type="checkbox" class="switch__input" name="event-volumedownbutton" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Volume Up Button
+                            <label class="switch switch--list-item" for="event-volumeupbutton">
+                                <input type="checkbox" class="switch__input" name="event-volumeupbutton" checked>
+                                <div class="switch__toggle"></div>
+                            </label>
+                        </li>
+                        <li class="list__header">
+                            Logging Settings
+                        </li>
+                        <li class="list__item">
+                            Data Store Name
+                            <label class="switch switch--list-item" for="">
+                                <input type="text" class="text-input text-input--transparent" style="width:100%; margin-top:4px;" value="sensorlog">
+                            </label>
+                        </li>
+                        <li class="list__item">
+                            Sensor Logging Interval [ms]
+                            <label class="switch switch--list-item" for="">
+                                <input type="text" class="text-input text-input--transparent" style="width:100%; margin-top:4px;" value="1000">
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            ]]>
+        </creation>
+    </meta>
+
+    <palette>
+        <group name="Sensor Logging">
+            <item tag="div" class="sensor-logging-settings"/>
+            <item tag="div" class="sensor-logging-output"/>
+        </group>
+    </palette>
 
 </meta-model>

@@ -167,7 +167,7 @@ public class CordovaIcons {
     }
 
     public static class Windows {
-        public static final Icon Preview = loadIcon("windowPreview_13.png");
+        public static final Icon Preview = loadIcon("windowPreview_16.png");
     }
 
     public static class Build {

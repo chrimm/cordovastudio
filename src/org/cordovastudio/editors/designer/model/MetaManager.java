@@ -557,7 +557,7 @@ public abstract class MetaManager extends ModelLoader {
         PaletteGroup group = createPaletteGroup(element.getAttributeValue(NAME));
 
         for (Element itemElement : element.getChildren(ITEM)) {
-            MetaModel model = getModelByTag(itemElement.getAttributeValue(TAG));
+            MetaModel model = getModel(itemElement.getAttributeValue(TAG), itemElement.getAttributeValue(CLASS), itemElement.getAttributeValue(TYPE));// getModelByTag(itemElement.getAttributeValue(TAG));
 
             if (model == null) {
                 LOG.warn("Cannot create Palette Item for tag: '" + itemElement.getAttributeValue(TAG) + "' in Group '" + element.getAttributeValue(NAME) + "'");
