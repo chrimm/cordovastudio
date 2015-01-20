@@ -168,7 +168,7 @@ public class HTMLBoxFactory {
                     XmlDocument xdoc = xfile.getDocument();
 
                     String encoding = parser.getCharset();
-                    content = new ReplacedText(rbox, xdoc, src.getURL(), encoding, factory.elementFactory);
+                    content = new ReplacedText(rbox, xdoc, src.getURL(), encoding, factory.elementFactory, factory.fileFactory);
                 }
                 rbox.setContentObj(content);
             }

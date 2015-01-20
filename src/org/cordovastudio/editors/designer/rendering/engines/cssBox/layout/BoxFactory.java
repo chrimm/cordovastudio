@@ -26,9 +26,9 @@
 package org.cordovastudio.editors.designer.rendering.engines.cssBox.layout;
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.html.HtmlTag;
-import com.intellij.psi.impl.source.xml.XmlTextImpl;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlText;
 import cz.vutbr.web.css.*;
@@ -64,6 +64,7 @@ public class BoxFactory {
     private static Logger log = LoggerFactory.getLogger(BoxFactory.class);
 
     protected final XmlElementFactory elementFactory;
+    protected final PsiFileFactory fileFactory;
 
     protected BrowserConfig config;
     protected HTMLBoxFactory html;
@@ -80,10 +81,11 @@ public class BoxFactory {
      * @param decoder The CSS decoder used for obtaining the DOM styles.
      * @param baseurl Base URL used for completing the relative URLs in the document.
      */
-    public BoxFactory(DOMAnalyzer decoder, URL baseurl, XmlElementFactory elementFactory) {
+    public BoxFactory(DOMAnalyzer decoder, URL baseurl, XmlElementFactory elementFactory, PsiFileFactory fileFactory) {
         this.decoder = decoder;
         this.baseurl = baseurl;
         this.elementFactory = elementFactory;
+        this.fileFactory = fileFactory;
         this.next_order = 0;
         this.config = new BrowserConfig();
         this.html = new HTMLBoxFactory(this);
@@ -734,6 +736,10 @@ public class BoxFactory {
                 //parent
                 HtmlTag pelem = createAnonymousElement("XPspan", "inline");
                 //content elements
+
+                /* Some PsiFile operation need the Element to have an containing file. Hence this workaround. */
+                //((XmlFile)fileFactory.createFileFromText("dummyFile.xml", "<root></root>")).getRootTag().add(pelem);
+
                 for (Term<?> c : cont) {
                     if (c instanceof TermIdent) {
                     } else if (c instanceof TermString) {
@@ -746,7 +752,10 @@ public class BoxFactory {
                         txt.insertText(((TermString) c).getValue(), 0);
                         */
 
-                        pelem.add(elementFactory.createDisplayText(((TermString) c).getValue()));
+                        String value = ((TermString) c).getValue();
+                        if(!"".equals(value)) {
+                            pelem.add(elementFactory.createDisplayText(value));
+                        }
 
                     } else if (c instanceof TermURI) {
                     } else if (c instanceof TermFunction) {
@@ -762,8 +771,8 @@ public class BoxFactory {
                                     if (attr != null) {
                                         String val = attr.getValue();
 
-                                        XmlText txt = new XmlTextImpl();
-                                        txt.insertText(val, 0);
+                                        XmlText txt = elementFactory.createDisplayText(val);
+                                        //txt.insertText(val, 0);
                                         pelem.add(txt);
                                     }
                                 }

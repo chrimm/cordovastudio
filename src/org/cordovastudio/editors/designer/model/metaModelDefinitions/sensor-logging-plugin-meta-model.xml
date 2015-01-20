@@ -35,14 +35,16 @@
 
         <creation>
             <![CDATA[
-                <script type="text/javascript">
-
-                </script>
                 <div class="sensor-logging-settings">
-                    <ul class="list>
+                    <script type="text/javascript">
+                        document.addEventListener("deviceready", function() {
+
+                        }, false);
+                    </script>
+                    <ul class="list">
                         <li class="list__item">
                             Enable Logging?
-                            <label class="switch switch--list-item" for="enable">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="enable" checked>
                                 <div class="switch__toggle"></div>
                             </label>
@@ -52,35 +54,35 @@
                         </li>
                         <li class="list__item">
                             Accelerometer
-                            <label class="switch switch--list-item" for="accelerometer">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="accelerometer" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Battery Status
-                            <label class="switch switch--list-item" for="battery-status">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="battery-status" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Compass
-                            <label class="switch switch--list-item" for="compass">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="compass" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Connection/Network Status
-                            <label class="switch switch--list-item" for="connection">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="connection" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Geolocation
-                            <label class="switch switch--list-item" for="geolocation">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="geolocation" checked>
                                 <div class="switch__toggle"></div>
                             </label>
@@ -90,70 +92,70 @@
                         </li>
                         <li class="list__item">
                             Device Ready
-                            <label class="switch switch--list-item" for="event-deviceready">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-deviceready" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Pause
-                            <label class="switch switch--list-item" for="event-pause">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-pause" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Resume
-                            <label class="switch switch--list-item" for="event-resume">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-resume" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Back Button
-                            <label class="switch switch--list-item" for="event-backbutton">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-backbutton" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Menu Button
-                            <label class="switch switch--list-item" for="event-menubutton">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-menubutton" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Search Button
-                            <label class="switch switch--list-item" for="event-searchbutton">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-searchbutton" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Start Call Button
-                            <label class="switch switch--list-item" for="event-startcallbutton">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-startcallbutton" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             End Call Button
-                            <label class="switch switch--list-item" for="event-endcallbutton">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-endcallbutton" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Volume Down Button
-                            <label class="switch switch--list-item" for="event-volumedownbutton">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-volumedownbutton" checked>
                                 <div class="switch__toggle"></div>
                             </label>
                         </li>
                         <li class="list__item">
                             Volume Up Button
-                            <label class="switch switch--list-item" for="event-volumeupbutton">
+                            <label class="switch switch--list-item">
                                 <input type="checkbox" class="switch__input" name="event-volumeupbutton" checked>
                                 <div class="switch__toggle"></div>
                             </label>
@@ -163,13 +165,13 @@
                         </li>
                         <li class="list__item">
                             Data Store Name
-                            <label class="switch switch--list-item" for="">
+                            <label class="switch switch--list-item">
                                 <input type="text" class="text-input text-input--transparent" style="width:100%; margin-top:4px;" value="sensorlog">
                             </label>
                         </li>
                         <li class="list__item">
                             Sensor Logging Interval [ms]
-                            <label class="switch switch--list-item" for="">
+                            <label class="switch switch--list-item">
                                 <input type="text" class="text-input text-input--transparent" style="width:100%; margin-top:4px;" value="1000">
                             </label>
                         </li>

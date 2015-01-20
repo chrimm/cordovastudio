@@ -35,6 +35,7 @@ import org.cordovastudio.editors.designer.palette.PaletteGroup;
 import org.cordovastudio.editors.designer.palette.PaletteItem;
 import org.cordovastudio.editors.designer.palette.VariationPaletteItem;
 import org.cordovastudio.editors.designer.propertyTable.properties.AttributeProperty;
+import org.cordovastudio.editors.designer.propertyTable.properties.TextProperty;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -163,7 +164,7 @@ public abstract class MetaManager extends ModelLoader {
                     definition.addValue(enumItem.getAttributeValue(ATTR_NAME), enumItem.getAttributeValue(ATTR_DISPLAYNAME));
                 }
 
-                AttributeProperty property = new AttributeProperty(displayName, definition);
+                AttributeProperty property = createProperty(displayName, definition);
 
                 property.setImportant(true);
 
@@ -180,7 +181,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 property.setImportant(true);
@@ -198,7 +199,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 myGlobalNormalProperties.add(property);
@@ -214,7 +215,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 property.setExpert(true);
@@ -232,7 +233,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 property.setDeprecated(true);
@@ -331,58 +332,11 @@ public abstract class MetaManager extends ModelLoader {
         /*
          * Load global properties into lists
          */
-        List<Property> inplaceProperties = new ArrayList<>();
         List<Property> topProperties = new ArrayList<>(myGlobalTopProperties);
         List<Property> importantProperties = new ArrayList<>(myGlobalImportantProperties);
         List<Property> normalProperties = new ArrayList<>(myGlobalNormalProperties);
         List<Property> expertProperties = new ArrayList<>(myGlobalExpertProperties);
         List<Property> deprecatedProperties = new ArrayList<>(myGlobalDeprecatedProperties);
-
-        // TODO: Should there really be a full specification of inplace properties?
-        // For example the "text" property is available for many HTML5 tags and is inplace AND important property.
-        // So what about specifying just the important entry fully and let inplace be just a (space separated) list of
-        // property names. For example:
-        //
-        //  <properties inplace="text text2">
-        //      <important>
-        //          <property name="text" displayName="Text" type="String/>
-        //          <property name="text2" displayName="Text" type="String/>
-        //      </important>
-        //  </properties>
-        //
-        // instead of:
-        //
-        //  <properties>
-        //      <inplace>
-        //          <property name="text" displayName="Text" type="String/>
-        //          <property name="text2" displayName="Text" type="String/>
-        //      </inplace>
-        //      <important>
-        //          <property name="text" displayName="Text" type="String/>
-        //          <property name="text2" displayName="Text" type="String/>
-        //      </important>
-        //  </properties>
-
-        /*
-         * Load inplace properties
-         */
-        Element inplacePropertiesElement = propertiesElement.getChild(INPLACE);
-        if(inplacePropertiesElement != null) {
-            for (Element element : inplacePropertiesElement.getChildren(PROPERTY)) {
-                String name = element.getAttributeValue(NAME);
-                String displayName = element.getAttributeValue(DISPLAY_NAME);
-                AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
-                        Collections.singletonList(type)));
-
-                /* See comment below */
-                if(inplaceProperties.contains(property)) {
-                    inplaceProperties.set(inplaceProperties.indexOf(property), property);
-                } else {
-                    inplaceProperties.add(property);
-                }
-            }
-        }
 
         /*
          * Load top properties
@@ -393,7 +347,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 /*
@@ -435,7 +389,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 if(importantProperties.contains(property)) {
@@ -463,7 +417,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 if(normalProperties.contains(property)) {
@@ -491,7 +445,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 if(expertProperties.contains(property)) {
@@ -519,7 +473,7 @@ public abstract class MetaManager extends ModelLoader {
                 String name = element.getAttributeValue(NAME);
                 String displayName = element.getAttributeValue(DISPLAY_NAME);
                 AttributeFormat type = AttributeFormat.valueOf(element.getAttributeValue(TYPE));
-                AttributeProperty property = new AttributeProperty(displayName, new AttributeDefinition(name,
+                AttributeProperty property = createProperty(displayName, new AttributeDefinition(name,
                         Collections.singletonList(type)));
 
                 if(deprecatedProperties.contains(property)) {
@@ -541,12 +495,47 @@ public abstract class MetaManager extends ModelLoader {
         /*
          * Write lists into meta model
          */
-        meta.setInplaceProperties(inplaceProperties);
         meta.setTopProperties(topProperties);
         meta.setImportantProperties(importantProperties);
         meta.setNormalProperties(normalProperties);
         meta.setExpertProperties(expertProperties);
         meta.setDeprecatedProperties(deprecatedProperties);
+
+        // Defining inplace properties changed:
+        // For example the "text" property is available for many HTML5 tags and is inplace AND important property.
+        // Just specify the important entry fully and let inplace be just a (space separated) list of
+        // property names. For example:
+        //
+        //  <properties inplace="text text2">
+        //      <important>
+        //          <property name="text" displayName="Text" type="String/>
+        //          <property name="text2" displayName="Text" type="String/>
+        //      </important>
+        //  </properties>
+        //
+        // instead of:
+        //
+        //  <properties>
+        //      <inplace>
+        //          <property name="text" displayName="Text" type="String/>
+        //          <property name="text2" displayName="Text" type="String/>
+        //      </inplace>
+        //      <important>
+        //          <property name="text" displayName="Text" type="String/>
+        //          <property name="text2" displayName="Text" type="String/>
+        //      </important>
+        //  </properties>
+
+        /*
+         * Set inplace properties
+         */
+        String inplacePropertiesAttr = propertiesElement.getAttributeValue("inplace");
+
+        if(inplacePropertiesAttr != null && !StringUtil.isEmptyOrSpaces(inplacePropertiesAttr)) {
+            String[] inplacePropertyNames = inplacePropertiesAttr.trim().split("\\s+");
+
+            meta.setInplaceProperties(inplacePropertyNames);
+        }
     }
 
     protected void loadOther(MetaModel meta, Element element) throws Exception {
@@ -557,7 +546,7 @@ public abstract class MetaManager extends ModelLoader {
         PaletteGroup group = createPaletteGroup(element.getAttributeValue(NAME));
 
         for (Element itemElement : element.getChildren(ITEM)) {
-            MetaModel model = getModel(itemElement.getAttributeValue(TAG), itemElement.getAttributeValue(CLASS), itemElement.getAttributeValue(TYPE));// getModelByTag(itemElement.getAttributeValue(TAG));
+            MetaModel model = getModel(itemElement.getAttributeValue(TAG), itemElement.getAttributeValue(CLASS), itemElement.getAttributeValue(TYPE));
 
             if (model == null) {
                 LOG.warn("Cannot create Palette Item for tag: '" + itemElement.getAttributeValue(TAG) + "' in Group '" + element.getAttributeValue(NAME) + "'");
@@ -619,5 +608,20 @@ public abstract class MetaManager extends ModelLoader {
 
     public List<PaletteGroup> getPaletteGroups() {
         return myPaletteGroups;
+    }
+
+    /**
+     * Instantiates a new (@link AttributeProperty), or if the name is "text" a (@link TextProperty) instead.
+     * @param displayName
+     * @param definition
+     * @return A new AttributeProperty
+     * @author Christoffer T. Timm <kontakt@christoffertimm.de>
+     */
+    private AttributeProperty createProperty(String displayName, AttributeDefinition definition) {
+        if("text".equals(definition.getName())) {
+            return new TextProperty(displayName, definition);
+        } else {
+            return new AttributeProperty(displayName, definition);
+        }
     }
 }

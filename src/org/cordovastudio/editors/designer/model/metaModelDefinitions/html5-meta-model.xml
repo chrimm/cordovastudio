@@ -844,7 +844,7 @@
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"
-          layout="org.cordovastudio.editors.designer.model.RadRelativeLayout"
+          layout="org.cordovastudio.editors.designer.model.RadLinearLayout"
           tag="div">
 
         <palette title="Container" icon="CordovaIcons.Palette.Space"

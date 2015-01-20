@@ -48,8 +48,8 @@ public class DummyDeviceFactory {
         builder.isRound(false);
         builder.setFormFactor(FormFactor.MOBILE);
 
-        builder.addScreenSize(ScreenOrientation.PORTRAIT, new Dimension(720, 1280));
-        builder.addScreenSize(ScreenOrientation.LANDSCAPE, new Dimension(1280, 720));
+        builder.addScreenSize(ScreenOrientation.PORTRAIT, new Dimension(360, 640));
+        builder.addScreenSize(ScreenOrientation.LANDSCAPE, new Dimension(640, 360));
 
         builder.addState(state);
         builder.setArtwork(artwork);

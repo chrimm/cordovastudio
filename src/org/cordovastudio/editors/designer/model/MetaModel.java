@@ -26,6 +26,7 @@ import com.intellij.util.ArrayUtil;
 import org.cordovastudio.editors.designer.palette.DefaultPaletteItem;
 import org.cordovastudio.editors.designer.palette.PaletteItem;
 import org.cordovastudio.editors.designer.propertyTable.IPropertyDecorator;
+import org.cordovastudio.editors.designer.propertyTable.properties.AttributeProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -175,6 +176,21 @@ public class MetaModel {
 
     public List<Property> getInplaceProperties() {
         return new ArrayList<>(myInplaceProperties.values());
+    }
+
+    public void setInplaceProperties(String[] inplacePropertyNames) {
+        List<String> inplacePropertyNamesList = Arrays.asList(inplacePropertyNames);
+        List<Property> properties = getAllProperties();
+        List<Property> inplaceProperties = new ArrayList<>(inplacePropertyNames.length);
+
+        for(Property property : properties) {
+            if(inplacePropertyNamesList.contains(((AttributeProperty) property).getAttributeName())) {
+
+                inplaceProperties.add(property);
+            }
+        }
+
+        setInplaceProperties(inplaceProperties);
     }
 
     public void setInplaceProperties(List<Property> inplaceProperties) {

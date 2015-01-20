@@ -108,9 +108,13 @@
         <creation>
             <![CDATA[
                 <div class="navigation-bar">
-                    <div class="navigation-bar__left">Back</div>
+                    <div class="navigation-bar__left">
+                        <span class="toolbar-button--quiet navigation-bar__line-height">Back</span>
+                    </div>
                     <div class="navigation-bar__center">Navigation Bar</div>
-                    <div class="navigation-bar__right">Edit</div>
+                    <div class="navigation-bar__right">
+                        <span class="toolbar-button--quiet navigation-bar__line-height">Edit</span>
+                    </div>
                 </div>
             ]]>
         </creation>
@@ -146,6 +150,12 @@
 
         <palette title="Navigation Bar Caption" icon="CordovaIcons.Palette.TextView"
                  tooltip="The (centered) Caption of a Navigation Bar"/>
+
+        <properties inplace="text">
+            <important>
+                <property name="text" displayName="Caption" type="String"/>
+            </important>
+        </properties>
     </meta>
 
     <meta model="org.cordovastudio.editors.designer.model.RadViewContainer"

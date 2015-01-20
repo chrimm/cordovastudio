@@ -18,6 +18,7 @@ package org.cordovastudio.editors.designer.rendering.engines;
 
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
@@ -110,7 +111,7 @@ public class CssBoxRenderer extends RenderingEngine {
         domAnalyzer.attributesToStyles(); //convert the HTML presentation attributes to inline styles
         domAnalyzer.addStyleSheet(null, CSSNorm.stdStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the standard style sheet
         domAnalyzer.addStyleSheet(null, CSSNorm.userStyleSheet(), DOMAnalyzer.Origin.AGENT); //use the additional style sheet
-        domAnalyzer.addStyleSheet(null, CSSNorm.formsStyleSheet(), DOMAnalyzer.Origin.AGENT); //render form fields using css
+        //domAnalyzer.addStyleSheet(null, CSSNorm.formsStyleSheet(), DOMAnalyzer.Origin.AGENT); //render form fields using css
         domAnalyzer.addStyleSheet(null, CSSNorm.html5StdStyleSheet(), DOMAnalyzer.Origin.AGENT);
 
 
@@ -118,9 +119,11 @@ public class CssBoxRenderer extends RenderingEngine {
         // May be by buffering after the first load or something?
         domAnalyzer.getStyleSheets();
 
-        XmlElementFactory factory = XmlElementFactory.getInstance((Project)params.getProjectKey());
+        Project project = (Project)params.getProjectKey();
+        XmlElementFactory factory = XmlElementFactory.getInstance(project);
+        PsiFileFactory fileFactory = PsiFileFactory.getInstance(project);
 
-        BrowserCanvas canvas = new BrowserCanvas(domAnalyzer.getRoot(), domAnalyzer, baseUrl, factory);
+        BrowserCanvas canvas = new BrowserCanvas(domAnalyzer.getRoot(), domAnalyzer, baseUrl, factory, fileFactory);
 
         canvas.getConfig().setLoadImages(true);
         canvas.getConfig().setLoadBackgroundImages(true);
