@@ -18,6 +18,7 @@ package org.cordovastudio.editors.designer.rendering;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.xml.XmlFile;
+import org.cordovastudio.editors.designer.designSurface.preview.RenderPreviewManager;
 import org.cordovastudio.editors.designer.rendering.renderConfiguration.RenderConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -127,12 +128,31 @@ public interface RenderContext {
   boolean supportsPreviews();
 
   /**
+   * Returns the preview manager for this render context, if any. Will only
+   * be called if this context returns true from {@link #supportsPreviews()}.
+   *
+   * @param createIfNecessary if true, create the preview manager if it does not exist, otherwise
+   *                          only return it if it has already been created
+   * @return the preview manager, or null if it doesn't exist and {@code createIfNecessary} was false
+   */
+  @Nullable
+  RenderPreviewManager getPreviewManager(boolean createIfNecessary);
+
+  /**
    * Sets the rendering size to be at most the given width and the given height.
    *
    * @param width the maximum width, or 0 to use any size
    * @param height the maximum height, or 0 to use any height
    */
   void setMaxSize(int width, int height);
+
+  /**
+   * Perform a zoom to fit operation
+   *
+   * @param onlyZoomOut if true, only adjust the zoom if it would be zooming out
+   * @param allowZoomIn if true, allow the zoom factor to be greater than 1 (e.g. bigger than real size)
+   */
+  void zoomFit(boolean onlyZoomOut, boolean allowZoomIn);
 
   /**
    * Called when the content of the rendering has changed, so the view

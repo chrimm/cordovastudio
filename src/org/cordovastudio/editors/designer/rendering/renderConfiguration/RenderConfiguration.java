@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2014 Christoffer T. Timm
  * Changes:
- * //TODO document changes made
+ *  - Stripped unneeded functions
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,6 +98,9 @@ public class RenderConfiguration implements Disposable {
      * The display name
      */
     private String myDisplayName;
+
+    /** For nesting count use by {@link #startBulkEditing()} and {@link #finishBulkEditing()} */
+    private int myBulkEditingCount;
 
     /**
      * Optional set of listeners to notify via {@link #updated(int)}
@@ -385,6 +388,38 @@ public class RenderConfiguration implements Disposable {
         }
 
         return null;
+    }
+
+    /**
+     * Marks the beginning of a "bulk" editing operation with repeated calls to
+     * various setters. After all the values have been set, the client <b>must</b>
+     * call {@link #finishBulkEditing()}. This allows configurations to avoid
+     * doing {@link FolderConfiguration} syncing for intermediate stages, and all
+     * listener updates are deferred until the bulk operation is complete.
+     */
+    public void startBulkEditing() {
+        synchronized (this) {
+            myBulkEditingCount++;
+        }
+    }
+
+    /**
+     * Marks the end of a "bulk" editing operation. At this point listeners will
+     * be notified of the cumulative changes, etc. See {@link #startBulkEditing()}
+     * for details.
+     */
+    public void finishBulkEditing() {
+        boolean notify = false;
+        synchronized (this) {
+            myBulkEditingCount--;
+            if (myBulkEditingCount == 0) {
+                notify = true;
+            }
+        }
+
+        if (notify) {
+            updated(0);
+        }
     }
 
     /**

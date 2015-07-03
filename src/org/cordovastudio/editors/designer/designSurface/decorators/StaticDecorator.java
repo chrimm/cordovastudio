@@ -16,7 +16,6 @@
 package org.cordovastudio.editors.designer.designSurface.decorators;
 
 
-import org.cordovastudio.editors.designer.designSurface.decorators.ComponentDecorator;
 import org.cordovastudio.editors.designer.designSurface.layers.DecorationLayer;
 import org.cordovastudio.editors.designer.designSurface.tools.InputTool;
 import org.cordovastudio.editors.designer.model.RadComponent;

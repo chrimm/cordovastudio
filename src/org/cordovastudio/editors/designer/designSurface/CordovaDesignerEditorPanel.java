@@ -80,6 +80,7 @@ import org.cordovastudio.editors.designer.designSurface.layers.FeedbackLayer;
 import org.cordovastudio.editors.designer.designSurface.layers.GlassLayer;
 import org.cordovastudio.editors.designer.designSurface.layers.InplaceEditingLayer;
 import org.cordovastudio.editors.designer.designSurface.operations.EditOperation;
+import org.cordovastudio.editors.designer.designSurface.preview.RenderPreviewManager;
 import org.cordovastudio.editors.designer.designSurface.tools.*;
 import org.cordovastudio.editors.designer.model.*;
 import org.cordovastudio.editors.designer.palette.CordovaPaletteToolWindowContent;
@@ -98,15 +99,14 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -241,6 +241,9 @@ public class CordovaDesignerEditorPanel extends JPanel
     private int myMaxHeight;
 
     private boolean myNeedsRerendering;
+
+    private RenderPreviewManager myPreviewManager;
+    private RenderPreviewTool myPreviewTool;
 
     /** Zoom level (1 = 100%). TODO: Persist this setting across IDE sessions (on a per file basis) */
     private double myZoom = 1;
@@ -802,6 +805,7 @@ public class CordovaDesignerEditorPanel extends JPanel
                     insertPanel = true;
                 } else {
                     myRootView.setRenderedImage(result.getImage());
+
                     myRootView.updateBounds(true);
                 }
                 boolean firstRender = myRootComponent == null;
@@ -1196,7 +1200,21 @@ public class CordovaDesignerEditorPanel extends JPanel
      */
     @Override
     public boolean supportsPreviews() {
-        return false;
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public RenderPreviewManager getPreviewManager(boolean createIfNecessary) {
+        if (myPreviewManager == null && createIfNecessary) {
+            myPreviewManager = new RenderPreviewManager(this);
+            RenderPreviewPanel panel = new RenderPreviewPanel();
+            myLayeredPane.add(panel, LAYER_PREVIEW);
+            myLayeredPane.revalidate();
+            myLayeredPane.repaint();
+        }
+
+        return myPreviewManager;
     }
 
     /**
@@ -1211,6 +1229,12 @@ public class CordovaDesignerEditorPanel extends JPanel
         myMaxHeight = height;
         layoutParent();
     }
+
+    @Override
+    public void zoomFit(boolean onlyZoomOut, boolean allowZoomIn) {
+        zoom(allowZoomIn ? ZoomType.FIT : ZoomType.FIT_INTO);
+    }
+
 
     protected void layoutParent() {
         if (myRootView != null) {
@@ -1998,6 +2022,31 @@ public class CordovaDesignerEditorPanel extends JPanel
 
         @Override
         public InputTool findTargetTool(int x, int y) {
+            if (myPreviewManager != null && myRootView != null) {
+                if (myPreviewTool == null) {
+                    myPreviewTool = new RenderPreviewTool();
+                }
+
+                if (x > (myRootView.getX() + myRootView.getWidth()) ||
+                        y > (myRootView.getY() + myRootView.getHeight())) {
+                    return myPreviewTool;
+                }
+            }
+
+            if (myRootComponent != null && myRenderResult != null) {
+                RadComponent target = findTarget(x, y, null);
+                RenderedView leaf = null;
+                if (target instanceof RadViewComponent) {
+                    RadViewComponent rv = (RadViewComponent)target;
+                    RenderedViewHierarchy hierarchy = myRenderResult.getHierarchy();
+                    if (hierarchy != null) {
+                        leaf = hierarchy.findViewByTag(rv.getTag());
+                    }
+                }
+                if (myHover.setHoveredView(leaf)) {
+                    repaint();
+                }
+            }
             return myDecorationLayer.findTargetTool(x, y);
         }
 
@@ -2034,6 +2083,54 @@ public class CordovaDesignerEditorPanel extends JPanel
         @Override
         public String getPopupPlace() {
             return ActionPlaces.GUI_DESIGNER_EDITOR_POPUP;
+        }
+    }
+
+    private class RenderPreviewPanel extends JComponent {
+        RenderPreviewPanel() {
+            //super(new BorderLayout());
+            setBackground(null);
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            if (myPreviewManager != null) {
+                myPreviewManager.paint((Graphics2D)g);
+            }
+        }
+    }
+
+    private class RenderPreviewTool extends InputTool {
+        @Override
+        public void mouseMove(MouseEvent event, IEditableArea area) throws Exception {
+            if (myPreviewManager != null) {
+                myPreviewManager.moved(event);
+            }
+        }
+
+        @Override
+        public void mouseUp(MouseEvent event, IEditableArea area) throws Exception {
+            super.mouseUp(event, area);
+            if (myPreviewManager != null && event.getClickCount() > 0) {
+                myPreviewManager.click(event);
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent event, IEditableArea area) throws Exception {
+            super.mouseEntered(event, area);
+            if (myPreviewManager != null) {
+                myPreviewManager.enter(event);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent event, IEditableArea area) throws Exception {
+            super.mouseExited(event, area);
+            if (myPreviewManager != null) {
+                myPreviewManager.exit(event);
+            }
         }
     }
 

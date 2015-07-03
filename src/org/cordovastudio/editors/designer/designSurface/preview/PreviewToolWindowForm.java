@@ -306,9 +306,34 @@ public class PreviewToolWindowForm implements Disposable, RenderConfigurationLis
         return true;
     }
 
+    /**
+     * Returns the preview manager for this render context, if any. Will only
+     * be called if this context returns true from {@link #supportsPreviews()}.
+     *
+     * @param createIfNecessary if true, create the preview manager if it does not exist, otherwise
+     *                          only return it if it has already been created
+     * @return the preview manager, or null if it doesn't exist and {@code createIfNecessary} was false
+     */
+    @Nullable
+    @Override
+    public RenderPreviewManager getPreviewManager(boolean createIfNecessary) {
+        return null;
+    }
+
     @Override
     public void setMaxSize(int width, int height) {
         myPreviewPanel.setMaxSize(width, height);
+    }
+
+    /**
+     * Perform a zoom to fit operation
+     *
+     * @param onlyZoomOut if true, only adjust the zoom if it would be zooming out
+     * @param allowZoomIn if true, allow the zoom factor to be greater than 1 (e.g. bigger than real size)
+     */
+    @Override
+    public void zoomFit(boolean onlyZoomOut, boolean allowZoomIn) {
+
     }
 
     // ---- Implements OverlayContainer ----

@@ -86,6 +86,8 @@ public class CordovaIcons {
         public static final Icon NormalRender = loadIcon("toolbarNormalRender_16.png"); // 16x16
         public static final Icon ViewportRender = loadIcon("toolbarViewportRender_16.png"); // 16x16
 
+        public static final Icon RefreshPreview = loadIcon("refreshPreview_16.png"); // 16x16
+
         public static final Icon ZoomActual = loadIcon("toolbarZoomActual_16.png"); // 16x16
         public static final Icon ZoomFit = loadIcon("toolbarZoomFit_16.png"); // 16x16
         public static final Icon ZoomIn = loadIcon("toolbarZoomIn_16.png"); // 16x16
@@ -176,4 +178,5 @@ public class CordovaIcons {
 
     public static final Icon ErrorBadge = loadIcon("errorBadge_16.png"); // 16x16
     public static final Icon WarningBadge = loadIcon("warningBadge_16.png"); // 16x16
+    public static final Icon RenderError = loadIcon("renderError_16.png"); // 16x16
 }

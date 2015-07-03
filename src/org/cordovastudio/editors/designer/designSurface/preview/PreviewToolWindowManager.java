@@ -64,7 +64,7 @@ import java.awt.event.HierarchyListener;
  */
 public class PreviewToolWindowManager implements ProjectComponent {
     @SuppressWarnings("SpellCheckingInspection")
-    private static final Logger LOG = Logger.getInstance("#org.jetbrains.android.uipreview.AndroidLayoutPreviewToolWindowManager");
+    private static final Logger LOG = Logger.getInstance(PreviewToolWindowManager.class);
 
     private final MergingUpdateQueue myToolWindowUpdateQueue;
 
@@ -91,7 +91,7 @@ public class PreviewToolWindowManager implements ProjectComponent {
         myProject = project;
         myFileEditorManager = fileEditorManager;
 
-        myToolWindowUpdateQueue = new MergingUpdateQueue("android.layout.preview", 100, true, null, project);
+        myToolWindowUpdateQueue = new MergingUpdateQueue("cordovastudio.layout.preview", 100, true, null, project);
 
         final MessageBusConnection connection = project.getMessageBus().connect(project);
         connection.subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new MyFileEditorManagerListener());

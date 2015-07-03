@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/annotations/Property.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/annotations/Transient.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/actionsShowStoryboard_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/refreshPreview_16.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/renderError_16.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomActual_16.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomFit_16.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/icons/toolbarZoomIn_16.png" charset="UTF-8" />
@@ -20,7 +22,17 @@
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-br.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-r.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/branding/artwork/shadows/shadow2-tr.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/BinPacker.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/PreviewBinPackingLayout.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/PreviewRenderContext.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/PreviewRowLayout.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/PreviewTileLayout.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/RenderPreview.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/RenderPreviewManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/designSurface/preview/RenderPreviewMode.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/propertyTable/properties/StyleProperty.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/rendering/renderConfiguration/NestedRenderConfiguration.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/designer/rendering/renderConfiguration/VaryingRenderConfiguration.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/Assoc.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/CordovaStoryboardEditor.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/org/cordovastudio/editors/storyboard/CordovaStoryboardEditorProvider.java" charset="UTF-8" />
